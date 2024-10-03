@@ -1,0 +1,116 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  .navLeft {
+    flex-grow: 1;
+    display: flex;
+
+    flex-direction: column;
+    .navLeftTop {
+      height: 30px;
+      background-color: gold;
+    }
+    .navLeftBottom {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      padding-right: 20px;
+      background-color: gray;
+      .logo {
+        .aroplane img {
+          height: 50px;
+          width: auto;
+        }
+        .logoImg img {
+          height: 30px;
+          width: auto;
+        }
+      }
+      .menues {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .dropbtn {
+          border: none;
+        }
+
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f1f1f1;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: 1;
+        }
+
+        .dropdown-content a {
+          color: black;
+          padding: 6px;
+          text-decoration: none;
+          display: block;
+        }
+
+        .dropdown-content a:hover {
+          color: #3e8e41;
+        }
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+          color: #3e8e41;
+        }
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .profileItem {
+        }
+        .profilePic {
+          height: 30px;
+          width: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      .floatSearch {
+        position: absolute;
+        top: 100%;
+        right: 80px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 5px;
+        border: 1px solid black;
+        input {
+          border: none;
+          &:focus {
+            border: none;
+          }
+        }
+      }
+    }
+  }
+  .navRight {
+    background-color: #26a026;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+
+    img {
+      height: 20px;
+      width: 20px;
+    }
+  }
+}
