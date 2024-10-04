@@ -1,0 +1,57 @@
+@import "../../responsive.scss";
+
+.footer {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  width: 100%;
+  color: $grayTextColor;
+  justify-content: center;
+  .up {
+    display: flex;
+    justify-content: center;
+    gap: 300px;
+    padding: 20px;
+    max-width: 100%;
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+
+      a {
+        color: $grayTextColor;
+        margin-bottom: 3px;
+      }
+      p {
+        max-width: 250px;
+        margin-top: 0;
+      }
+      .socialLinks {
+        img {
+          margin-right: 20px;
+          width: 20px;
+        }
+      }
+    }
+    // @include lg {
+    //   max-width: 70%;
+    // }
+    @include md {
+      gap: 200px;
+    }
+    @include sm {
+      gap: 30px;
+    }
+  }
+  p.copyright {
+    display: block;
+    text-align: center;
+    font-size: small;
+    margin-top: 90px;
+    @include sm {
+      margin-top: 50px;
+    }
+    @include md {
+      margin-top: 60px;
+    }
+  }
+}

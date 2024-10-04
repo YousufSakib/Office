@@ -1,0 +1,56 @@
+@import "../../responsive.scss";
+.guestWrapper {
+  max-width: $maxWidth;
+  .top {
+    width: fit-content;
+
+    margin: 60px auto 0 auto;
+    h1 {
+      text-align: center;
+    }
+    p {
+      font-size: small;
+    }
+  }
+  .guestsSays {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px 150px;
+
+    .guestSay {
+      display: flex;
+      flex-direction: column;
+      // align-items: start;
+      max-width: 400px;
+      p {
+        color: $grayTextColor;
+        font-weight: bold;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 40%;
+        }
+        span {
+          font-weight: bold;
+          text-transform: uppercase;
+          font-size: 17px;
+        }
+      }
+    }
+    @include md {
+      gap: 10px 30px;
+    }
+    @include lg {
+      gap: 30px 60px;
+    }
+    @include sm {
+      gap: 10px 15px;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@import "../../responsive.scss";
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .show-responsive {
+    position: absolute;
+    bottom: 0;
+    display: inline-block;
+    background-color: bisque;
+    border-radius: 10px;
+    padding: 10px;
+
+    .sm {
+      display: none;
+      @include sm {
+        display: block;
+      }
+    }
+    .md {
+      display: none;
+      @include md {
+        display: block;
+      }
+    }
+    .lg {
+      display: none;
+      @include lg {
+        display: block;
+      }
+    }
+  }
+}

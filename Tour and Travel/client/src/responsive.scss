@@ -1,0 +1,22 @@
+@mixin sm {
+  @media (max-width: 738px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (max-width: 1366px) {
+    @content;
+  }
+}
+
+$linkColor: #e7e7e7;
+$linkHoverColor: #ffffff;
+$grayTextColor: rgb(155, 155, 155);
+$maxWidth: 1100px;

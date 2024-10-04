@@ -1,0 +1,56 @@
+@import "../../responsive.scss";
+
+.aboutCity {
+  max-width: $maxWidth;
+  display: flex;
+  gap: 50px;
+  .first {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    p {
+      color: $grayTextColor;
+    }
+    button {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      align-self: center;
+      padding: 15px 28px;
+    }
+  }
+  .second {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    h1 {
+    }
+    p {
+      font-weight: bold;
+      color: $grayTextColor;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  @include sm {
+    flex-direction: column;
+    gap: 50px;
+
+    .second {
+      order: 1;
+    }
+    .first {
+      order: 2;
+    }
+  }
+}
