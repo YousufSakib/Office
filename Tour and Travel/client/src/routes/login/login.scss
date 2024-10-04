@@ -1,0 +1,103 @@
+@import "../../responsive.scss";
+
+.loginCon {
+  padding: 0 20px;
+  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  gap: 8%;
+  .login {
+    display: flex;
+    width: 50%;
+    gap: 30px;
+    flex-direction: column;
+    align-items: start;
+
+    h2 {
+      margin: 0;
+    }
+    span {
+      color: gray;
+    }
+    .input {
+      width: 100%;
+      label {
+        color: rgb(68, 68, 68);
+      }
+      input {
+        width: 100%;
+        height: 30px;
+        padding: 0 2px;
+        margin-top: 10px;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    .row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .input {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        input {
+          display: block;
+          width: 20px;
+          height: 20px;
+          margin: 0;
+        }
+        label {
+          color: black;
+        }
+      }
+      a {
+        text-decoration: underline;
+        color: $loginColor;
+      }
+    }
+    button {
+      width: 100%;
+      color: $loginColor;
+      padding: 10px 0;
+      color: white;
+      background-color: $loginColor;
+    }
+    span.DontHave {
+      align-self: center;
+      a {
+        color: $loginColor;
+        text-decoration: underline;
+      }
+    }
+    @include md {
+      width: 60%;
+    }
+    @include sm {
+      justify-self: center;
+      width: 100%;
+    }
+  }
+  .imgDiv {
+    width: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      max-height: 600px;
+      height: 100%;
+      object-fit: cover;
+    }
+    @include sm {
+      display: none;
+    }
+  }
+  @include md {
+    gap: 5%;
+  }
+}

@@ -2,7 +2,7 @@ import "./navbar.scss";
 // import "./navbar.css";
 import { useState, useRef } from "react";
 
-function Navbar() {
+function Navbar({ title, des }) {
   const [burgermenu, setBurgermenu] = useState(false);
   const handleBurgerMenu = (e) => {
     setBurgermenu((prev) => !prev);
@@ -35,12 +35,8 @@ function Navbar() {
       </nav>
       <div className="heroTextWrapper">
         <div className="HeroText">
-          <h1>The Perfect Hotel in Mykonos</h1>
-          <p>
-            If you are looking for a perfect holiday experience with memories to
-            cherish you are at the right place. Let’s plan a reasonable stay for
-            you.
-          </p>
+          <h1>{title}</h1>
+          <p>{des}</p>
           <button>Book Your Stay Now</button>
         </div>
       </div>
