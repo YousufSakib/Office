@@ -1,0 +1,97 @@
+CREATE DATABASE myDB;
+USE myDB;
+DROP DATABASE myDB;
+
+**READONLY**
+ALTER DATABASE myDB READ ONLY = 1
+**NORMAL MODE**
+ALTER DATABASE myDB READ ONLY = 0
+
+**CREATE TABLE**
+CREATE TABLE employees (
+	employee_id INT,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	hourly_pay DECIMAL(5, 2),
+	hire_date DATE
+);
+
+SELECT * FROM employees;
+
+**Rename a table name**
+RENAME TABLE employees TO workers;
+
+**Add a column to the table**
+ALTER TABLE employess
+ADD phone_number VARCHAR(15)
+
+**Drop a column**
+ALTER TABLE employees
+DROP COLUMN email;
+
+**Rename a column name**
+ALTER TABLE employees
+RENAME COLUMN phone_number TO email
+
+**Modify datatype of a column**
+ALTER TABLE employees
+MODIFY COLUMN email VARCHAR(100)
+
+**Move a column after a coulmn**
+ALTER TABLE employees
+MODIFY email VARCHAR(100)
+AFTER last_name;
+
+**Add a row to a table**
+INSERT INTO employees
+VALUES (1, "Yousuf", "Sakib", 25.50, "2023-01-02");
+
+**Add many rows to a table**
+INSERT INTO employees
+VALUES (2, "Sajid", "Hossain", 15,00, "2024-01-03"), (3, "Mehedi", "Hasan", 30.1, "2024-01-05");
+
+**Add particular column values**
+INSERT INTO employees (employee_id, first_name, last_name)
+VALUES (4, "Ajoy", "Dev")
+
+SELECT * FIRST_NAME, LAST_NAME
+FROM employees
+
+SELECT *
+FROM employees
+WHERE employee_id = 4;
+
+SELECT *
+FROM employees
+WHERE hire_date IS NOT NULL;
+
+UPDATE employees
+SET hourly_pay = 10.25, hire_date = "2023-01-07"
+WHERE employee_id = 4;
+
+DELETE FROM employees
+WHERE employee_id = 4;
+
+** UNIQUE **
+
+CREATE TABLE products(
+	product_id INT,
+	product_name VARCHAR(25) UNIQUE,
+	price DECIMAL(4, 2)
+);
+
+**After creating a table add unique key**
+ALTER TABLE products
+ADD CONSTRAINT
+UNIQUE(produnct_name);
+
+
+
+
+whatsapp:01958-666970
+
+Id: 445966
+Name: Yousuf Ali Shakib
+Designation: Software Engineer
+Joining Data: 02/10/2024
+Blood Group: O+
