@@ -1,0 +1,85 @@
+@import "../../responsive.scss";
+
+.meetBangladesh {
+  width: 100%;
+  max-width: $maxWidth;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  h1 {
+    // margin: 0;
+    margin: 15px 0;
+  }
+  p {
+    color: $grayTextColor;
+    max-width: 100%;
+  }
+  h2 {
+    max-width: 100%;
+    margin: 15px, 0;
+    margin-top: 30px;
+  }
+  div {
+    width: 100%;
+    max-width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+  .images {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    gap: 10px;
+    div {
+      width: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 5px solid white;
+        box-sizing: border-box;
+        border-radius: 3px;
+      }
+    }
+  }
+  .quick-fact {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    p {
+      max-width: 100%;
+
+      color: $grayTextColor;
+      margin: 0;
+      span {
+        max-width: 100%;
+
+        font-weight: bold;
+      }
+    }
+  }
+  @include lg {
+  }
+  img {
+    transition: all 0.3s;
+    -webkit-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+    background-color: white;
+    animation: myAnim 1.5s ease 0s 1 normal forwards;
+    &:hover {
+      border-radius: 0px 0px 50px 0px;
+      -moz-border-radius: 0px 0px 50px 0px;
+      -webkit-border-radius: 0px 0px 50px 0px;
+      border: 0px solid #000000;
+    }
+  }
+}

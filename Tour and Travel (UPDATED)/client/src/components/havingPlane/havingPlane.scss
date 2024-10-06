@@ -1,0 +1,18 @@
+@import "../../responsive.scss";
+
+.havingPlan {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  max-width: $maxWidth;
+  margin: 70px auto 0 auto;
+  a {
+    max-width: 100px;
+    color: white;
+    background-color: rgb(33, 106, 124);
+    padding: 10px 20px;
+  }
+}

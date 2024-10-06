@@ -1,0 +1,36 @@
+@import "../../responsive.scss";
+
+.packageTable {
+  margin: 50px auto 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: $maxWidth;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    th {
+      padding: 5px;
+    }
+    tr {
+      td {
+        text-align: left;
+        padding: 8px;
+        ul {
+          padding: 0 17px;
+          margin: 0;
+        }
+        span {
+          font-weight: bold;
+        }
+      }
+      &:nth-child(even) {
+        background-color: #cccccc;
+      }
+      &:nth-child(odd) {
+        background-color: #e0e0e0;
+      }
+    }
+  }
+}

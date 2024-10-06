@@ -1,0 +1,51 @@
+@import "../../responsive.scss";
+.room {
+  padding: 0 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .RoomDesHeader {
+    gap: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: $maxWidth;
+    margin-top: 100px;
+    .left {
+      max-width: 50%;
+      @include md {
+        max-width: 65%;
+      }
+      @include sm {
+        max-width: 80%;
+      }
+    }
+
+    button {
+      text-transform: uppercase;
+      background-color: rgb(26, 23, 23);
+      padding: 10px 20px;
+      font-size: small;
+      a {
+        color: white;
+      }
+    }
+    @include sm {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+  .roomCards {
+    margin-top: 50px;
+    max-width: $maxWidth;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    @include sm {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

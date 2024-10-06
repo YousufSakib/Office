@@ -1,0 +1,73 @@
+@import "../../responsive.scss";
+
+@import "../../responsive.scss";
+
+.package {
+  width: 100%;
+  max-width: $maxWidth;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 60px auto 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  // background-color: white;
+  .profile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+
+      -webkit-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
+
+      border-radius: 13px 10px 63px 10px;
+      -moz-border-radius: 13px 10px 63px 10px;
+      -webkit-border-radius: 13px 10px 63px 10px;
+      border: 15px groove #d4d4d4;
+    }
+  }
+
+  .images {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    gap: 10px;
+    div {
+      width: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 5px solid white;
+        box-sizing: border-box;
+        border-radius: 3px;
+        // transition: transform 0.5s;
+
+        // &:hover {
+        //   transform: scale(1.1);
+        // }
+        transition: all 0.3s;
+        -webkit-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+        box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+        background-color: white;
+        animation: myAnim 1.5s ease 0s 1 normal forwards;
+        &:hover {
+          border-radius: 0px 0px 50px 0px;
+          -moz-border-radius: 0px 0px 50px 0px;
+          -webkit-border-radius: 0px 0px 50px 0px;
+        }
+      }
+    }
+    @include sm {
+      gap: 1px;
+    }
+  }
+}

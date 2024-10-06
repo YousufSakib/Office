@@ -1,0 +1,60 @@
+@import "../../responsive.scss";
+
+.card {
+  width: 100%;
+  margin: 80px auto 0 auto;
+  max-width: $maxWidth;
+  h2 {
+    width: 100%;
+    font-size: 35px;
+    text-align: center;
+  }
+  .blockOfOffers {
+    width: 100%;
+    max-width: $maxWidth;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    a {
+      color: black;
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+        img {
+          width: 300px;
+          height: 300px;
+          object-fit: cover;
+          @include sm {
+            align-self: center;
+          }
+          @include md {
+            align-self: center;
+          }
+        }
+        p {
+          padding-left: 25px;
+          width: 100%;
+          box-sizing: border-box;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        transition: all 0.3s;
+        -webkit-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+        box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+
+        animation: myAnim 1.5s ease 0s 1 normal forwards;
+        &:hover {
+          border-radius: 0px 0px 50px 0px;
+          -moz-border-radius: 0px 0px 50px 0px;
+          -webkit-border-radius: 0px 0px 50px 0px;
+          border: 0px solid #000000;
+        }
+      }
+    }
+  }
+}
