@@ -6,13 +6,12 @@ const {
   getAllPackagesStatic,
   getAlllPackages,
   getPackage,
-  //   updatePackage,
+  updatePackage,
   deletePackage,
 } = require("../controllers/package");
 
 router.route("/").get(getAlllPackages).post(createPackage);
 router.route("/static").get(getAllPackagesStatic);
-router.route("/:id").get(getPackage).delete(deletePackage);
-// .put(updatePackage);
+router.route("/:id").get(getPackage).delete(deletePackage).put(updatePackage);
 
 module.exports = router;

@@ -30,19 +30,15 @@ const getAlllPackages = async (req, res) => {
   res.status(200).json({ packages, nbHits: packages.length });
 };
 const getPackage = async (req, res) => {
-  const {
-    params: { id: packageId },
-  } = req;
   const package = await Package.findOne({
-    _id: packageId,
+    _id: req.params.id.substr(1),
   });
   if (!package) {
-    return res.status(404).send(`No package with id ${packageId}`);
+    return res.status(404).send(`No package with id ${id}`);
   }
+  return res.status(200).json(package);
 };
 const createPackage = async (req, res) => {
-  //   req.body.createdBy = req.user.userId;
-  //   console.log(req.body);
   const package = await Package.create(req.body);
   console.log("sakib", package);
   if (!package) {
@@ -52,73 +48,40 @@ const createPackage = async (req, res) => {
 };
 
 const deletePackage = async (req, res) => {
-  let {
-    params: { id: packageId },
-  } = req;
-
-  packageId = packageId.substring(1);
-  console.log(packageId);
-
-  console.log("sakib" + packageId);
+  const id = req.params.id.substr(1);
   const package = await Package.findByIdAndDelete({
-    _id: packageId,
+    _id: id,
   });
   if (!package) {
-    return res.status(404).send(`No package with id ${packageId}`);
+    return res.status(404).send(`No package with id ${id}`);
   }
   return res.status(200).send("");
 };
 
-// const updatePackage = async (req, res) => {
-//   let {
-//     body: {
-//       createdBy,
-//       destination,
-//       duration,
-//       category,
-//       name,
-//       profileImg,
-//       description,
-//       images,
-//       attraction,
-//       tourHighLights,
-//       pricePerPerson,
-//     },
-//     params: { id: packageId },
-//     // createdBy: { userId },
-//   } = req;
-//   packageId = packageId.substring(1);
-//   console.log(req.body);
-//   //   console.log(packageId);
-//   //   console.log(req.params);
-
-//   const doc = await Package.findOne({ _id: packageId });
-//   doc.createdBy = createdBy;
-//   doc.destination = destinationl;
-//   doc.duration = duration;
-//   doc.category = category;
-//   doc.name = name;
-//   doc.profileImg = profileImg;
-//   doc.description = description;
-//   doc.images = images;
-//   doc.attraction = attraction;
-//   doc.tourHighLights = tourHighLights;
-//   doc.pricePerPerson = pricePerPerson;
-
-//   await Package.save();
-//   const doc = await Package.findOne({ _id: packageId });
-//   const package =
-//   if (!package) {
-//     return res.status(404).send(`No package with id ${packageId}`);
-//   }
-//   res.status(200).json({ package });
-// };
+const updatePackage = async (req, res) => {
+  try {
+    const updatedPackage = await Package.findByIdAndUpdate(
+      req.params.id.substr(1),
+      req.body,
+      {
+        new: true, // This returns the updated document
+        runValidators: true, // This ensures validation is run on the updated data
+      },
+    );
+    if (!updatedPackage) {
+      return res.status(404).json({ message: "Package not found" });
+    }
+    res.status(200).json(updatedPackage);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
 
 module.exports = {
   createPackage,
   getAllPackagesStatic,
   getAlllPackages,
-  //   updatePackage,
+  updatePackage,
   deletePackage,
   getPackage,
 };
