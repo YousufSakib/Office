@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
 
 function Login() {
@@ -8,6 +8,7 @@ function Login() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleInput = (event) => {
     setValue((prev) => ({
@@ -18,6 +19,12 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(Validation(values));
+    if (errors.email === "" && errors.password === "") {
+      axios
+        .post("http://localhost:8081/signup", values)
+        .then((res) => navigate("/"))
+        .catch((err) => console.log(err));
+    }
   };
   return (
     <div>

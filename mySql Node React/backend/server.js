@@ -23,6 +23,11 @@ app.post("/signup", (req, res) => {
     return res.json(data);
   });
 });
+//req.email
+//req.password
+app.post("/login", (req, res) => {
+    const sql = "SELECT * FROM login WHERE (`name`)"
+})
 
 app.listen(8081, () => {
   console.log("listening");

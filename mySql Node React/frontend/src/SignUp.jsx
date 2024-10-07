@@ -24,7 +24,7 @@ function SignUp() {
     if (errors.name === "" && errors.email === "" && errors.password === "") {
       axios
         .post("http://localhost:8081/signup", { ...values, id: 1 })
-        .then((res) => navigate("/"))
+        .then((res) => navigate("/login"))
         .catch((err) => console.log(err));
     }
   };
