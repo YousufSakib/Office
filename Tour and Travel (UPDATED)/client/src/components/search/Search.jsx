@@ -47,19 +47,25 @@ function Search() {
         <div className="col-right">
           <select name="destination" id="destination">
             {destination.map((i) => (
-              <option value={i.value}>{i.name}</option>
+              <option value={i.value} key={i.key}>
+                {i.name}
+              </option>
             ))}
           </select>
 
           <select name="duration" id="duration">
             {duration.map((i) => (
-              <option value={i.value}>{i.name}</option>
+              <option value={i.value} key={i.key}>
+                {i.name}
+              </option>
             ))}
           </select>
 
           <select name="category" id="category">
             {category.map((i) => (
-              <option value={i.value}>{i.name}</option>
+              <option value={i.value} key={i.key}>
+                {i.name}
+              </option>
             ))}
           </select>
         </div>

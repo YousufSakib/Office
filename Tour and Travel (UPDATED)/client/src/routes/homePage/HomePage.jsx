@@ -1,22 +1,31 @@
 import React from "react";
 import "./homePage.scss";
-import Experience from "../../components/experience/Experience";
-import Amenities from "../../components/amenities/Amenities ";
 import GuestsSay from "../../components/guests_say/GuestsSay";
 import Attraction from "../../components/attraction/Attraction";
+import PopularPackages from "../../components/PopularPackages";
+import { Await, useLoaderData } from "react-router-dom";
+import { Suspense } from "react";
 
 function HomePage() {
-  const obj = {
-    Des: "If you are looking for a relaxing, refreshing and rejuvenating experience altogether, we offer all of that under one roof.",
-    Len: 3,
-    ButtonText: "View all",
-    ButtonLink: "#",
-  };
+  const data = useLoaderData();
   return (
     <div className="homeContent">
       {/* <Experience /> */}
       {/* <Amenities {...obj} /> */}
+      {/* <RoomCard /> */}
       <Attraction />
+
+      <Suspense fallback={<p>Loading..</p>}>
+        <Await
+          resolve={data.packageResponse}
+          errorElement={<>Error loading packages info</>}
+        >
+          {(packageResponse) => {
+            return <PopularPackages packageResponse={packageResponse} />; // in package info component the object got undefined
+          }}
+        </Await>
+      </Suspense>
+
       <GuestsSay />
     </div>
   );

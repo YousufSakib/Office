@@ -6,11 +6,11 @@ import HomeBookCall from "../../components/homeBookCall/HomeBookCall";
 function Layout({}) {
   return (
     <div className="layout">
-      <div className="show-responsive">
+      {/* <div className="show-responsive">
         <div className="md">Mid</div>
         <div className="lg">large</div>
         <div className="sm">small</div>
-      </div>
+      </div> */}
       <div className="navbar">
         <Navbar />
       </div>
@@ -24,24 +24,17 @@ function Layout({}) {
     </div>
   );
 }
-
-export { Layout };
 
 function SimpleLayout({}) {
   return (
     <div className="layout">
-      <div className="show-responsive">
-        <div className="md">Mid</div>
-        <div className="lg">large</div>
-        <div className="sm">small</div>
-      </div>
       <div className="navbar">
         <Navbar />
       </div>
       <div className="content">
         <Outlet />
       </div>
-      <HomeBookCall />
+      {/* <HomeBookCall /> */}
       <div className="footer">
         <Footer />
       </div>
@@ -49,4 +42,4 @@ function SimpleLayout({}) {
   );
 }
 
-export { SimpleLayout };
+export { Layout, SimpleLayout };

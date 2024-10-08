@@ -37,7 +37,7 @@ const Package = sequelize.define("Package", {
   images: {
     type: DataTypes.JSON,
   },
-  attraction: {
+  attractions: {
     type: DataTypes.JSON,
   },
   tourHighLights: {

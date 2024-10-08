@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Search from "../search/Search";
 
-function Navbar({ title, des }) {
+function Navbar({ heroSrc, logoSrc }) {
   const [burgermenu, setBurgermenu] = useState(false);
   const handleBurgerMenu = (e) => {
     setBurgermenu((prev) => !prev);
@@ -24,7 +24,7 @@ function Navbar({ title, des }) {
           </div>
           <div className={burgermenu ? "menues open" : "menues"}>
             <Link to="/">HOME</Link>
-            <Link to="/package">packages</Link>
+            <Link to="/all-packages">packages</Link>
             <Link to="/places-to-visit">places to visit</Link>
             <Link to="/meet-bangladesh">meet bangladesh</Link>
             <Link to="/about-us">about us</Link>

@@ -69,38 +69,40 @@ export const placesToVisit = {
   ],
 };
 
-export const popularPackages = {
-  title: "Popular Package",
-  items: [
-    {
-      id: "sldkfa1lsdf943234",
-      link: "explores/sixty-domes-mosque",
-      src: "/pf/Sixty-Domes-Mosque-350x230.jpg",
-      title: "Sixty Domes Mosque",
-    },
-    {
-      id: "slsus6fa8lsdf943234",
-      link: "explores/choto-sona-masjid",
-      src: "/pf/Choto-Sona-Masjid-1-350x230.jpg",
-      title: "Rajshahi Choto-sona-masjid",
-    },
-    {
-      id: "sldkfalssdf943234",
-      link: "explores/barishal-backwater",
-      src: "/pf/Barisal-Floating-Market-350x230.jpg",
-      title: "Barishal backwater",
-    },
-    {
-      id: "sldkfa3450lsdf943234",
-      link: "explores/sonargaon",
-      src: "/pf/Sonargaon-Panam-City-350x230.jpg",
-      title: "Sonargaon",
-    },
-    {
-      id: "sldksfasal0sdf943234",
-      link: "explores/dhaka-city",
-      src: "/pf/Lalbagh-Fort-Dhaka-350x230.jpg",
-      title: "Dhaka city",
-    },
-  ],
-};
+// export const popularPackages = [
+//   {
+//     id: "sldkfa1lsdf943234",
+//     link: "explores/sixty-domes-mosque",
+//     src: "/pf/Sixty-Domes-Mosque-350x230.jpg",
+//     title: "Sixty Domes Mosque",
+//     days: 4,
+//   },
+//   {
+//     id: "slsus6fa8lsdf943234",
+//     link: "explores/choto-sona-masjid",
+//     src: "/pf/Choto-Sona-Masjid-1-350x230.jpg",
+//     title: "Rajshahi Choto-sona-masjid",
+//     days: 10,
+//   },
+//   {
+//     id: "sldkfalssdf943234",
+//     link: "explores/barishal-backwater",
+//     src: "/pf/Barisal-Floating-Market-350x230.jpg",
+//     title: "Barishal backwater",
+//     days: 99,
+//   },
+//   {
+//     id: "sldkfa3450lsdf943234",
+//     link: "explores/sonargaon",
+//     src: "/pf/Sonargaon-Panam-City-350x230.jpg",
+//     title: "Sonargaon",
+//     days: 5,
+//   },
+//   {
+//     id: "sldksfasal0sdf943234",
+//     link: "explores/dhaka-city",
+//     src: "/pf/Lalbagh-Fort-Dhaka-350x230.jpg",
+//     title: "Dhaka city",
+//     days: 7,
+//   },
+// ];

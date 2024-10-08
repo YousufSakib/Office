@@ -1,28 +1,39 @@
 import React from "react";
 import "./packageTable.scss";
 
-function PackageTable() {
+function PackageTable({ packageResponse }) {
+  // console.log("from package table ", packageResponse.duration);
+  // console.log("from packageTable ");
+  // console.log(packageResponse);
+  const pricePerPerson = JSON.parse(packageResponse.pricePerPerson || []);
+  const tourHighLights = JSON.parse(packageResponse.tourHighLights || []);
+  const attractions = JSON.parse(packageResponse.attractions || []);
+  // console.log("pricePerPerson");
+  // console.log(pricePerPerson);
+  // console.log("tourHighLights");
+  // console.log(tourHighLights);
+  // console.log("attractions");
+  // console.log(attractions);
+
   return (
     <div className="packageTable">
       <div style={{ overflowX: "auto" }}>
         <table>
           <tr>
-            <td>Duration</td>
-            <td> 4 Days</td>
+            <td>Duration : </td>
+            <td> {" " + packageResponse?.duration} Days</td>
           </tr>
           <tr>
-            <td>Location</td>
-            <td> Bagerhat, Sundarbans</td>
+            <td>Location : </td>
+            <td> {" " + packageResponse?.destination}</td>
           </tr>
           <tr>
             <td>Attractions :</td>
             <td>
               <ul>
-                <li>Sixty Dome Mosque</li>
-                <li>Shrine of Khan Jahan Ali</li>
-                <li>Harbaria Eco-Tourism Center</li>
-                <li>Kotka Wildlife Sanctuary</li>
-                <li>Kochikhali Wildlife Sanctuary</li>
+                {attractions.map((i) => (
+                  <li key={i.key}>{i.attraction}</li>
+                ))}
               </ul>
             </td>
           </tr>
@@ -33,31 +44,27 @@ function PackageTable() {
         <tr>
           <th colspan="2">Tour Highlighs</th>
         </tr>
-        <tr>
-          <td>O</td>
-          <td>
-            <span>UNESCO Heritages: </span>Visit two world heritages, Sundarbans
-            and Sixty Dome Mosque in a single trip.
-          </td>
-        </tr>
-        <tr>
-          <td>O</td>
-          <td>
-            <span>Magical Forest: </span>The silence of the forest will blow
-            your mind. The tides & moonlight make it more interesting. It's a
-            kind of meditation anyway.
-          </td>
-        </tr>
+        {tourHighLights.map((i) => (
+          <tr key={i.key}>
+            <td>O</td>
+            <td>
+              <span>{i.highlight + " "}</span>
+              {i.description}
+            </td>
+          </tr>
+        ))}
       </table>
 
       <table style={{ overflowX: "auto", marginTop: "40px" }}>
         <tr>
           <th colspan="2">Price for the tour (Per Person)</th>
         </tr>
-        <tr>
-          <td>Starting Price</td>
-          <td>4500.00 TK only</td>
-        </tr>
+        {pricePerPerson.map((i) => (
+          <tr key={i.key}>
+            <td>{i.priceType}</td>
+            <td>{i.priceTaka + " TK only"}</td>
+          </tr>
+        ))}
       </table>
     </div>
   );
