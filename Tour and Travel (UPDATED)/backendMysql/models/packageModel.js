@@ -35,7 +35,7 @@ const Package = sequelize.define("Package", {
     type: DataTypes.TEXT,
   },
   images: {
-    type: DataTypes.JSON, // Check this as MySQL 5.x might not support JSON directly
+    type: DataTypes.JSON,
   },
   attraction: {
     type: DataTypes.JSON,

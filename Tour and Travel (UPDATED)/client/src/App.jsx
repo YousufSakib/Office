@@ -11,6 +11,7 @@ import MeetBangladesh from "./routes/meetBangadesh/MeetBangladesh";
 import PlacesToVisit from "./routes/placesToVisit/PlacesToVisit";
 import Package from "./routes/package/Package";
 import BookTour from "./routes/bookTour/BookTour";
+import { packagePageLoder } from "./lib/loaders";
 
 function App() {
   const router = createBrowserRouter([
@@ -34,6 +35,7 @@ function App() {
         {
           path: "/package",
           element: <Package />,
+          loader: packagePageLoder,
         },
         {
           path: "/book-tour",
