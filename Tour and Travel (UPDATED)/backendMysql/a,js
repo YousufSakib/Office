@@ -1,0 +1,15 @@
+const input = '"Sixty Dome Mosque", "Shrine of Khan Jahan Ali", "Harbaria Eco-Tourism Center"';
+
+// Step 1: Remove extra quotes and split the string into an array
+const attractionsArray = input
+  .replace(/"/g, '') // Remove double quotes
+  .split(',') // Split by commas
+  .map(attraction => attraction.trim()); // Trim whitespace
+
+// Step 2: Convert the array into the desired object format
+
+  const attractions = attractionsArray.map(attraction => ({ attraction }))
+
+
+// Output the result
+console.log(result);

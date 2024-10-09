@@ -7,6 +7,7 @@ const popularPackageRoute = require("./routes/popularPackageRoutes");
 const cors = require("cors");
 
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 // Use the package routes

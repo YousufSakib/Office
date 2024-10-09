@@ -1,0 +1,18 @@
+@import "../../responsive.scss";
+
+.adminLayout {
+  width: 100%;
+  display: flex;
+  .sideBar {
+    background-color: rgb(36, 95, 255);
+    flex-grow: 1;
+  }
+  .content {
+    flex-grow: 8;
+    background-color: rgb(14, 137, 151);
+    @include lg {
+      flex-grow: 5;
+    }
+  }
+  // display: flex;
+}

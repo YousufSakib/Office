@@ -8,9 +8,10 @@ function BlocksOfOfferes({ obj }) {
       <h2>{obj.title}</h2>
       <div className="blockOfOffers">
         {obj.items.map((i) => (
-          <Link to={"/all-packages/packages/" + i.id}>
+          <Link to={"/all-packages/packages/uploads" + i.id}>
             <div className="item" key={i.id}>
-              <img src={i.profileImg} alt="" />
+              {console.log("src: ", i)}
+              <img src={"../../../../backendMysql" + i.src} alt="" />
               <ShortPara len={20}>{i.name}</ShortPara>
               {i?.duration && (
                 <p style={{ margin: "-20px 0 20px 0" }}>{i.duration} days</p>

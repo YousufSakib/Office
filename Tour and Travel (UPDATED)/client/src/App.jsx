@@ -16,7 +16,10 @@ import {
   allPackagesPageLoader,
 } from "./lib/loaders"; // Ensure loaders are correctly imported
 import Allpackages from "./routes/Allpackages";
-
+import AdminLayout from "./routes/adminLayout/AdminLayout";
+import AdminPackageAdd from "./routes/adminPackageAdd/AdminPackageAdd";
+import AdminHome from "./routes/adminHome/AdminHome";
+import AdminAllPackage from "./routes/adminAllPackage/AdminAllPackage";
 function App() {
   const router = createBrowserRouter([
     {
@@ -67,6 +70,24 @@ function App() {
         {
           path: "contact-us",
           element: <ContactUs />,
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          path: "/admin",
+          element: <AdminHome />,
+        },
+        {
+          path: "/admin/packages",
+          element: <AdminAllPackage />,
+        },
+        {
+          path: "/admin/packageAdd",
+          element: <AdminPackageAdd />,
         },
       ],
     },
