@@ -1,0 +1,15 @@
+@import "../../responsive.scss";
+
+.adminLayout {
+  width: 100%;
+  display: flex;
+  .sideBar {
+    background-color: red;
+    width: 10%;
+  }
+  .content {
+    width: 100%;
+    background-color: green;
+  }
+  // display: flex;
+}
