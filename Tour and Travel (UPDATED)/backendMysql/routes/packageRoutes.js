@@ -23,9 +23,7 @@ router.post(
   async (req, res) => {
     try {
       const profileImgPath = path.basename(req.files["profileImg"][0].path);
-      // const imagePaths = req.files["images"].map((file) =>
-      // path.basename(file.path)
-      // );
+
       const imagePaths = req.files["images"].map((file) => ({
         src: path.basename(file.path),
       }));
@@ -35,8 +33,8 @@ router.post(
       const category = req.body.category;
       const name = req.body.name;
       const description = req.body.description;
-      const tourHighLights = funcStringToArrTourHighlight(
-        req.body.tourHighLights
+      const tourHighLights = funcStringToArr_TourHighlight(
+        req.body.tourHighLights,
       );
       const pricePerPerson = funcStringToArr(req.body.pricePerPerson);
 
@@ -77,16 +75,14 @@ router.post(
         element.key = Math.random().toString(16).slice(2);
       });
 
-      console.log("creation object");
-      console.log(doc);
-
       const newPackage = await Package.create(doc);
       res.status(201).json(newPackage);
+      console.log(newPackage);
     } catch (err) {
       console.log(err);
       res.status(400).json({ message: err.message });
     }
-  }
+  },
 );
 // {
 //   "createdBy": "Yousuf",
@@ -120,29 +116,6 @@ router.post(
 //       }
 //   ]
 // }
-
-// router.post("/packages", async (req, res) => {
-//   req.body.images.forEach((element) => {
-//     element.key = Math.random().toString(16).slice(2);
-//   });
-//   req.body.attractions.forEach((element) => {
-//     element.key = Math.random().toString(16).slice(2);
-//   });
-//   req.body.tourHighLights.forEach((element) => {
-//     element.key = Math.random().toString(16).slice(2);
-//   });
-//   req.body.pricePerPerson.forEach((element) => {
-//     element.key = Math.random().toString(16).slice(2);
-//   });
-//   console.log(req.body);
-
-//   try {
-//     const newPackage = await Package.create(req.body);
-//     res.status(201).json(newPackage);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// });
 
 // Get all packages
 router.get("/packages", async (req, res) => {
@@ -206,7 +179,7 @@ function funcStringToArr(input) {
         .split(":")
         .map((part) => part.trim().replace(/"/g, ""));
       return [key, parseInt(value)]; // Convert value to integer
-    })
+    }),
   );
 
   // Step 2: Convert the object into the desired output format
@@ -214,14 +187,12 @@ function funcStringToArr(input) {
     ([priceType, priceTaka]) => ({
       priceType,
       priceTaka,
-    })
+    }),
   );
 
   return pricePerPerson;
 }
-function funcStringToArrTourHighlight() {
-  const input = `"UNESCO Heritages" : "Visit two world heritages Sundarbans, sudar"`;
-
+function funcStringToArr_TourHighlight(input) {
   // Step 1: Parse the input string into key-value pairs
   const inputObject = Object.fromEntries(
     input.split(";").map((item) => {
@@ -229,7 +200,7 @@ function funcStringToArrTourHighlight() {
         .split(":")
         .map((part) => part.trim().replace(/"/g, ""));
       return [key, value]; // Convert value to integer
-    })
+    }),
   );
 
   // Step 2: Convert the object into the desired output format

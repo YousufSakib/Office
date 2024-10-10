@@ -1,5 +1,6 @@
 import axios from "axios";
 import { defer } from "react-router-dom";
+import parseJSONFields from "./parseJSONFields";
 
 export const packagePageLoader = async ({ request, params }) => {
   const headers = {
@@ -9,8 +10,12 @@ export const packagePageLoader = async ({ request, params }) => {
 
   try {
     const packagePromise = await axios.get(url, { headers });
-    const packageData = packagePromise.data; // Extract the data from the response
-    // console.log(packageData); // Log the data to verify
+    const packageData = parseJSONFields(packagePromise.data, [
+      "attractions",
+      "images",
+      "pricePerPerson",
+      "tourHighLights",
+    ]);
     return defer({
       packageResponse: packageData, // Return the data
     });
@@ -29,6 +34,8 @@ export const homePageLoader = async () => {
   try {
     const packagePromise = await axios.get(url, { headers });
     const packageData = packagePromise.data; // Extract the data from the response
+    // console.log("from homepage loader: ");
+    // console.log(typeof packageData);
     // console.log(packageData); // Log the data to verify
 
     return defer({
@@ -48,8 +55,17 @@ export const allPackagesPageLoader = async () => {
 
   try {
     const packagePromise = await axios.get(url, { headers });
-    const packageData = packagePromise.data; // Extract the data from the response
-    // console.log(packageData); // Log the data to verify
+
+    const packageData = parseJSONFields(packagePromise.data, [
+      "attractions",
+      "images",
+      "pricePerPerson",
+      "tourHighLights",
+    ]);
+    // console.log("all package page loader: ");
+    // console.log(packageData[0]);
+    // console.log(typeof packageData);
+    // console.log(packageData);
 
     return defer({
       packageResponse: packageData, // Return the data

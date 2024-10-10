@@ -1,24 +1,29 @@
 import React from "react";
 import "./packageInfo.scss";
 import SingleClickableImg from "../singleImg/SingleClickableImg";
+import { BACKEND_URL } from "../../../dynamicInfo";
+
 //{ images, profileImg, name, description }
 function PackageInfo({ packageResponse }) {
   // console.log("from packageTable ");
   // console.log(packageResponse);
-  const images = JSON.parse(packageResponse.images);
-  // console.log("log from package info " + packageResponse.images);
-  // console.log(typeof packageResponse.images);
+  console.log("log from package info " + packageResponse.images);
+  console.log(typeof packageResponse.images);
   return (
     <div className="package">
       <div className="profile">
-        <img className="bounceIn" src={packageResponse?.profileImg} alt="" />
+        <img
+          className="bounceIn"
+          src={`${BACKEND_URL}/uploads/${packageResponse?.profileImg}`}
+          alt=""
+        />
         <h1>{packageResponse?.name}</h1>
       </div>
       <p>{packageResponse?.description}</p>
       <div className="images">
-        {images.map((i) => (
+        {packageResponse.images.map((i) => (
           <div key={i.key}>
-            <SingleClickableImg src={i.src} />
+            <SingleClickableImg src={`${BACKEND_URL}/uploads/${i.src}`} />
           </div>
         ))}
       </div>

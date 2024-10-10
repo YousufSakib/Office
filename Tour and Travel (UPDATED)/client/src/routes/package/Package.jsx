@@ -4,6 +4,7 @@ import PackageTable from "../../components/packageTable/PackageTable";
 import PackageInfo from "../../components/packageInfo/PackageInfo";
 import { Await, useLoaderData } from "react-router-dom";
 import { Suspense } from "react";
+import Loading from "../../components/fullScreenloading/FullScreenloading";
 
 function Package() {
   const data = useLoaderData();
@@ -22,7 +23,7 @@ function Package() {
         </Await>
       </Suspense>
 
-      <Suspense fallback={<p>Loading..</p>}>
+      <Suspense fallback={<Loading />}>
         <Await
           resolve={data.packageResponse}
           errorElement={<>Error loading packages table</>}

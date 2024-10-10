@@ -2,6 +2,7 @@ import React from "react";
 import PopularPackages from "../components/PopularPackages";
 import { Await, useLoaderData } from "react-router-dom";
 import { Suspense } from "react";
+import BlocksOfOfferes from "../components/blocksOfOfferes/BlocksOfOfferes";
 
 function Allpackages() {
   const data = useLoaderData();
@@ -13,9 +14,11 @@ function Allpackages() {
         errorElement={<>Error loading packages info</>}
       >
         {(packageResponse) => {
-          console.log("form home page");
-          console.log(packageResponse);
-          return <PopularPackages packageResponse={packageResponse} />; // in package info component the object got undefined
+          return (
+            <BlocksOfOfferes
+              obj={{ items: packageResponse, title: "All Packages" }}
+            />
+          );
         }}
       </Await>
     </Suspense>

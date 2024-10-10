@@ -20,6 +20,7 @@ import AdminLayout from "./routes/adminLayout/AdminLayout";
 import AdminPackageAdd from "./routes/adminPackageAdd/AdminPackageAdd";
 import AdminHome from "./routes/adminHome/AdminHome";
 import AdminAllPackage from "./routes/adminAllPackage/AdminAllPackage";
+import Loading from "./components/fullScreenloading/FullScreenloading";
 function App() {
   const router = createBrowserRouter([
     {
@@ -58,14 +59,18 @@ function App() {
       element: <SimpleLayout />, // Alternative layout for package-related routes
       children: [
         {
-          path: "all-packages/packages/:id", // Note: Remove the leading slash for nested routes
-          element: <Package />,
-          loader: packagePageLoader,
+          path: "loading",
+          element: <Loading />,
         },
         {
-          path: "all-packages", // Same here
+          path: "all-packages", // running
           element: <Allpackages />,
           loader: allPackagesPageLoader,
+        },
+        {
+          path: "all-packages/:id", //running
+          element: <Package />,
+          loader: packagePageLoader,
         },
         {
           path: "contact-us",
