@@ -8,14 +8,17 @@ function AdminLayout() {
   return (
     <>
       {/* <Navbar /> */}
+      <div className="show-responsive">
+        <div className="md">Mid</div>
+        <div className="lg">large</div>
+        <div className="sm">small</div>
+      </div>
       <div className="adminLayout">
         <div className="sideBar">
           <Sidebar />
         </div>
         <div className="content">
-          <div className="content">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </div>
     </>

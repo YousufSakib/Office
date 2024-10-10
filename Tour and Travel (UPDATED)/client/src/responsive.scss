@@ -16,7 +16,6 @@
   }
 }
 
-
 $linkColor: #e7e7e7;
 $linkHoverColor: #ffffff;
 $grayTextColor: rgb(155, 155, 155);
@@ -33,6 +32,10 @@ $loginColor: rgb(43, 165, 165);
   100% {
     transform: scale(1);
   }
+}
+
+.button {
+  cursor: pointer;
 }
 
 /**Not important **/

@@ -128,7 +128,7 @@ function ContactUsForm() {
             <textarea id="message" name="message" required />
           </div>
           <div className="row">
-            <button>Submit</button>
+            <button className="button">Submit</button>
           </div>
         </div>
       </Form>

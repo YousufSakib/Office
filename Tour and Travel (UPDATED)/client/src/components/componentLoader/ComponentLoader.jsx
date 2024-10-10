@@ -1,7 +1,6 @@
 import React from "react";
-import "./fullScreenloading.scss";
 
-function FullScreenloading() {
+function ComponentLoader() {
   return (
     <div className="loaderDiv">
       <span class="loader"></span>;
@@ -9,4 +8,4 @@ function FullScreenloading() {
   );
 }
 
-export default FullScreenloading;
+export default ComponentLoader;

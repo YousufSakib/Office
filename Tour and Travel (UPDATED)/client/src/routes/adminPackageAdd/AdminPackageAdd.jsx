@@ -89,7 +89,7 @@ function AdminPackageAdd() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       alert("Files uploaded successfully!");
     } catch (error) {

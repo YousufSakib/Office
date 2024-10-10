@@ -2,17 +2,70 @@
 
 .adminLayout {
   width: 100%;
-  display: flex;
   .sideBar {
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    width: 15%;
     background-color: rgb(36, 95, 255);
-    flex-grow: 1;
+    @include md {
+      width: 20%;
+    }
+    @include sm {
+      width: 25%;
+    }
   }
   .content {
-    flex-grow: 8;
-    background-color: rgb(14, 137, 151);
+    position: relative;
+    overflow: hidden;
+    left: 15%;
+    max-width: 85%;
+    top: 0;
+    background-color: rgb(3, 120, 150);
+    @include md {
+      left: 20%;
+      max-width: 80%;
+    }
+    @include sm {
+      left: 25%;
+      max-width: 75%;
+    }
+    // background-color: rgb(14, 137, 151);
     @include lg {
-      flex-grow: 5;
     }
   }
   // display: flex;
+}
+
+.show-responsive {
+  position: fixed;
+  right: 0;
+  top: 500px;
+  background-color: darkgoldenrod;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+  // display: none;
+  .sm,
+  .md,
+  .lg {
+    display: none;
+  }
+  .lg {
+    @include lg {
+      display: initial;
+    }
+  }
+  .md {
+    @include md {
+      display: initial;
+    }
+  }
+  .sm {
+    @include sm {
+      display: initial;
+    }
+  }
 }

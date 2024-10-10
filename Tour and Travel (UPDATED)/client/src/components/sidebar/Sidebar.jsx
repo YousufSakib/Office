@@ -4,7 +4,7 @@ import "./sidebar.scss";
 
 function Sidebar() {
   return (
-    <div className="sidebar">
+    <div className="sidebarwrapper">
       <Link to="/">Home</Link>
       <Link to="/admin">AdminPage</Link>
       <Link to="/admin/packages">Packages</Link>

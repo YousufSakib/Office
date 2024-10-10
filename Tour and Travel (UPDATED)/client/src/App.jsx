@@ -21,6 +21,7 @@ import AdminPackageAdd from "./routes/adminPackageAdd/AdminPackageAdd";
 import AdminHome from "./routes/adminHome/AdminHome";
 import AdminAllPackage from "./routes/adminAllPackage/AdminAllPackage";
 import Loading from "./components/fullScreenloading/FullScreenloading";
+import AdminUpdatePackage from "./routes/adminUpdatePackage/AdminUpdatePackage";
 function App() {
   const router = createBrowserRouter([
     {
@@ -63,12 +64,12 @@ function App() {
           element: <Loading />,
         },
         {
-          path: "all-packages", // running
+          path: "packages", // running
           element: <Allpackages />,
           loader: allPackagesPageLoader,
         },
         {
-          path: "all-packages/:id", //running
+          path: "packages/:id", //running
           element: <Package />,
           loader: packagePageLoader,
         },
@@ -89,6 +90,10 @@ function App() {
         {
           path: "/admin/packages",
           element: <AdminAllPackage />,
+        },
+        {
+          path: "/admin/packages/update/:id",
+          element: <AdminUpdatePackage />,
         },
         {
           path: "/admin/packageAdd",

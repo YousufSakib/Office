@@ -1,16 +1,16 @@
 @import "../../responsive.scss";
 .adminPackageAdd {
   width: 100%;
-  //   background-color: rgb(160, 65, 65);
   form {
     display: flex;
     flex-direction: column;
     gap: 25px;
     width: 100%;
-    padding-left: 20px;
+    max-width: $maxWidth;
+    margin: auto;
     box-sizing: border-box;
+
     .row {
-      //   background-color: green;
       align-items: start;
       flex-direction: column;
       display: flex;
@@ -18,29 +18,16 @@
       gap: 12px;
       input {
         height: 30px;
-        max-width: 1000px;
         width: 100%;
-        box-sizing: border-box;
-        // width: 100%;
-        @include sm {
-          max-width: 400px;
-        }
-        @include md {
-          max-width: 600px;
-        }
       }
       .row_row {
         width: 100%;
-        max-width: 1000px;
         display: flex;
         align-items: center;
-        // justify-content: space-between;
         gap: 20px;
         .row_row_div {
           input {
             width: 100%;
-            max-width: 1000px;
-            box-sizing: border-box;
           }
           h5 {
             margin-right: 30px;
@@ -48,32 +35,16 @@
           }
           width: 100%;
         }
-        // input {
-        //   margin-right: 20px;
-        // }
-        // label {
-        //   margin-right: 10px;
-        // }
         @include sm {
           flex-direction: column;
-          input {
-            width: 100%;
-          }
         }
       }
       textarea {
         height: 150px;
-        max-width: 1000px;
         width: 100%;
         resize: vertical;
-        font-size: 20px;
         color: black;
-        @include md {
-          max-width: 600px;
-        }
-        @include sm {
-          max-width: 400px;
-        }
+
         &:focus {
           outline: none;
         }
@@ -87,12 +58,17 @@
       }
     }
   }
-  input {
-    padding: 0;
+  input,
+  textarea {
     font-size: 18px;
+    padding: 0 5px;
+    box-sizing: border-box;
     &:focus {
       outline: none;
     }
+  }
+  textarea {
+    padding: 5px;
   }
   label {
     font-size: 20px;

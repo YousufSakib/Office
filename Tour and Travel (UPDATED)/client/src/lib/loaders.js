@@ -34,9 +34,9 @@ export const homePageLoader = async () => {
   try {
     const packagePromise = await axios.get(url, { headers });
     const packageData = packagePromise.data; // Extract the data from the response
-    // console.log("from homepage loader: ");
-    // console.log(typeof packageData);
-    // console.log(packageData); // Log the data to verify
+    console.log("from homepage loader: ");
+    console.log(typeof packageData);
+    console.log(packageData); // Log the data to verify
 
     return defer({
       packageResponse: packageData, // Return the data

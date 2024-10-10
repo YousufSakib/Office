@@ -11,6 +11,7 @@ function Layout({}) {
         <div className="lg">large</div>
         <div className="sm">small</div>
       </div> */}
+      {console.log("layout is rendering")}
       <div className="navbar">
         <Navbar />
       </div>

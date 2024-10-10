@@ -14,7 +14,7 @@ function BlocksOfOfferes({ obj }) {
       <h2>{obj.title}</h2>
       <div className="blockOfOffers">
         {obj.items.map((i) => (
-          <Link to={"/all-packages/" + i.id}>
+          <Link to={"/packages/" + i.id}>
             <div className="item" key={i.id}>
               <img src={`${BACKEND_URL}/uploads/${i.profileImg}`} alt="" />
               <ShortPara len={20}>{i.name}</ShortPara>

@@ -17,7 +17,7 @@ app.use((req, res, next) => {
   setTimeout(() => {
     console.log("passed");
     next(); // Call next() after 500ms
-  }, 5000); // Delay of 0.5 seconds (500 milliseconds)
+  }, 1000); // Delay of 0.5 seconds (500 milliseconds)
 });
 
 // Use the package routes

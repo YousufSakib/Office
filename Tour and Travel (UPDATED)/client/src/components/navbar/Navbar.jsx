@@ -24,7 +24,7 @@ function Navbar({ heroSrc, logoSrc }) {
           </div>
           <div className={burgermenu ? "menues open" : "menues"}>
             <Link to="/">HOME</Link>
-            <Link to="/all-packages">packages</Link>
+            <Link to="/packages">packages</Link>
             <Link to="/places-to-visit">places to visit</Link>
             <Link to="/meet-bangladesh">meet bangladesh</Link>
             <Link to="/about-us">about us</Link>
