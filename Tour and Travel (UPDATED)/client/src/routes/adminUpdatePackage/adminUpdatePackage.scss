@@ -1,1 +1,87 @@
 @import "../../responsive.scss";
+.adminPackageUpdate {
+  // position: static;
+  background-color: red;
+  width: 100%;
+  h2 {
+    padding: 0 0 5px 0px;
+    width: 100%;
+    border-bottom: 2px solid white;
+  }
+  form {
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    padding: 0 5px 0 5px;
+    max-width: $maxWidth;
+    margin: auto;
+    box-sizing: border-box;
+    .row {
+      align-items: start;
+      flex-direction: column;
+      display: flex;
+      width: 100%;
+      gap: 12px;
+      input {
+        height: 30px;
+        width: 100%;
+      }
+      .row_row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        .row_row_div {
+          input {
+            width: 100%;
+          }
+          h5 {
+            margin-right: 30px;
+            margin: 10px 0;
+          }
+          width: 100%;
+        }
+        @include sm {
+          flex-direction: column;
+        }
+      }
+      textarea {
+        height: 150px;
+        width: 100%;
+        resize: vertical;
+        color: black;
+
+        &:focus {
+          outline: none;
+        }
+      }
+      button {
+        padding: 5px 20px;
+        font-size: 20px;
+      }
+      &.full {
+        max-width: 300px;
+      }
+    }
+  }
+  input,
+  textarea {
+    font-size: 18px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    &:focus {
+      outline: none;
+    }
+  }
+  textarea {
+    padding: 5px;
+  }
+  label {
+    font-size: 18px;
+  }
+  h5 {
+    font-size: 20px;
+  }
+}

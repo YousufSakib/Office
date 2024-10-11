@@ -1,15 +1,20 @@
 @import "../../responsive.scss";
 .adminPackageAdd {
   width: 100%;
+  h2 {
+    padding: 0 0 5px 0px;
+    width: 100%;
+    border-bottom: 2px solid white;
+  }
   form {
     display: flex;
     flex-direction: column;
     gap: 25px;
     width: 100%;
+    padding: 0 5px 0 5px;
     max-width: $maxWidth;
     margin: auto;
     box-sizing: border-box;
-
     .row {
       align-items: start;
       flex-direction: column;
@@ -71,7 +76,7 @@
     padding: 5px;
   }
   label {
-    font-size: 20px;
+    font-size: 18px;
   }
   h5 {
     font-size: 20px;

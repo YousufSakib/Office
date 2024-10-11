@@ -1,9 +1,10 @@
 import React from "react";
+import "./componentLoader.scss";
 
 function ComponentLoader() {
   return (
     <div className="loaderDiv">
-      <span class="loader"></span>;
+      <span className="loader"></span>;
     </div>
   );
 }

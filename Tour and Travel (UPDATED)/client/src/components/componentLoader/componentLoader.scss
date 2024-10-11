@@ -5,27 +5,27 @@
   align-items: center;
   justify-content: center;
   background-color: #22222279;
-}
-.loader {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  position: relative;
-  animation: rotate 1s linear infinite;
-}
-.loader::before,
-.loader::after {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  inset: 0px;
-  border-radius: 50%;
-  border: 5px solid #fff;
-  animation: prixClipFix 2s linear infinite;
-}
-.loader::after {
-  transform: rotate3d(90, 90, 0, 180deg);
-  border-color: #ff3d00;
+  .loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite;
+    &::before,
+    &::after {
+      content: "";
+      box-sizing: border-box;
+      position: absolute;
+      inset: 0px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      animation: prixClipFix 2s linear infinite;
+    }
+    &::after {
+      transform: rotate3d(90, 90, 0, 180deg);
+      border-color: #ff3d00;
+    }
+  }
 }
 
 @keyframes rotate {

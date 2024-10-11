@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./adminPackageAdd.scss";
 import axios from "axios";
+import { BACKEND_URL } from "../../../dynamicInfo";
 
 function AdminPackageAdd() {
   const [profileImg, setProfileImg] = useState(null);
@@ -57,7 +58,7 @@ function AdminPackageAdd() {
     event.preventDefault();
 
     if (!profileImg || images.length === 0) {
-      alert("Please select a profile image, multiple images.");
+      alert("Please select a feature image, some package location images.");
       return;
     }
 
@@ -73,17 +74,17 @@ function AdminPackageAdd() {
     formData.append("category", category);
     formData.append("name", name);
     formData.append("description", description);
-    formData.append("attractions", attractions);
-    formData.append("tourHighLights", tourHighLights);
-    formData.append("pricePerPerson", pricePerPerson);
 
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}:`, value);
-    // }
+    formData.append("attractions", funcFormatAttractions(attractions));
+    formData.append("pricePerPerson", funcFormatPricePerPerson(pricePerPerson));
+    formData.append("tourHighLights", funcFormatTourHighLights(tourHighLights));
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/packages",
+        `${BACKEND_URL}/api/v1/packages`,
         formData,
         {
           headers: {
@@ -91,10 +92,11 @@ function AdminPackageAdd() {
           },
         },
       );
-      alert("Files uploaded successfully!");
+      alert("Packages created successfully!");
+      console.log(response.data);
     } catch (error) {
       console.error("Error uploading files:", error);
-      alert("Failed to upload files.");
+      alert("Failed to create the package. Try again later.");
     }
   };
 
@@ -226,6 +228,53 @@ function AdminPackageAdd() {
 }
 
 export default AdminPackageAdd;
+
+const funcFormatAttractions = (input) => {
+  const output = input
+    .trim()
+    .split("\n")
+    .map((line) => {
+      const attraction = line.replace(";", "").trim();
+      return {
+        attraction,
+        key: randomChar(10),
+      };
+    });
+  return output;
+};
+
+const funcFormatPricePerPerson = (input) => {
+  const output = input
+    .split(";") // Split by semicolon to get each entry
+    .filter((line) => line.trim()) // Filter out any empty lines
+    .map((line) => {
+      const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
+      return {
+        priceType: priceType,
+        priceTaka: parseInt(priceTaka, 10), // Convert price to number
+        key: randomChar(10),
+      };
+    });
+  return output;
+};
+
+const funcFormatTourHighLights = (input) => {
+  const output = input
+    .split(";") // Split by semicolon to get each entry
+    .filter((line) => line.trim()) // Filter out any empty lines
+    .map((line) => {
+      const [highlight, description] = line
+        .split(":")
+        .map((part) => part.trim());
+      return {
+        highlight: highlight,
+        description: description,
+        key: randomChar(10),
+      };
+    });
+  return output;
+};
+
 // {
 //   "createdBy": "Yousuf",
 //   "destination": "sylhet",

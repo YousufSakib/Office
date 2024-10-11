@@ -1,12 +1,13 @@
 import axios from "axios";
 import { defer } from "react-router-dom";
 import parseJSONFields from "./parseJSONFields";
+import { BACKEND_URL } from "../../dynamicInfo";
 
 export const packagePageLoader = async ({ request, params }) => {
   const headers = {
     "Content-Type": "application/json",
   };
-  const url = "http://localhost:3000/api/v1/packages/" + params.id;
+  const url = `${BACKEND_URL}/api/v1/packages/${params.id}`;
 
   try {
     const packagePromise = await axios.get(url, { headers });
@@ -29,7 +30,7 @@ export const homePageLoader = async () => {
   const headers = {
     "Content-Type": "application/json",
   };
-  const url = "http://localhost:3000/api/v1/packages";
+  const url = `${BACKEND_URL}/api/v1/packages`;
 
   try {
     const packagePromise = await axios.get(url, { headers });
@@ -51,7 +52,7 @@ export const allPackagesPageLoader = async () => {
   const headers = {
     "Content-Type": "application/json",
   };
-  const url = "http://localhost:3000/api/v1/packages";
+  const url = `${BACKEND_URL}/api/v1/packages`;
 
   try {
     const packagePromise = await axios.get(url, { headers });

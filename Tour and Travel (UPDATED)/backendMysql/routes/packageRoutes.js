@@ -3,7 +3,9 @@ const express = require("express");
 const Package = require("../models/packageModel");
 const router = express.Router();
 const multer = require("multer");
+// const deleteFile = require("../lib/deleteFile");
 const path = require("path");
+const { deletePackagePhotos } = require("../lib/deleteExistingPhotos");
 
 // Configure multer
 const storage = multer.diskStorage({
@@ -33,27 +35,16 @@ router.post(
       const category = req.body.category;
       const name = req.body.name;
       const description = req.body.description;
-      const tourHighLights = funcStringToArr_TourHighlight(
-        req.body.tourHighLights,
-      );
-      const pricePerPerson = funcStringToArr(req.body.pricePerPerson);
-
-      const input = req.body.attractions;
-      const attractionsArray = input
-        .replace(/"/g, "") // Remove double quotes
-        .split(";") // Split by commas
-        .map((attraction) => attraction.trim()); // Trim whitespace
-
-      const attractions = attractionsArray.map((attraction) => ({
-        attraction,
-      }));
+      const tourHighLights = req.body.tourHighLights;
+      const pricePerPerson = req.body.pricePerPerson;
+      const attractions = req.body.attractions;
 
       const doc = {
         profileImg: profileImgPath,
         images: imagePaths,
         createdBy: createdBy,
         destination: destination,
-        duration: Number(duration),
+        duration: duration,
         category: category,
         name: name,
         description: description,
@@ -61,19 +52,6 @@ router.post(
         tourHighLights: tourHighLights,
         pricePerPerson: pricePerPerson,
       };
-
-      doc.images.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
-      doc.attractions.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
-      doc.tourHighLights.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
-      doc.pricePerPerson.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
 
       const newPackage = await Package.create(doc);
       res.status(201).json(newPackage);
@@ -141,19 +119,53 @@ router.get("/packages/:id", async (req, res) => {
 });
 
 // Update a package
-router.put("/packages/:id", async (req, res) => {
-  try {
-    const updatedPackage = await Package.update(req.body, {
-      where: { id: req.params.id },
-      returning: true,
-    });
-    if (updatedPackage[0] === 0)
-      return res.status(404).json({ message: "Package not found" });
-    res.status(200).json(updatedPackage[1][0]);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+router.put(
+  "/packages/:id",
+  deletePackagePhotos,
+  upload.fields([{ name: "profileImg" }, { name: "images" }]),
+  async (req, res) => {
+    try {
+      const profileImgPath = path.basename(req.files["profileImg"][0].path);
+
+      const imagePaths = req.files["images"].map((file) => ({
+        src: path.basename(file.path),
+      }));
+      const createdBy = req.body.createdBy;
+      const destination = req.body.destination;
+      const duration = req.body.duration;
+      const category = req.body.category;
+      const name = req.body.name;
+      const description = req.body.description;
+      const tourHighLights = req.body.tourHighLights;
+      const pricePerPerson = req.body.pricePerPerson;
+      const attractions = req.body.attractions;
+
+      const doc = {
+        profileImg: profileImgPath,
+        images: imagePaths,
+        createdBy: createdBy,
+        destination: destination,
+        duration: duration,
+        category: category,
+        name: name,
+        description: description,
+        attractions: attractions,
+        tourHighLights: tourHighLights,
+        pricePerPerson: pricePerPerson,
+      };
+
+      const updatedPackage = await Package.update(doc, {
+        where: { id: req.params.id },
+        returning: true,
+      });
+      if (updatedPackage[0] === 0)
+        return res.status(404).json({ message: "Package not found" });
+      res.status(200).json(updatedPackage[1][0]);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  },
+);
 
 // Delete a package
 router.delete("/packages/:id", async (req, res) => {

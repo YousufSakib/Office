@@ -20,7 +20,7 @@ import AdminLayout from "./routes/adminLayout/AdminLayout";
 import AdminPackageAdd from "./routes/adminPackageAdd/AdminPackageAdd";
 import AdminHome from "./routes/adminHome/AdminHome";
 import AdminAllPackage from "./routes/adminAllPackage/AdminAllPackage";
-import Loading from "./components/fullScreenloading/FullScreenloading";
+import FullScreenloading from "./components/fullScreenloading/FullScreenloading";
 import AdminUpdatePackage from "./routes/adminUpdatePackage/AdminUpdatePackage";
 function App() {
   const router = createBrowserRouter([
@@ -60,10 +60,6 @@ function App() {
       element: <SimpleLayout />, // Alternative layout for package-related routes
       children: [
         {
-          path: "loading",
-          element: <Loading />,
-        },
-        {
           path: "packages", // running
           element: <Allpackages />,
           loader: allPackagesPageLoader,
@@ -83,6 +79,10 @@ function App() {
       path: "/admin",
       element: <AdminLayout />,
       children: [
+        {
+          path: "/admin/loading",
+          element: <FullScreenloading />,
+        },
         {
           path: "/admin",
           element: <AdminHome />,

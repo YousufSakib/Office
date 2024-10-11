@@ -4,7 +4,7 @@ import "./fullScreenloading.scss";
 function FullScreenloading() {
   return (
     <div className="loaderDiv">
-      <span class="loader"></span>;
+      <span className="loader"></span>;
     </div>
   );
 }
