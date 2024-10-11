@@ -80,16 +80,16 @@ function AdminUpdatePackage() {
         setName(response.data.name);
         setDescription(response.data.description);
 
-        let modifiedText = JSON.parse(response.data.attractions)
+        let modifiedText = JSON.parse(JSON.parse(response.data.attractions))
           .map((item) => `${item.attraction};`)
           .join("\n");
         setAttractions(modifiedText);
 
-        modifiedText = JSON.parse(response.data.tourHighLights)
+        modifiedText = JSON.parse(JSON.parse(response.data.tourHighLights))
           .map((item) => `${item.highlight} : ${item.description};`)
           .join("\n");
         setTourHighLights(modifiedText);
-        modifiedText = JSON.parse(response.data.pricePerPerson)
+        modifiedText = JSON.parse(JSON.parse(response.data.pricePerPerson))
           .map((item) => `${item.priceType} : ${item.priceTaka};`)
           .join("\n");
         setPricePerPerson(modifiedText);
@@ -103,11 +103,6 @@ function AdminUpdatePackage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!profileImg || images.length === 0) {
-      alert("Please select a feature image, some package location images.");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("profileImg", profileImg);
     images.forEach((img) => {
@@ -115,19 +110,28 @@ function AdminUpdatePackage() {
     });
 
     formData.append("createdBy", createdBy);
-    formData.append("destination", destination);
     formData.append("duration", duration);
-    formData.append("category", category);
     formData.append("name", name);
+    formData.append("destination", destination);
+    formData.append("category", category);
     formData.append("description", description);
 
-    formData.append("attractions", funcFormatAttractions(attractions));
-    formData.append("pricePerPerson", funcFormatPricePerPerson(pricePerPerson));
-    formData.append("tourHighLights", funcFormatTourHighLights(tourHighLights));
+    formData.append(
+      "attractions",
+      JSON.stringify(funcFormatAttractions(attractions)),
+    );
+    formData.append(
+      "pricePerPerson",
+      JSON.stringify(funcFormatPricePerPerson(pricePerPerson)),
+    );
+    formData.append(
+      "tourHighLights",
+      JSON.stringify(funcFormatTourHighLights(tourHighLights)),
+    );
 
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
     try {
       const response = await axios.put(
         `${BACKEND_URL}/api/v1/packages/${id}`,
@@ -303,7 +307,7 @@ const funcFormatPricePerPerson = (input) => {
       const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
       return {
         priceType: priceType,
-        priceTaka: parseInt(priceTaka, 10), // Convert price to number
+        priceTaka: parseInt(priceTaka, 10) || 0, // Convert price to number
         key: randomChar(10),
       };
     });

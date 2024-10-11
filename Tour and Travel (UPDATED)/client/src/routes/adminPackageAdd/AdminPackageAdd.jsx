@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./adminPackageAdd.scss";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
+import randomChar from "../../lib/randomChar";
+import { useNavigate } from "react-router-dom";
 
 function AdminPackageAdd() {
   const [profileImg, setProfileImg] = useState(null);
@@ -15,6 +17,8 @@ function AdminPackageAdd() {
   const [attractions, setAttractions] = useState("");
   const [tourHighLights, setTourHighLights] = useState("");
   const [pricePerPerson, setPricePerPerson] = useState("");
+
+  const navigate = useNavigate();
 
   const handlePricePerPersonChange = (event) => {
     setPricePerPerson(event.target.value);
@@ -57,11 +61,6 @@ function AdminPackageAdd() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!profileImg || images.length === 0) {
-      alert("Please select a feature image, some package location images.");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("profileImg", profileImg);
     images.forEach((img) => {
@@ -69,15 +68,25 @@ function AdminPackageAdd() {
     });
 
     formData.append("createdBy", createdBy);
-    formData.append("destination", destination);
     formData.append("duration", duration);
-    formData.append("category", category);
     formData.append("name", name);
+    formData.append("destination", destination);
+    formData.append("category", category);
     formData.append("description", description);
 
-    formData.append("attractions", funcFormatAttractions(attractions));
-    formData.append("pricePerPerson", funcFormatPricePerPerson(pricePerPerson));
-    formData.append("tourHighLights", funcFormatTourHighLights(tourHighLights));
+    formData.append(
+      "attractions",
+      JSON.stringify(funcFormatAttractions(attractions)),
+    );
+    formData.append(
+      "pricePerPerson",
+      JSON.stringify(funcFormatPricePerPerson(pricePerPerson)),
+    );
+    formData.append(
+      "tourHighLights",
+      JSON.stringify(funcFormatTourHighLights(tourHighLights)),
+    );
+
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
@@ -93,7 +102,8 @@ function AdminPackageAdd() {
         },
       );
       alert("Packages created successfully!");
-      console.log(response.data);
+      navigate(-1);
+      // console.log(response.data);
     } catch (error) {
       console.error("Error uploading files:", error);
       alert("Failed to create the package. Try again later.");
@@ -251,7 +261,7 @@ const funcFormatPricePerPerson = (input) => {
       const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
       return {
         priceType: priceType,
-        priceTaka: parseInt(priceTaka, 10), // Convert price to number
+        priceTaka: parseInt(priceTaka, 10) || 0, // Convert price to number
         key: randomChar(10),
       };
     });
@@ -307,8 +317,16 @@ const funcFormatTourHighLights = (input) => {
 //   ]
 // }
 
-//Tour Description Tour Description Tour Description
-//"Sixty Dome Mosque", "Sixty Dome Mosque2"
-// "UNESCO Heritages": "Visit two world heritages, Sundarbans and Sixty Dome Mosque";
-// "UNESCO Heritages 2": "Visit two world heritages, Sundarbans and Sixty Dome Mosque2"
-//"Starting Price" : "4500";
+/*
+
+Tour Attraction1; Tour Attraction2;
+Tour Attraction3;
+
+high1 : light1; 
+high2 : light2;
+high3 : light3;
+
+price1 : 43;
+price2: sdfk345;
+
+*/

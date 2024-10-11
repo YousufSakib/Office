@@ -11,14 +11,26 @@ export const packagePageLoader = async ({ request, params }) => {
 
   try {
     const packagePromise = await axios.get(url, { headers });
-    const packageData = parseJSONFields(packagePromise.data, [
-      "attractions",
-      "images",
-      "pricePerPerson",
-      "tourHighLights",
-    ]);
+
+    const images = JSON.parse(packagePromise.data.images);
+    const attractions = JSON.parse(JSON.parse(packagePromise.data.attractions));
+    const pricePerPerson = JSON.parse(
+      JSON.parse(packagePromise.data.pricePerPerson),
+    );
+    const tourHighLights = JSON.parse(
+      JSON.parse(packagePromise.data.tourHighLights),
+    );
+
+    const newObj = {
+      ...packagePromise.data,
+      images,
+      attractions,
+      pricePerPerson,
+      tourHighLights,
+    };
+
     return defer({
-      packageResponse: packageData, // Return the data
+      packageResponse: newObj, // Return the data
     });
   } catch (error) {
     console.error("Error fetching package data:", error);
@@ -63,10 +75,6 @@ export const allPackagesPageLoader = async () => {
       "pricePerPerson",
       "tourHighLights",
     ]);
-    // console.log("all package page loader: ");
-    // console.log(packageData[0]);
-    // console.log(typeof packageData);
-    // console.log(packageData);
 
     return defer({
       packageResponse: packageData, // Return the data

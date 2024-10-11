@@ -28,6 +28,7 @@ router.post(
 
       const imagePaths = req.files["images"].map((file) => ({
         src: path.basename(file.path),
+        key: Math.random().toString(36).substring(2, 12),
       }));
       const createdBy = req.body.createdBy;
       const destination = req.body.destination;
