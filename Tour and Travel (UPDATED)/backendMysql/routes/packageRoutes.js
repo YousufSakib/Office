@@ -3,7 +3,6 @@ const express = require("express");
 const Package = require("../models/packageModel");
 const router = express.Router();
 const multer = require("multer");
-// const deleteFile = require("../lib/deleteFile");
 const path = require("path");
 const { deletePackagePhotos } = require("../lib/deleteExistingPhotos");
 
@@ -171,23 +170,18 @@ router.put(
 );
 
 // Delete a package
-router.delete(
-  "/packages/:id",
-  deletePackagePhotos,
-
-  async (req, res) => {
-    try {
-      const result = await Package.destroy({
-        where: { id: req.params.id },
-      });
-      if (result === 0)
-        return res.status(404).json({ message: "Package not found" });
-      res.status(200).json({ message: "Package deleted successfully" });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  },
-);
+router.delete("/packages/:id", deletePackagePhotos, async (req, res) => {
+  try {
+    const result = await Package.destroy({
+      where: { id: req.params.id },
+    });
+    if (result === 0)
+      return res.status(404).json({ message: "Package not found" });
+    res.status(200).json({ message: "Package deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
 

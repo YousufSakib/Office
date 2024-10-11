@@ -1,0 +1,102 @@
+@import "../../responsive.scss";
+.basicSetup {
+  width: 100%;
+  .basicInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    padding: 0 5px 0 5px;
+    max-width: $maxWidth;
+    margin: auto;
+    box-sizing: border-box;
+    h2 {
+      padding: 0 0 5px 0px;
+      margin-top: 0;
+      width: 100%;
+      border-bottom: 2px solid white;
+    }
+    .row {
+      align-items: start;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+      input {
+        height: 30px;
+        width: 100%;
+        padding: 0 5px;
+        box-sizing: border-box;
+        font-size: 18px;
+        &:focus {
+          outline: none;
+        }
+      }
+      textarea {
+        height: 150px;
+        width: 100%;
+        padding: 0 5px;
+        box-sizing: border-box;
+        resize: vertical;
+        color: black;
+        font-size: 18px;
+        &:focus {
+          outline: none;
+        }
+      }
+      button {
+        padding: 5px 20px;
+        font-size: 20px;
+      }
+      &.full {
+        max-width: 300px;
+      }
+    }
+  }
+  .basicImgs {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    padding: 0 5px 0 5px;
+    max-width: $maxWidth;
+    margin: auto;
+    box-sizing: border-box;
+    .row {
+      align-items: start;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+      input {
+        height: 30px;
+        width: 100%;
+        padding: 0 5px;
+        box-sizing: border-box;
+        font-size: 18px;
+      }
+
+      &.full {
+        max-width: 300px;
+      }
+    }
+  }
+  button {
+    background-color: rgb(83, 182, 83);
+    padding: 5px 20px;
+    font-size: 20px;
+    &.edit {
+      background-color: rgb(204, 84, 84);
+    }
+  }
+  label {
+    font-size: 19px;
+  }
+  textarea:disabled,
+  input:disabled {
+    background-color: white;
+    color: black;
+    outline: none;
+    border: 1px solid rgb(71, 71, 71);
+  }
+}

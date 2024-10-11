@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 import "./adminLayout.scss";
+import Footer from "../../components/footer/Footer";
 
 function AdminLayout() {
   return (

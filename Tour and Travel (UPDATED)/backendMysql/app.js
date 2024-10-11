@@ -1,16 +1,18 @@
 // app.js
 require("dotenv").config();
-
+const bodyParser = require("body-parser");
 const express = require("express");
 const sequelize = require("./config/db");
 const packageRoutes = require("./routes/packageRoutes");
-const popularPackageRoute = require("./routes/popularPackageRoutes");
+const companyInfo = require("./routes/companyInfo");
+const imagesRoute = require("./routes/imagesRoute");
 const cors = require("cors");
 
 const app = express();
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 // Middleware to delay response by 0.5 seconds
 app.use((req, res, next) => {
@@ -22,7 +24,9 @@ app.use((req, res, next) => {
 
 // Use the package routes
 app.use("/api/v1/", packageRoutes);
-app.use("/api/v1/popularPackages", popularPackageRoute);
+app.use("/api/v1/", companyInfo);
+app.use("api/v1/", imagesRoute);
+
 // Sync Sequelize with MySQL
 sequelize
   .sync({ alter: true }) // 'alter' ensures the table is updated with new changes

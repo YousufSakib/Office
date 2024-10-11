@@ -4,6 +4,7 @@
   padding-bottom: 60px;
   width: 100%;
   h2 {
+    margin-top: 0;
     padding: 0 0 5px 0px;
     width: 100%;
     border-bottom: 2px solid white;
@@ -27,25 +28,7 @@
         height: 30px;
         width: 100%;
       }
-      // .row_row {
-      //   width: 100%;
-      //   display: flex;
-      //   align-items: center;
-      //   gap: 20px;
-      //   .row_row_div {
-      //     input {
-      //       width: 100%;
-      //     }
-      //     h5 {
-      //       margin-right: 30px;
-      //       margin: 10px 0;
-      //     }
-      //     width: 100%;
-      //   }
-      //   @include sm {
-      //     flex-direction: column;
-      //   }
-      // }
+
       textarea {
         height: 150px;
         width: 100%;
