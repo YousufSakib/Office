@@ -1,13 +1,12 @@
 const fs = require("fs");
+const path = require("path");
 
 const deleteFile = async (filePath) => {
-  console.log("requesed to delete the file : " + filePath);
-  fs.unlink(filePath, (err) => {
+  fs.unlink(`${path.dirname(path.dirname(__filename))}/${filePath}`, (err) => {
     if (err) {
-      return Promise.reject(`Error removing file: ${err}`);
+      console.log(`${err}`);
     }
-    console.log("successfully deleted");
-    return Promise.resolve(`File ${filePath} has been successfully removed.`);
+    return Promise.resolve();
   });
 };
 

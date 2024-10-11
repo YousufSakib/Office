@@ -87,10 +87,6 @@ function AdminPackageAdd() {
       JSON.stringify(funcFormatTourHighLights(tourHighLights)),
     );
 
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/packages`,

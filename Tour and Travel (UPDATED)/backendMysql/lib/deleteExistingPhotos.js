@@ -1,3 +1,6 @@
+const { deleteFile } = require("./deleteFile");
+const Package = require("../models/packageModel");
+
 const deletePackagePhotos = async (req, res, next) => {
   try {
     const oldpackage = await Package.findByPk(req.params.id);
@@ -7,11 +10,12 @@ const deletePackagePhotos = async (req, res, next) => {
     const images = JSON.parse(oldpackage.images);
     for (let i = 0; i < images.length; i++) {
       console.log(images[i].src);
-      await deleteFile(`../uploads/${images[i].src}`);
+      await deleteFile(`/uploads/${images[i].src}`);
     }
-    await deleteFile(`../uploads/${oldpackage.profileImg}`);
+    await deleteFile(`/uploads/${oldpackage.profileImg}`);
+    next();
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    console.log(err);
   }
 };
 

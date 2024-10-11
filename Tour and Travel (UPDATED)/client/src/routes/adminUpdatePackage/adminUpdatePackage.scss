@@ -1,7 +1,7 @@
 @import "../../responsive.scss";
 .adminPackageUpdate {
   // position: static;
-  background-color: red;
+  padding-bottom: 60px;
   width: 100%;
   h2 {
     padding: 0 0 5px 0px;
@@ -9,7 +9,6 @@
     border-bottom: 2px solid white;
   }
   form {
-    background-color: green;
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -28,25 +27,25 @@
         height: 30px;
         width: 100%;
       }
-      .row_row {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        .row_row_div {
-          input {
-            width: 100%;
-          }
-          h5 {
-            margin-right: 30px;
-            margin: 10px 0;
-          }
-          width: 100%;
-        }
-        @include sm {
-          flex-direction: column;
-        }
-      }
+      // .row_row {
+      //   width: 100%;
+      //   display: flex;
+      //   align-items: center;
+      //   gap: 20px;
+      //   .row_row_div {
+      //     input {
+      //       width: 100%;
+      //     }
+      //     h5 {
+      //       margin-right: 30px;
+      //       margin: 10px 0;
+      //     }
+      //     width: 100%;
+      //   }
+      //   @include sm {
+      //     flex-direction: column;
+      //   }
+      // }
       textarea {
         height: 150px;
         width: 100%;
@@ -57,13 +56,19 @@
           outline: none;
         }
       }
+    }
+    .updateCancel {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+
       button {
         padding: 5px 20px;
         font-size: 20px;
       }
-      &.full {
-        max-width: 300px;
-      }
+    }
+    &.full {
+      max-width: 300px;
     }
   }
   input,

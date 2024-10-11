@@ -126,10 +126,12 @@ router.put(
   upload.fields([{ name: "profileImg" }, { name: "images" }]),
   async (req, res) => {
     try {
+      console.log("here");
       const profileImgPath = path.basename(req.files["profileImg"][0].path);
 
       const imagePaths = req.files["images"].map((file) => ({
         src: path.basename(file.path),
+        key: Math.random().toString(36).substring(2, 12),
       }));
       const createdBy = req.body.createdBy;
       const destination = req.body.destination;
@@ -169,18 +171,23 @@ router.put(
 );
 
 // Delete a package
-router.delete("/packages/:id", async (req, res) => {
-  try {
-    const result = await Package.destroy({
-      where: { id: req.params.id },
-    });
-    if (result === 0)
-      return res.status(404).json({ message: "Package not found" });
-    res.status(200).json({ message: "Package deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.delete(
+  "/packages/:id",
+  deletePackagePhotos,
+
+  async (req, res) => {
+    try {
+      const result = await Package.destroy({
+        where: { id: req.params.id },
+      });
+      if (result === 0)
+        return res.status(404).json({ message: "Package not found" });
+      res.status(200).json({ message: "Package deleted successfully" });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+);
 
 module.exports = router;
 

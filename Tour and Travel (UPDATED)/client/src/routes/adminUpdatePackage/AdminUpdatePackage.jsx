@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./adminUpdatePackage.scss";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 import ComponentLoader from "../../components/componentLoader/ComponentLoader";
 import randomChar from "../../lib/randomChar";
@@ -24,6 +24,8 @@ function AdminUpdatePackage() {
   const [attractions, setAttractions] = useState("");
   const [tourHighLights, setTourHighLights] = useState("");
   const [pricePerPerson, setPricePerPerson] = useState("");
+
+  const navigate = useNavigate();
 
   const handlePricePerPersonChange = (event) => {
     setPricePerPerson(event.target.value);
@@ -143,6 +145,7 @@ function AdminUpdatePackage() {
         },
       );
       alert("The packageackage updated successfully!");
+      navigate(-1);
     } catch (error) {
       console.error("Error packageackage", error);
       alert("Failed to update");
@@ -273,9 +276,14 @@ function AdminUpdatePackage() {
                 value={pricePerPerson}
               />
             </div>
-            <button type="submit" className="button">
-              Save
-            </button>
+            <div className="updateCancel">
+              <button type="submit" className="button">
+                Save
+              </button>
+              <button className="button" onClick={() => navigate(-1)}>
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       )}
