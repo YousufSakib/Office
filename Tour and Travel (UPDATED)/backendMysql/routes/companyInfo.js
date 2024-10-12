@@ -29,7 +29,6 @@ router.get("/companyInfo/:id", async (req, res) => {
 router.put("/companyInfo/:id", async (req, res) => {
   try {
     const company = await Company.findByPk(req.params.id);
-    console.log("hi 5");
     if (company) {
       await company.update(req.body);
       res.status(200).json(company);

@@ -1,7 +1,11 @@
 import React from "react";
 import "./footer.scss";
+import { usedata } from "../DataContext";
 
 function Footer() {
+  const { companyName, facebookLink, instagramLink, tweeterLink } = usedata();
+  console.log("from Footer");
+  console.log(companyName);
   return (
     <div className="footer">
       <div className="up">
@@ -38,16 +42,16 @@ function Footer() {
               40107.
             </p>
             <div className="socialLinks">
-              <a href="#">
+              <a href={facebookLink}>
                 <img src="face.png" alt="" />
               </a>
-              <a href="#">
+              <a href={instagramLink}>
                 <img src="insta.png" alt="" />
               </a>
               <a href="#">
                 <img src="link.png" alt="" />
               </a>
-              <a href="#">
+              <a href={tweeterLink}>
                 <img src="twitter.png" alt="" />
               </a>
             </div>
@@ -55,8 +59,10 @@ function Footer() {
         </div>
       </div>
       <p className="copyright">
-        Copyright © {new Date().getFullYear} Travel & Tourism | Powered by
-        Travel & Tourism
+        {`
+         Copyright © 2024 Travel & Tourism | Powered by
+         ${companyName}
+         `}
       </p>
     </div>
   );

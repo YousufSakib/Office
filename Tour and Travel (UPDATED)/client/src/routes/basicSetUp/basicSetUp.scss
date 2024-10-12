@@ -53,34 +53,7 @@
       }
     }
   }
-  .basicImgs {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    width: 100%;
-    padding: 0 5px 0 5px;
-    max-width: $maxWidth;
-    margin: auto;
-    box-sizing: border-box;
-    .row {
-      align-items: start;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 12px;
-      input {
-        height: 30px;
-        width: 100%;
-        padding: 0 5px;
-        box-sizing: border-box;
-        font-size: 18px;
-      }
 
-      &.full {
-        max-width: 300px;
-      }
-    }
-  }
   button {
     background-color: rgb(83, 182, 83);
     padding: 5px 20px;

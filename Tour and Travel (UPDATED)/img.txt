@@ -1,0 +1,36 @@
+Homehero img size = 1900 x 690
+
+
+basic images
+
+    packageHeroImg
+    aboutHeroImg
+    homeHeroImg
+    logo
+
+basic Information
+
+    companyName
+    companyEmail
+    companyPhoneNo
+    receptionOffice
+    receptionHours
+    latitude
+    longitude
+    facebookLink
+    instagramLink
+    tweeterLink
+    aboutUs
+
+
+contact form
+
+name: "sakib"
+phoneNo: "01782884480"
+email: "ysakib29603@gmail.com"
+message: "Hi, Call me."
+date: "2024-10-25T00:00:00.000Z"
+destination: "Chittagong"
+tourDuration: 4
+travellerNo: 3
+id: 1

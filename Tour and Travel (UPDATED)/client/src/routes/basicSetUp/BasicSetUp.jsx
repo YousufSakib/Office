@@ -6,7 +6,6 @@ import FullScreenloading from "../../components/fullScreenloading/FullScreenload
 
 function BasicSetUp() {
   const [isInfoDisabled, setIsInfoDisabled] = useState(true);
-  const [isImgDisabled, setIsImgDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   // const [companyName, setCompanyName] = useState(null);
   // const [companyEmail, setCompanyEmail] = useState(null);
@@ -39,39 +38,6 @@ function BasicSetUp() {
     homeHeroImg: null,
     logo: null,
   });
-  const handleImageChange = (event) => {
-    const { name, files } = event.target;
-    setImages((prevState) => ({
-      ...prevState,
-      [name]: files[0], // Only store the first file (in case multiple were uploaded)
-    }));
-  };
-  const handleImgSubmit = async (event) => {
-    const formData = new FormData();
-    formData.append("packageHeroImg", images.packageHeroImg);
-    formData.append("aboutHeroImg", images.aboutHeroImg);
-    formData.append("homeHeroImg", images.homeHeroImg);
-    formData.append("logo", images.logo);
-
-    const url = `${BACKEND_URL}/api/site-images`;
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        alert("Images updated successfully!");
-        console.log("Result:", result);
-      } else {
-        alert("Error uploading/updating images.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -81,9 +47,6 @@ function BasicSetUp() {
     }));
   };
 
-  const handleEditImg = (event) => {
-    setIsImgDisabled(false);
-  };
   const handleBasicInfoEdit = (event) => {
     setIsInfoDisabled(false);
   };
@@ -290,73 +253,6 @@ function BasicSetUp() {
               <button
                 disabled={isInfoDisabled}
                 onClick={handleBasicInfoSubmit}
-                className="button"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-          <div className="basicImgs">
-            <h2>Images</h2>
-            <div className="row">
-              <label htmlFor="logo">Logo</label>
-              <input
-                type="file"
-                accept="image/*"
-                id="logo"
-                disabled={isImgDisabled}
-                onChange={handleImageChange}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="homeHeroImg">Home page hero Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                id="homeHeroImg"
-                disabled={isImgDisabled}
-                onChange={handleImageChange}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="aboutHeroImg">About us page hero Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                id="aboutHeroImg"
-                disabled={isImgDisabled}
-                onChange={handleImageChange}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="packageHeroImg">Package page hero Image </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="packageHeroImg"
-                disabled={isImgDisabled}
-                onChange={handleImageChange}
-              />
-            </div>
-            <div
-              className="row"
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-              }}
-            >
-              <button
-                disabled={!isImgDisabled}
-                onClick={handleEditImg}
-                className="button edit"
-              >
-                Edit
-              </button>
-
-              <button
-                disabled={isImgDisabled}
-                onClick={handleImgSubmit}
                 className="button"
               >
                 Save

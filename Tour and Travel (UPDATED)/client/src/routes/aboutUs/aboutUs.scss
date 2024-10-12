@@ -1,0 +1,13 @@
+@import "../../responsive.scss";
+.aboutContainer {
+  width: 100%;
+  max-width: $maxWidth;
+
+  margin: auto;
+  margin: 100px auto;
+  p {
+    font-size: 20px;
+    background-color: rgba(140, 160, 160, 0.459);
+    line-height: 40px;
+  }
+}

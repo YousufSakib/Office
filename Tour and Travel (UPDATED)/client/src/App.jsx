@@ -23,6 +23,8 @@ import AdminAllPackage from "./routes/adminAllPackage/AdminAllPackage";
 import FullScreenloading from "./components/fullScreenloading/FullScreenloading";
 import AdminUpdatePackage from "./routes/adminUpdatePackage/AdminUpdatePackage";
 import BasicSetUp from "./routes/basicSetUp/BasicSetUp";
+import BasicImgSetup from "./routes/basicImgSetup/basicImgSetup";
+import AboutUs from "./routes/aboutUs/AboutUs";
 function App() {
   const router = createBrowserRouter([
     {
@@ -74,6 +76,10 @@ function App() {
           path: "contact-us",
           element: <ContactUs />,
         },
+        {
+          path: "about-us",
+          element: <AboutUs />
+        }
       ],
     },
     {
@@ -103,6 +109,10 @@ function App() {
         {
           path: "/admin/basic-set-up",
           element: <BasicSetUp />,
+        },
+        {
+          path: "/admin/basic-images",
+          element: <BasicImgSetup />,
         },
       ],
     },

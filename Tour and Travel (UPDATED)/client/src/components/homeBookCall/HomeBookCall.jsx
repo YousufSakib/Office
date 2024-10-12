@@ -1,7 +1,10 @@
 import React from "react";
 import "./homeBookCall.scss";
+import { usedata } from "../DataContext";
 
 function HomeBookCall() {
+  const { companyPhoneNo } = usedata();
+
   return (
     <div className="HomeBookCall">
       <div className="container">
@@ -19,7 +22,7 @@ function HomeBookCall() {
           <p>Book Your Stay Now</p>
           <div className="call">
             <img src="telephone.png" alt="" />
-            <p>+1-123 456 7890</p>
+            <p>{`${companyPhoneNo}`}</p>
           </div>
         </div>
       </div>

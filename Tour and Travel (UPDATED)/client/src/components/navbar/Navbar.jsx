@@ -4,22 +4,31 @@ import "./navbar.scss";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Search from "../search/Search";
+import { useImages } from "../ImageContext";
+import { BACKEND_URL } from "../../../dynamicInfo";
 
 function Navbar({ heroSrc, logoSrc }) {
   const [burgermenu, setBurgermenu] = useState(false);
   const handleBurgerMenu = (e) => {
     setBurgermenu((prev) => !prev);
   };
+  const { logo, homeHeroImg } = useImages();
+  console.log("from nav");
+  console.log(logo, homeHeroImg);
   return (
     <>
       <div className="heroBanner">
-        <img src="hero-banner.jpg" className="heroBannerImg" alt="" />
+        <img
+          src={`${BACKEND_URL}/uploads/${homeHeroImg}`}
+          className="heroBannerImg"
+          alt=""
+        />
       </div>
       <nav>
         <div className="logoAndMenues">
           <div className="navIcon">
             <a href="#">
-              <img src="logo.png" alt="" />
+              <img src={`${BACKEND_URL}/uploads/${logo}`} alt="" />
             </a>
           </div>
           <div className={burgermenu ? "menues open" : "menues"}>

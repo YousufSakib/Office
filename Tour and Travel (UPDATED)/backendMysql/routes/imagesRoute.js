@@ -1,31 +1,48 @@
 const express = require("express");
 const router = express.Router();
 const Image = require("../models/image");
-
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
-// Storage settings for Multer
+// const uploadsDir = path.join(, "uploads");
+
+// if (!fs.existsSync(uploadsDir)) {
+//   fs.mkdirSync(uploadsDir);
+// }
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Save images to the uploads folder
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(
       null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname),
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
     );
   },
 });
 
-const upload = multer({ storage });
+const fileFilter = (req, file, cb) => {
+  const filetypes = /jpeg|jpg|png|gif/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
 
-// sequelize.sync();
+  if (mimetype && extname) {
+    return cb(null, true);
+  }
+  cb(new Error("Only images are allowed"));
+};
 
-// POST route to handle image uploads
+const upload = multer({ storage, fileFilter });
+
 router.post(
   "/site-images",
+  (req, res, next) => {
+    console.log("Upload requested files:", req.files);
+    next();
+  },
   upload.fields([
     { name: "packageHeroImg", maxCount: 1 },
     { name: "aboutHeroImg", maxCount: 1 },
@@ -36,15 +53,17 @@ router.post(
     try {
       const newImageEntry = await Image.create({
         packageHeroImg: req.files["packageHeroImg"]
-          ? req.files["packageHeroImg"][0].path
+          ? path.basename(req.files["packageHeroImg"][0].path)
           : null,
         aboutHeroImg: req.files["aboutHeroImg"]
-          ? req.files["aboutHeroImg"][0].path
+          ? path.basename(req.files["aboutHeroImg"][0].path)
           : null,
         homeHeroImg: req.files["homeHeroImg"]
-          ? req.files["homeHeroImg"][0].path
+          ? path.basename(req.files["homeHeroImg"][0].path)
           : null,
-        logo: req.files["logo"] ? req.files["logo"][0].path : null,
+        logo: req.files["logo"]
+          ? path.basename(req.files["logo"][0].path)
+          : null,
       });
 
       res.status(201).json(newImageEntry);
@@ -52,12 +71,12 @@ router.post(
       console.error("Error uploading images:", error);
       res.status(500).json({ error: "Failed to upload images." });
     }
-  },
+  }
 );
 
 // PUT route to update existing image entries
 router.put(
-  "/site-images",
+  "/site-images/:id",
   upload.fields([
     { name: "packageHeroImg", maxCount: 1 },
     { name: "aboutHeroImg", maxCount: 1 },
@@ -66,21 +85,27 @@ router.put(
   ]),
   async (req, res) => {
     try {
-      // Assuming there's only one record in the database (for simplicity)
-      const imageEntry = await Image.findOne();
+      const imageEntry = await Image.findByPk(req.params.id);
 
       if (imageEntry) {
         await imageEntry.update({
-          packageHeroImg: req.files["packageHeroImg"]
-            ? req.files["packageHeroImg"][0].path
-            : imageEntry.packageHeroImg,
-          aboutHeroImg: req.files["aboutHeroImg"]
-            ? req.files["aboutHeroImg"][0].path
-            : imageEntry.aboutHeroImg,
-          homeHeroImg: req.files["homeHeroImg"]
-            ? req.files["homeHeroImg"][0].path
-            : imageEntry.homeHeroImg,
-          logo: req.files["logo"] ? req.files["logo"][0].path : imageEntry.logo,
+          packageHeroImg:
+            req.files["packageHeroImg"] &&
+            req.files["packageHeroImg"].length > 0
+              ? path.basename(req.files["packageHeroImg"][0].path)
+              : imageEntry.packageHeroImg,
+          aboutHeroImg:
+            req.files["aboutHeroImg"] && req.files["aboutHeroImg"].length > 0
+              ? path.basename(req.files["aboutHeroImg"][0].path)
+              : imageEntry.aboutHeroImg,
+          homeHeroImg:
+            req.files["homeHeroImg"] && req.files["homeHeroImg"].length > 0
+              ? path.basename(req.files["homeHeroImg"][0].path)
+              : imageEntry.homeHeroImg,
+          logo:
+            req.files["logo"] && req.files["logo"].length > 0
+              ? path.basename(req.files["logo"][0].path)
+              : imageEntry.logo,
         });
 
         res.status(200).json({ message: "Images updated successfully" });
@@ -91,13 +116,12 @@ router.put(
       console.error("Error updating images:", error);
       res.status(500).json({ error: "Failed to update images." });
     }
-  },
+  }
 );
-
 // GET route to fetch existing images
-router.get("/site-images", async (req, res) => {
+router.get("/site-images/:id", async (req, res) => {
   try {
-    const imageEntry = await Image.findOne();
+    const imageEntry = await Image.findByPk(req.params.id);
     res.status(200).json(imageEntry);
   } catch (error) {
     console.error("Error fetching images:", error);
@@ -105,4 +129,4 @@ router.get("/site-images", async (req, res) => {
   }
 });
 
-module.exports = { router };
+module.exports = router;

@@ -4,8 +4,9 @@
   margin-top: 30px;
   margin-bottom: 20px;
   width: 100%;
-  color: $grayTextColor;
+  color: white;
   justify-content: center;
+  background-color: black;
   .up {
     display: flex;
     justify-content: center;
@@ -18,7 +19,7 @@
       align-items: start;
 
       a {
-        color: $grayTextColor;
+        color: white;
         margin-bottom: 3px;
       }
       p {

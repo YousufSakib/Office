@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./contactUsForm.scss";
 import { Form } from "react-router-dom";
+import { usedata } from "../DataContext";
+import axios from "axios";
+import { BACKEND_URL } from "../../../dynamicInfo";
+
 function ContactUsForm() {
+  const {
+    tweeterLink,
+    companyPhoneNo,
+    receptionOffice,
+    receptionHours,
+    facebookLink,
+    instagramLink,
+    companyEmail,
+  } = usedata();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phoneNo: "",
+    email: "",
+    tourDuration: "",
+    travellerNo: "",
+    date: "",
+    destination: "",
+    message: "",
+  });
+
   const destination = [
     "Sylhet",
     "Chittagong",
@@ -11,40 +36,75 @@ function ContactUsForm() {
     "Jaflong",
   ];
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/contacts`,
+        formData
+      );
+      alert("Response submitted successfully!");
+      console.log("frome contact page");
+      console.log(response);
+
+      setFormData({
+        name: "",
+        phoneNo: "",
+        email: "",
+        tourDuration: "",
+        travellerNo: "",
+        date: "",
+        destination: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting response:", error);
+      alert("Failed to submit response. Please try again.");
+    }
+  };
+
   return (
     <div id="contactus" className="contactUs">
       <div className="infos">
         <div className="info">
           <h4>Reception Office</h4>
-          <p>2855 Nelsonville Rd, Boston, Massachusetts (MA), 40107</p>
+          <p>{receptionOffice}</p>
         </div>
         <div className="info">
           <h4>Reception Hours</h4>
-          <p>7:30 AM - 11:00 PM</p>
+          <p>{receptionHours}</p>
         </div>
         <div className="info">
           <h4>Contact</h4>
-          <p>+1-123 456 7890</p>
-          <p>contact@info.com</p>
+          <p>{companyPhoneNo}</p>
+          <p>{companyEmail}</p>
         </div>
         <div className="info">
           <div className="socialLinks">
-            <a href="#">
+            <a href={facebookLink}>
               <img src="face.png" alt="" />
             </a>
-            <a href="#">
+            <a href={instagramLink}>
               <img src="insta.png" alt="" />
             </a>
             <a href="#">
               <img src="link.png" alt="" />
             </a>
-            <a href="#">
+            <a href={tweeterLink}>
               <img src="twitter.png" alt="" />
             </a>
           </div>
         </div>
       </div>
-      <Form className="form">
+      <Form className="form" onSubmit={handleSubmit}>
         <div className="rows">
           <div className="row">
             <label htmlFor="name">
@@ -56,6 +116,22 @@ function ContactUsForm() {
               type="text"
               placeholder="Name"
               required
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="row">
+            <label htmlFor="phoneNo">
+              Phone No<span> *</span>
+            </label>
+            <input
+              id="phoneNo"
+              name="phoneNo"
+              type="text"
+              placeholder="Phone No"
+              required
+              value={formData.phoneNo}
+              onChange={handleChange}
             />
           </div>
           <div className="row">
@@ -65,9 +141,11 @@ function ContactUsForm() {
             <input
               id="email"
               name="email"
-              type="text"
+              type="email"
               placeholder="Email"
               required
+              value={formData.email}
+              onChange={handleChange}
             />
           </div>
           <div className="row">
@@ -82,6 +160,8 @@ function ContactUsForm() {
               min="1"
               max="200"
               required
+              value={formData.tourDuration}
+              onChange={handleChange}
             />
           </div>
           <div className="row">
@@ -96,11 +176,13 @@ function ContactUsForm() {
               min="1"
               max="200"
               required
+              value={formData.travellerNo}
+              onChange={handleChange}
             />
           </div>
           <div className="row">
             <label htmlFor="date">
-              Number of Travellers<span> *</span>
+              Date<span> *</span>
             </label>
             <input
               id="date"
@@ -109,15 +191,24 @@ function ContactUsForm() {
               min="2024-01-01"
               max="2050-12-31"
               required
+              value={formData.date}
+              onChange={handleChange}
             />
           </div>
           <div className="row">
             <label htmlFor="destination">Choose a destination</label>
-
-            <select name="destination" id="destination">
+            <select
+              name="destination"
+              id="destination"
+              value={formData.destination}
+              onChange={handleChange}
+              required
+            >
               <option value="">--Please choose an option--</option>
               {destination.map((i) => (
-                <option value={i}>{i}</option>
+                <option key={i} value={i}>
+                  {i}
+                </option>
               ))}
             </select>
           </div>
@@ -125,7 +216,13 @@ function ContactUsForm() {
             <label htmlFor="message">
               Message<span> *</span>
             </label>
-            <textarea id="message" name="message" required />
+            <textarea
+              id="message"
+              name="message"
+              required
+              value={formData.message}
+              onChange={handleChange}
+            />
           </div>
           <div className="row">
             <button className="button">Submit</button>

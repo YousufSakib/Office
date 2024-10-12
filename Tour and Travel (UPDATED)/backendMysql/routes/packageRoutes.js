@@ -4,7 +4,6 @@ const Package = require("../models/packageModel");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const { deletePackagePhotos } = require("../lib/deleteExistingPhotos");
 
 // Configure multer
 const storage = multer.diskStorage({
@@ -24,10 +23,11 @@ router.post(
   async (req, res) => {
     try {
       const profileImgPath = path.basename(req.files["profileImg"][0].path);
-
+      // const imagePaths = req.files["images"].map((file) =>
+      // path.basename(file.path)
+      // );
       const imagePaths = req.files["images"].map((file) => ({
         src: path.basename(file.path),
-        key: Math.random().toString(36).substring(2, 12),
       }));
       const createdBy = req.body.createdBy;
       const destination = req.body.destination;
@@ -35,16 +35,27 @@ router.post(
       const category = req.body.category;
       const name = req.body.name;
       const description = req.body.description;
-      const tourHighLights = req.body.tourHighLights;
-      const pricePerPerson = req.body.pricePerPerson;
-      const attractions = req.body.attractions;
+      const tourHighLights = funcStringToArrTourHighlight(
+        req.body.tourHighLights
+      );
+      const pricePerPerson = funcStringToArr(req.body.pricePerPerson);
+
+      const input = req.body.attractions;
+      const attractionsArray = input
+        .replace(/"/g, "") // Remove double quotes
+        .split(";") // Split by commas
+        .map((attraction) => attraction.trim()); // Trim whitespace
+
+      const attractions = attractionsArray.map((attraction) => ({
+        attraction,
+      }));
 
       const doc = {
         profileImg: profileImgPath,
         images: imagePaths,
         createdBy: createdBy,
         destination: destination,
-        duration: duration,
+        duration: Number(duration),
         category: category,
         name: name,
         description: description,
@@ -53,14 +64,29 @@ router.post(
         pricePerPerson: pricePerPerson,
       };
 
+      doc.images.forEach((element) => {
+        element.key = Math.random().toString(16).slice(2);
+      });
+      doc.attractions.forEach((element) => {
+        element.key = Math.random().toString(16).slice(2);
+      });
+      doc.tourHighLights.forEach((element) => {
+        element.key = Math.random().toString(16).slice(2);
+      });
+      doc.pricePerPerson.forEach((element) => {
+        element.key = Math.random().toString(16).slice(2);
+      });
+
+      console.log("creation object");
+      console.log(doc);
+
       const newPackage = await Package.create(doc);
       res.status(201).json(newPackage);
-      console.log(newPackage);
     } catch (err) {
       console.log(err);
       res.status(400).json({ message: err.message });
     }
-  },
+  }
 );
 // {
 //   "createdBy": "Yousuf",
@@ -95,6 +121,29 @@ router.post(
 //   ]
 // }
 
+// router.post("/packages", async (req, res) => {
+//   req.body.images.forEach((element) => {
+//     element.key = Math.random().toString(16).slice(2);
+//   });
+//   req.body.attractions.forEach((element) => {
+//     element.key = Math.random().toString(16).slice(2);
+//   });
+//   req.body.tourHighLights.forEach((element) => {
+//     element.key = Math.random().toString(16).slice(2);
+//   });
+//   req.body.pricePerPerson.forEach((element) => {
+//     element.key = Math.random().toString(16).slice(2);
+//   });
+//   console.log(req.body);
+
+//   try {
+//     const newPackage = await Package.create(req.body);
+//     res.status(201).json(newPackage);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// });
+
 // Get all packages
 router.get("/packages", async (req, res) => {
   try {
@@ -119,58 +168,22 @@ router.get("/packages/:id", async (req, res) => {
 });
 
 // Update a package
-router.put(
-  "/packages/:id",
-  deletePackagePhotos,
-  upload.fields([{ name: "profileImg" }, { name: "images" }]),
-  async (req, res) => {
-    try {
-      console.log("here");
-      const profileImgPath = path.basename(req.files["profileImg"][0].path);
-
-      const imagePaths = req.files["images"].map((file) => ({
-        src: path.basename(file.path),
-        key: Math.random().toString(36).substring(2, 12),
-      }));
-      const createdBy = req.body.createdBy;
-      const destination = req.body.destination;
-      const duration = req.body.duration;
-      const category = req.body.category;
-      const name = req.body.name;
-      const description = req.body.description;
-      const tourHighLights = req.body.tourHighLights;
-      const pricePerPerson = req.body.pricePerPerson;
-      const attractions = req.body.attractions;
-
-      const doc = {
-        profileImg: profileImgPath,
-        images: imagePaths,
-        createdBy: createdBy,
-        destination: destination,
-        duration: duration,
-        category: category,
-        name: name,
-        description: description,
-        attractions: attractions,
-        tourHighLights: tourHighLights,
-        pricePerPerson: pricePerPerson,
-      };
-
-      const updatedPackage = await Package.update(doc, {
-        where: { id: req.params.id },
-        returning: true,
-      });
-      if (updatedPackage[0] === 0)
-        return res.status(404).json({ message: "Package not found" });
-      res.status(200).json(updatedPackage[1][0]);
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
-  },
-);
+router.put("/packages/:id", async (req, res) => {
+  try {
+    const updatedPackage = await Package.update(req.body, {
+      where: { id: req.params.id },
+      returning: true,
+    });
+    if (updatedPackage[0] === 0)
+      return res.status(404).json({ message: "Package not found" });
+    res.status(200).json(updatedPackage[1][0]);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
 // Delete a package
-router.delete("/packages/:id", deletePackagePhotos, async (req, res) => {
+router.delete("/packages/:id", async (req, res) => {
   try {
     const result = await Package.destroy({
       where: { id: req.params.id },
@@ -193,7 +206,7 @@ function funcStringToArr(input) {
         .split(":")
         .map((part) => part.trim().replace(/"/g, ""));
       return [key, parseInt(value)]; // Convert value to integer
-    }),
+    })
   );
 
   // Step 2: Convert the object into the desired output format
@@ -201,12 +214,14 @@ function funcStringToArr(input) {
     ([priceType, priceTaka]) => ({
       priceType,
       priceTaka,
-    }),
+    })
   );
 
   return pricePerPerson;
 }
-function funcStringToArr_TourHighlight(input) {
+function funcStringToArrTourHighlight() {
+  const input = `"UNESCO Heritages" : "Visit two world heritages Sundarbans, sudar"`;
+
   // Step 1: Parse the input string into key-value pairs
   const inputObject = Object.fromEntries(
     input.split(";").map((item) => {
@@ -214,7 +229,7 @@ function funcStringToArr_TourHighlight(input) {
         .split(":")
         .map((part) => part.trim().replace(/"/g, ""));
       return [key, value]; // Convert value to integer
-    }),
+    })
   );
 
   // Step 2: Convert the object into the desired output format
