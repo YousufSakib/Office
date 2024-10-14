@@ -1,0 +1,27 @@
+User: studentv_igltour
+Database: studentv_tour
+
+
+
+DB_HOST=localhost
+DB_USER=studentv_igltour
+DB_PASSWORD=studentv_igltour
+DB_NAME=studentv_tour
+
+https://test.studentvisabd.com
+http://localhost:3000
+https://test.igltour.com/
+
+
+dhaka3
+Cox_Bazar3
+sylhet3
+Srimangal3
+Bandarban3
+Chittagong Hill Tracts3
+Khulna3
+Sonargaon3
+Sundarbans3
+Rangamati3
+Paharpur3
+

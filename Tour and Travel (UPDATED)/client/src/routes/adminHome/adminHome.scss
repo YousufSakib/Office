@@ -5,18 +5,18 @@
   max-width: $maxWidth;
   margin: 0px auto;
   //   background-color: rgba(64, 64, 97, 0.479);
-  padding: 10px;
+  // padding: 10px;
   box-sizing: border-box;
   h1 {
     color: white;
     margin-top: 0;
   }
   .UserContacted {
-    background-color: rgba(124, 91, 91, 0.247);
+    background-color: #0d6efd;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
     margin-bottom: 40px;
     .row {
@@ -26,7 +26,7 @@
         color: white;
         font-size: 18px;
         &:first-child {
-          min-width: 150px;
+          min-width: 180px;
           border-right: 1px solid white;
           box-sizing: border-box;
         }

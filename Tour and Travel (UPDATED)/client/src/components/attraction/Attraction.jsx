@@ -35,7 +35,7 @@ function Attraction() {
           </div>
         </Link>
 
-        <Link>
+        <Link to="/places-to-visit">
           <div className="item">
             <img src="pf/Places-to-visit.png" alt="" />
             <div className="text">

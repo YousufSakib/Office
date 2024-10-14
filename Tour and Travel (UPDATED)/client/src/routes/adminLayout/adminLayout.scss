@@ -7,7 +7,7 @@
     height: 100vh;
     top: 0;
     width: 15%;
-    background-color: rgb(66, 101, 197);
+    background-color: #af1763;
     border-right: 2px solid white;
     box-sizing: border-box;
     @include md {
@@ -20,13 +20,14 @@
   .content {
     position: relative;
     padding-top: 20px;
+    padding-bottom: 50px;
     left: 15%;
     width: 85%;
     max-width: 85%;
     box-sizing: border-box;
     top: 0;
     min-height: 100vh;
-    background-color: rgb(116, 197, 218);
+    background-color: #191c24;
     @include md {
       left: 20%;
       max-width: 80%;

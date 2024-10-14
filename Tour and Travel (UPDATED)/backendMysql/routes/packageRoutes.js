@@ -35,20 +35,9 @@ router.post(
       const category = req.body.category;
       const name = req.body.name;
       const description = req.body.description;
-      const tourHighLights = funcStringToArrTourHighlight(
-        req.body.tourHighLights
-      );
-      const pricePerPerson = funcStringToArr(req.body.pricePerPerson);
-
-      const input = req.body.attractions;
-      const attractionsArray = input
-        .replace(/"/g, "") // Remove double quotes
-        .split(";") // Split by commas
-        .map((attraction) => attraction.trim()); // Trim whitespace
-
-      const attractions = attractionsArray.map((attraction) => ({
-        attraction,
-      }));
+      const tourHighLights = req.body.tourHighLights;
+      const pricePerPerson = req.body.pricePerPerson;
+      const attractions = req.body.attractions;
 
       const doc = {
         profileImg: profileImgPath,
@@ -67,15 +56,7 @@ router.post(
       doc.images.forEach((element) => {
         element.key = Math.random().toString(16).slice(2);
       });
-      doc.attractions.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
-      doc.tourHighLights.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
-      doc.pricePerPerson.forEach((element) => {
-        element.key = Math.random().toString(16).slice(2);
-      });
+
 
       console.log("creation object");
       console.log(doc);
@@ -198,45 +179,45 @@ router.delete("/packages/:id", async (req, res) => {
 
 module.exports = router;
 
-function funcStringToArr(input) {
-  // Step 1: Parse the input string into key-value pairs
-  const inputObject = Object.fromEntries(
-    input.split(";").map((item) => {
-      const [key, value] = item
-        .split(":")
-        .map((part) => part.trim().replace(/"/g, ""));
-      return [key, parseInt(value)]; // Convert value to integer
-    })
-  );
+// function funcStringToArr(input) {
+//   // Step 1: Parse the input string into key-value pairs
+//   const inputObject = Object.fromEntries(
+//     input.split(";").map((item) => {
+//       const [key, value] = item
+//         .split(":")
+//         .map((part) => part.trim().replace(/"/g, ""));
+//       return [key, parseInt(value)]; // Convert value to integer
+//     })
+//   );
 
-  // Step 2: Convert the object into the desired output format
-  const pricePerPerson = Object.entries(inputObject).map(
-    ([priceType, priceTaka]) => ({
-      priceType,
-      priceTaka,
-    })
-  );
+//   // Step 2: Convert the object into the desired output format
+//   const pricePerPerson = Object.entries(inputObject).map(
+//     ([priceType, priceTaka]) => ({
+//       priceType,
+//       priceTaka,
+//     })
+//   );
 
-  return pricePerPerson;
-}
-function funcStringToArrTourHighlight() {
-  const input = `"UNESCO Heritages" : "Visit two world heritages Sundarbans, sudar"`;
+//   return pricePerPerson;
+// }
+// function funcStringToArrTourHighlight() {
+//   const input = `"UNESCO Heritages" : "Visit two world heritages Sundarbans, sudar"`;
 
-  // Step 1: Parse the input string into key-value pairs
-  const inputObject = Object.fromEntries(
-    input.split(";").map((item) => {
-      const [key, value] = item
-        .split(":")
-        .map((part) => part.trim().replace(/"/g, ""));
-      return [key, value]; // Convert value to integer
-    })
-  );
+//   // Step 1: Parse the input string into key-value pairs
+//   const inputObject = Object.fromEntries(
+//     input.split(";").map((item) => {
+//       const [key, value] = item
+//         .split(":")
+//         .map((part) => part.trim().replace(/"/g, ""));
+//       return [key, value]; // Convert value to integer
+//     })
+//   );
 
-  // Step 2: Convert the object into the desired output format
-  const obj = Object.entries(inputObject).map(([highlight, description]) => ({
-    highlight,
-    description,
-  }));
+//   // Step 2: Convert the object into the desired output format
+//   const obj = Object.entries(inputObject).map(([highlight, description]) => ({
+//     highlight,
+//     description,
+//   }));
 
-  return obj;
-}
+//   return obj;
+// }

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./contactUsForm.scss";
 import { Form } from "react-router-dom";
 import { usedata } from "../DataContext";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
+import slowScrollToTop from "../../lib/slowScrolltoTop";
 
 function ContactUsForm() {
   const {
@@ -28,14 +29,26 @@ function ContactUsForm() {
   });
 
   const destination = [
-    "Sylhet",
-    "Chittagong",
     "Rajshahi",
-    "Jamalpur",
     "Bandarban",
     "Jaflong",
+    "dhaka",
+    "Cox's Bazar",
+    "Sylhet",
+    "Srimangal",
+    "Bandarban",
+    "Chittagong Hill Tracts",
+    "Khulna",
+    "Sonargaon",
+    "Sundarbans",
+    "Rangamati",
+    "Paharpur",
   ];
-
+  useEffect(() => {
+    const targetElement = document.getElementById("contactus");
+    slowScrollToTop(targetElement, 70, 1000);
+    // targetElement.scrollIntoView({ behavior: "smooth" });
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({

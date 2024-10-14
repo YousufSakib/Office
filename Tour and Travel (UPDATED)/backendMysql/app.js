@@ -16,12 +16,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Middleware to delay response by 0.5 seconds
-app.use((req, res, next) => {
-  setTimeout(() => {
-    console.log("passed");
-    next(); // Call next() after 500ms
-  }, 1000); // Delay of 0.5 seconds (500 milliseconds)
-});
+// app.use((req, res, next) => {
+//   setTimeout(() => {
+//     console.log("passed");
+//     next(); // Call next() after 500ms
+//   }, 1000); // Delay of 0.5 seconds (500 milliseconds)
+// });
 app.use((req, res, next) => {
   console.log(req.url);
   console.log(req.method);
@@ -40,6 +40,7 @@ sequelize
     app.listen(3000, () =>
       console.log("Server running on http://localhost:3000")
     );
+    // app.listen();
   })
   .catch((err) => {
     console.error("Error syncing database:", err);

@@ -9,9 +9,9 @@ function BlocksOfOfferes({ obj }) {
   // console.log(obj);
   // console.log(typeof obj);
   return (
-    <div className="card">
+    <div className="card" id="blockOfOffers">
       {console.log(obj)}
-      <h2>{obj.title}</h2>
+      <h2 style={{ color: "black" }}>{obj.title}</h2>
       <div className="blockOfOffers">
         {obj.items.map((i) => (
           <Link to={"/packages/" + i.id}>

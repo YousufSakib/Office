@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./meetBangladesh.scss";
 import SingleClickableImg from "../../components/singleImg/SingleClickableImg";
+import slowScrollToTop from "../../lib/slowScrolltoTop";
 
 function MeetBangladesh() {
+  useEffect(() => {
+    const targetElement = document.getElementById("meetBangladesh");
+    slowScrollToTop(targetElement, 110, 1000);
+    // targetElement.scrollIntoView({ behavior: "smooth" });
+  }, []);
   return (
-    <div className="meetBangladesh">
+    <div className="meetBangladesh" id="meetBangladesh">
       <h1>Meet Bangladesh</h1>
       <p>
         Bangladesh is a South-Asia greenest bijou- a land plaited with rivers &

@@ -7,7 +7,6 @@ import AmenitiesPage from "./routes/amenitiesPage/AmenitiesPage";
 import ContactUs from "./routes/contactUs/ContactUs";
 import Room from "./routes/room/Room";
 import MeetBangladesh from "./routes/meetBangadesh/MeetBangladesh";
-import PlacesToVisit from "./routes/placesToVisit/PlacesToVisit";
 import Package from "./routes/package/Package";
 import BookTour from "./routes/bookTour/BookTour";
 import {
@@ -25,6 +24,7 @@ import AdminUpdatePackage from "./routes/adminUpdatePackage/AdminUpdatePackage";
 import BasicSetUp from "./routes/basicSetUp/BasicSetUp";
 import BasicImgSetup from "./routes/basicImgSetup/basicImgSetup";
 import AboutUs from "./routes/aboutUs/AboutUs";
+import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
 function App() {
   const router = createBrowserRouter([
     {
@@ -42,7 +42,7 @@ function App() {
         },
         {
           path: "/places-to-visit",
-          element: <PlacesToVisit />,
+          element: <Places_to_visit />,
         },
         {
           path: "/book-tour",
@@ -78,8 +78,8 @@ function App() {
         },
         {
           path: "about-us",
-          element: <AboutUs />
-        }
+          element: <AboutUs />,
+        },
       ],
     },
     {

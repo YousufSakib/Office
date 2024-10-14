@@ -38,7 +38,7 @@ function HomePage() {
 //   useEffect(() => {
 //     // Simulate a data fetch
 //     axios
-//       .get("http://localhost:3000/api/v1/packages")
+//       .get(`${BACKEND_URL}/api/v1/packages`)
 //       .then((response) => {
 //         setPackageResponse(response.data);
 //         setLoading(false); // Set loading to false when data is fetched

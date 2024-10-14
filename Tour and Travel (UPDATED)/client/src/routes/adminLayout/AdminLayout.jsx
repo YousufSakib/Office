@@ -9,11 +9,11 @@ function AdminLayout() {
   return (
     <>
       {/* <Navbar /> */}
-      <div className="show-responsive">
+      {/* <div className="show-responsive">
         <div className="md">Mid</div>
         <div className="lg">large</div>
         <div className="sm">small</div>
-      </div>
+      </div> */}
       <div className="adminLayout">
         <div className="sideBar">
           <Sidebar />
@@ -21,6 +21,7 @@ function AdminLayout() {
         <div className="content">
           <Outlet />
         </div>
+        <Footer />
       </div>
     </>
   );

@@ -8,6 +8,7 @@
     width: 100%;
     font-size: 35px;
     margin: 0 0 50px 0;
+    color: white;
   }
   .blockOfOffers {
     width: 100%;
@@ -16,7 +17,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 50px;
-    color: black;
+    color: white;
     .item {
       display: flex;
       flex-direction: column;

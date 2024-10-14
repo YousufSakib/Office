@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./adminPackageAdd.scss";
 import axios from "axios";
+import randomChar from "../../lib/randomChar";
+import { BACKEND_URL } from "../../../dynamicInfo";
 
 function AdminPackageAdd() {
   const [profileImg, setProfileImg] = useState(null);
@@ -73,17 +75,28 @@ function AdminPackageAdd() {
     formData.append("category", category);
     formData.append("name", name);
     formData.append("description", description);
-    formData.append("attractions", attractions);
-    formData.append("tourHighLights", tourHighLights);
-    formData.append("pricePerPerson", pricePerPerson);
+    formData.append(
+      "attractions",
+      JSON.stringify(funcFormatAttractions(attractions))
+    );
+    formData.append(
+      "pricePerPerson",
+      JSON.stringify(funcFormatPricePerPerson(pricePerPerson))
+    );
+    formData.append(
+      "tourHighLights",
+      JSON.stringify(funcFormatTourHighLights(tourHighLights))
+    );
 
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}:`, value);
-    // }
-
+    console.log("from Admin package add page");
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+      console.log(typeof value);
+    }
+    console.log("adminpackage sakib");
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/packages",
+        `${BACKEND_URL}/api/v1/packages`,
         formData,
         {
           headers: {
@@ -217,7 +230,7 @@ function AdminPackageAdd() {
             value={pricePerPerson}
           />
         </div>
-        <button type="submit" className="button">
+        <button type="submit" className="adminpaneladdButton">
           Save
         </button>
       </form>
@@ -226,40 +239,63 @@ function AdminPackageAdd() {
 }
 
 export default AdminPackageAdd;
-// {
-//   "createdBy": "Yousuf",
-//   "destination": "sylhet",
-//   "duration": 9,
-//   "category": "Hill view",
-//   "name": "sylhet-jaflong",
-//   "profileImg": "/pf/The-Sundarbans-350x230.gif",
-//   "description": "Discover the enchanting Sundarbans and the historic mosque city of Bagerhat on a Bangladesh tour—2 UNESCO World Heritage Sites. Navigate waterways through lush mangrove forests, encountering Bengal tigers and diverse wildlife. Immerse in local culture, visit villages and witness the harmonious coexistence of nature and communities. A unique adventure awaits in this ecological wonderland. The Sundarbans mangrove forest is one of the most extensive single such forests in the world (140,000 ha). It lies on the delta of the Bay’s Ganges, Brahmaputra, and Meghna rivers of Bengal. It is adjacent to the border of India’s Sundarbans World Heritage Site inscribed in 1987. The site is intersected by a complex network of tidal waterways, mudflats, and small islands of salt-tolerant mangroves. It presents an excellent example of ongoing ecological processes. The area is known for its wide range of fauna, including 260 bird species, the man-eating Bengal tiger, and other threatened species such as the estuarine crocodile and the Indian python. Bagerhat, hosts the magnificent Sixty Dome Mosque, a UNESCO World Heritage Site. Built in the 15th century, it’s impressive architecture and intricate terracotta decorations reflect the region’s rich history.",
-//   "images": [
-//     {"src" : "/pf/Crocodile-of-Sundarban-768x576.jpg"},
-//     {"src": "/pf/Jamtola-Sea-Beach-Sundarban-768x576.jpg"},
-//     {"src": "/pf/Fishermen-Village-Sundarban-300x225.jpg"}
-//   ],
-//   "attractions": [
-//     {"attraction": "Sixty Dome Mosque"},
-//     {"attraction": "Shrine of Khan Jahan Ali"},
-//     {"attraction": "Harbaria Eco-Tourism Center"}
-//   ],
-//   "tourHighLights":  [
-//       {
-//           "highlight": "UNESCO Heritages",
-//           "description": "Visit two world heritages, Sundarbans and Sixty Dome Mosque in a single trip."
-//       }
-//   ],
-//   "pricePerPerson": [
-//       {
-//           "priceType": "Starting Price",
-//           "priceTaka": 4500
-//       }
-//   ]
-// }
+const funcFormatAttractions = (input) => {
+  const output = input
+    .trim()
+    .split("\n")
+    .map((line) => {
+      const attraction = line.replace(";", "").trim();
+      return {
+        attraction,
+        key: randomChar(10),
+      };
+    });
+  return output;
+};
 
-//Tour Description Tour Description Tour Description
-//"Sixty Dome Mosque", "Sixty Dome Mosque2"
-// "UNESCO Heritages": "Visit two world heritages, Sundarbans and Sixty Dome Mosque";
-// "UNESCO Heritages 2": "Visit two world heritages, Sundarbans and Sixty Dome Mosque2"
-//"Starting Price" : "4500";
+const funcFormatPricePerPerson = (input) => {
+  const output = input
+    .split(";") // Split by semicolon to get each entry
+    .filter((line) => line.trim()) // Filter out any empty lines
+    .map((line) => {
+      const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
+      return {
+        priceType: priceType,
+        priceTaka: parseInt(priceTaka, 10) || 0, // Convert price to number
+        key: randomChar(10),
+      };
+    });
+  return output;
+};
+
+const funcFormatTourHighLights = (input) => {
+  const output = input
+    .split(";") // Split by semicolon to get each entry
+    .filter((line) => line.trim()) // Filter out any empty lines
+    .map((line) => {
+      const [highlight, description] = line
+        .split(":")
+        .map((part) => part.trim());
+      return {
+        highlight: highlight,
+        description: description,
+        key: randomChar(10),
+      };
+    });
+  return output;
+};
+
+/*
+Trek to Nilgiri Hill for panoramic views;
+Boat ride on the Sangu River;
+Visit to Buddha Dhatu Jadi (Golden Temple);
+*/
+
+/*
+Tribes : Interaction with indigenous tribes;
+Campfire: Campfire evenings with local stories;
+*/
+
+/*
+Price Per Person: $220
+*/

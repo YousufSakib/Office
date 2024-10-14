@@ -6,6 +6,7 @@
     margin-top: 0;
     width: 100%;
     border-bottom: 2px solid white;
+    color: white;
   }
   form {
     display: flex;
@@ -30,19 +31,22 @@
         height: 150px;
         width: 100%;
         resize: vertical;
-        color: black;
 
         &:focus {
           outline: none;
         }
       }
-      button {
-        padding: 5px 20px;
-        font-size: 20px;
-      }
       &.full {
         max-width: 300px;
       }
+    }
+    .adminpaneladdButton {
+      padding: 15px 20px;
+      font-size: 20px;
+      background-color: white;
+      max-width: 150px;
+      cursor: pointer;
+      font-weight: bold;
     }
   }
   input,
@@ -50,15 +54,23 @@
     font-size: 18px;
     padding: 0 5px;
     box-sizing: border-box;
+    background-color: #191c24;
+    color: white;
     &:focus {
       outline: none;
     }
+  }
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    border: 1px solid white;
   }
   textarea {
     padding: 5px;
   }
   label {
     font-size: 18px;
+    color: white;
   }
   h5 {
     font-size: 20px;

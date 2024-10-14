@@ -7,6 +7,7 @@
     margin-top: 0;
     padding: 0 0 5px 0px;
     width: 100%;
+    color: white;
     border-bottom: 2px solid white;
   }
   form {
@@ -33,11 +34,34 @@
         height: 150px;
         width: 100%;
         resize: vertical;
-        color: black;
+        color: white;
 
         &:focus {
           outline: none;
         }
+      }
+      input,
+      textarea {
+        font-size: 18px;
+        padding: 0 5px;
+        box-sizing: border-box;
+        background-color: #191c24;
+        color: white;
+        &:focus {
+          outline: none;
+        }
+      }
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        border: 1px solid white;
+      }
+      textarea {
+        padding: 5px;
+      }
+      label {
+        font-size: 18px;
+        color: white;
       }
     }
     .updateCancel {
