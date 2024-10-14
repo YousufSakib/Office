@@ -3,6 +3,7 @@ import "./adminPackageAdd.scss";
 import axios from "axios";
 import randomChar from "../../lib/randomChar";
 import { BACKEND_URL } from "../../../dynamicInfo";
+import { useNavigate } from "react-router-dom";
 
 function AdminPackageAdd() {
   const [profileImg, setProfileImg] = useState(null);
@@ -16,6 +17,7 @@ function AdminPackageAdd() {
   const [attractions, setAttractions] = useState("");
   const [tourHighLights, setTourHighLights] = useState("");
   const [pricePerPerson, setPricePerPerson] = useState("");
+  const navigate = useNavigate();
 
   const handlePricePerPersonChange = (event) => {
     setPricePerPerson(event.target.value);
@@ -77,15 +79,15 @@ function AdminPackageAdd() {
     formData.append("description", description);
     formData.append(
       "attractions",
-      JSON.stringify(funcFormatAttractions(attractions))
+      JSON.stringify(funcFormatAttractions(attractions)),
     );
     formData.append(
       "pricePerPerson",
-      JSON.stringify(funcFormatPricePerPerson(pricePerPerson))
+      JSON.stringify(funcFormatPricePerPerson(pricePerPerson)),
     );
     formData.append(
       "tourHighLights",
-      JSON.stringify(funcFormatTourHighLights(tourHighLights))
+      JSON.stringify(funcFormatTourHighLights(tourHighLights)),
     );
 
     console.log("from Admin package add page");
@@ -102,12 +104,13 @@ function AdminPackageAdd() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
-      alert("Files uploaded successfully!");
+      alert("Package created successfully!");
+      navigate(-1);
     } catch (error) {
-      console.error("Error uploading files:", error);
-      alert("Failed to upload files.");
+      console.error("Error creating packages:", error);
+      alert("Failed to creating package.");
     }
   };
 

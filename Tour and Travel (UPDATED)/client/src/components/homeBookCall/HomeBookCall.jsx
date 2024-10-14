@@ -12,7 +12,7 @@ function HomeBookCall() {
       </div>
       <div className="innerText">
         <div className="up">
-          <h2>Plan an Unforgettable Experience in Mykonos Today!</h2>
+          <h2>Plan an Unforgettable Experience in Bangladesh Today!</h2>
           <p>
             We can help you fit your stay and experience within your allotted
             budget.

@@ -29,7 +29,12 @@
     align-items: center;
     .up {
       h2 {
+        background-color: rgb(41, 136, 199);
+        padding: 6px;
         text-align: center;
+        span {
+          color: yellow;
+        }
       }
       p {
         font-size: small;

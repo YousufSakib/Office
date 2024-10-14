@@ -7,6 +7,10 @@ function PackageTable({ packageResponse }) {
       <div style={{ overflowX: "auto" }}>
         <table>
           <tr>
+            <td>Categories</td>
+            <td>{packageResponse.category}</td>
+          </tr>
+          <tr>
             <td>Duration : </td>
             <td> {" " + packageResponse?.duration} Days</td>
           </tr>
@@ -18,7 +22,6 @@ function PackageTable({ packageResponse }) {
             <td>Attractions :</td>
             <td>
               <ul>
-                <td> {" " + packageResponse?.destination}</td>
                 {packageResponse?.attractions.map((i) => (
                   <li key={i.key}>{i.attraction}</li>
                 ))}
@@ -27,22 +30,20 @@ function PackageTable({ packageResponse }) {
           </tr>
         </table>
       </div>
-
       <table style={{ overflowX: "auto", marginTop: "40px" }}>
         <tr>
           <th colspan="2">Tour Highlighs</th>
         </tr>
         {packageResponse.tourHighLights.map((i) => (
           <tr key={i.key}>
-            <td>O</td>
+            <td>*</td>
             <td>
-              <span>{i.highlight + " "}</span>
+              {/* <span>{i.highlight + " "}</span> */}
               {i.description}
             </td>
           </tr>
         ))}
       </table>
-
       <table style={{ overflowX: "auto", marginTop: "40px" }}>
         <tr>
           <th colSpan="2">Price for the tour (Per Person)</th>

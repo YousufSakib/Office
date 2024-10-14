@@ -62,7 +62,7 @@ function ContactUsForm() {
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/contacts`,
-        formData
+        formData,
       );
       alert("Response submitted successfully!");
       console.log("frome contact page");

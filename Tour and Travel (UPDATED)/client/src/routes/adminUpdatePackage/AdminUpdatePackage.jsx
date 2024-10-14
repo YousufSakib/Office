@@ -107,6 +107,8 @@ function AdminUpdatePackage() {
 
     const formData = new FormData();
     formData.append("profileImg", profileImg);
+    console.log("from to update package");
+    console.log(typeof images);
     images.forEach((img) => {
       formData.append("images", img);
     });
@@ -130,10 +132,9 @@ function AdminUpdatePackage() {
       "tourHighLights",
       JSON.stringify(funcFormatTourHighLights(tourHighLights)),
     );
-
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}:`, value);
-    // }
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
     try {
       const response = await axios.put(
         `${BACKEND_URL}/api/v1/packages/${id}`,

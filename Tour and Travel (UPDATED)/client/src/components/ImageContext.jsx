@@ -10,7 +10,7 @@ export const ImageProvider = ({ children }) => {
 
   const fetchImages = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/v1/site-images/10`);
+      const response = await axios.get(`${BACKEND_URL}/api/v1/site-images/8`);
       setImages(response.data); // Adjust based on your response structure
       console.log("from image context");
       console.log(response.data);

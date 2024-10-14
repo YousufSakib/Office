@@ -20,8 +20,8 @@ function AdminLayout() {
         </div>
         <div className="content">
           <Outlet />
+          <Footer />
         </div>
-        <Footer />
       </div>
     </>
   );

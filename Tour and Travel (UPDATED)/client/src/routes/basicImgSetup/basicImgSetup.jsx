@@ -9,10 +9,14 @@ function BasicImgSetup() {
   const [isImgDisabled, setIsImgDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState({
+    logo: null,
+    homeHeroImg: null,
     packageHeroImg: null,
     aboutHeroImg: null,
-    homeHeroImg: null,
-    logo: null,
+    placesToVistHeroImg: null,
+    meetBangladeshHeroImg: null,
+    aboutUsHeroImg: null,
+    contactUsHeroImg: null,
   });
 
   const handleImageChange = (event) => {
@@ -35,18 +39,17 @@ function BasicImgSetup() {
     formData.append("aboutHeroImg", images.aboutHeroImg);
     formData.append("homeHeroImg", images.homeHeroImg);
     formData.append("logo", images.logo);
+    formData.append("placesToVistHeroImg", images.placesToVistHeroImg);
+    formData.append("meetBangladeshHeroImg", images.meetBangladeshHeroImg);
+    formData.append("contactUsHeroImg", images.contactUsHeroImg);
 
     // Log the FormData entries
+    console.log("from Basic img setup page: images");
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }
 
-    if (!images.packageHeroImg) console.log("Package Hero Img is null");
-    if (!images.aboutHeroImg) console.log("About Hero Img is null");
-    if (!images.homeHeroImg) console.log("Home Hero Img is null");
-    if (!images.logo) console.log("Logo is null");
-
-    const url = `${BACKEND_URL}/api/v1/site-images/10`;
+    const url = `${BACKEND_URL}/api/v1/site-images/8`;
 
     try {
       console.log("Sending request to:", url);
@@ -55,7 +58,8 @@ function BasicImgSetup() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Response:", response.data);
+
+      console.log("From Basic imgSet", response.data);
       alert("Images uploaded successfully!");
       setIsImgDisabled(true);
     } catch (error) {
@@ -79,7 +83,7 @@ function BasicImgSetup() {
             type="file"
             accept="image/*"
             id="logo"
-            name="logo" // Use name instead of id
+            name="logo"
             disabled={isImgDisabled}
             onChange={handleImageChange}
           />
@@ -113,6 +117,43 @@ function BasicImgSetup() {
             accept="image/*"
             id="packageHeroImg"
             name="packageHeroImg"
+            disabled={isImgDisabled}
+            onChange={handleImageChange}
+          />
+        </div>
+        <div className="row">
+          <label htmlFor="placesToVistHeroImg">
+            Places to visit page hero Image{" "}
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            id="placesToVistHeroImg"
+            name="placesToVistHeroImg"
+            disabled={isImgDisabled}
+            onChange={handleImageChange}
+          />
+        </div>
+        <div className="row">
+          <label htmlFor="meetBangladeshHeroImg">
+            Meet Bangladesh page hero Image{" "}
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            id="meetBangladeshHeroImg"
+            name="meetBangladeshHeroImg"
+            disabled={isImgDisabled}
+            onChange={handleImageChange}
+          />
+        </div>
+        <div className="row">
+          <label htmlFor="contactUsHeroImg">Contact Us page hero Image </label>
+          <input
+            type="file"
+            accept="image/*"
+            id="contactUsHeroImg"
+            name="contactUsHeroImg"
             disabled={isImgDisabled}
             onChange={handleImageChange}
           />
