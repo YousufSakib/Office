@@ -52,6 +52,7 @@ function AdminPackageAdd() {
   };
 
   const handleImagesChange = (event) => {
+    console.log("from handleImageschange");
     console.log(event.target.files);
     console.log(typeof event.target.files);
     setImages(Array.from(event.target.files));
@@ -79,15 +80,15 @@ function AdminPackageAdd() {
     formData.append("description", description);
     formData.append(
       "attractions",
-      JSON.stringify(funcFormatAttractions(attractions)),
+      JSON.stringify(funcFormatAttractions(attractions))
     );
     formData.append(
       "pricePerPerson",
-      JSON.stringify(funcFormatPricePerPerson(pricePerPerson)),
+      JSON.stringify(funcFormatPricePerPerson(pricePerPerson))
     );
     formData.append(
       "tourHighLights",
-      JSON.stringify(funcFormatTourHighLights(tourHighLights)),
+      JSON.stringify(funcFormatTourHighLights(tourHighLights))
     );
 
     console.log("from Admin package add page");
@@ -104,7 +105,7 @@ function AdminPackageAdd() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       alert("Package created successfully!");
       navigate(-1);

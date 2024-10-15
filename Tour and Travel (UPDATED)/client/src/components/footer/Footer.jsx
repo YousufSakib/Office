@@ -11,10 +11,10 @@ function Footer() {
       <div className="up">
         <div className="left">
           <div className="card">
-            <h3>Travel & Tourism</h3>
+            <h3>IGL Tourism</h3>
             <p>
-              Gravida maecenas mi iaculis non, posuere mattis urna, ac risus sit
-              porta nunc nibh dictum proin leo dolor sed bibendum mi.
+              Welcome to IGL Tour, your premier travel partner in Bangladesh! We
+              are dedicated to showcasing the beauty, culture, and rich heritage
             </p>
           </div>
           <div className="card links">
@@ -38,8 +38,8 @@ function Footer() {
           <div className="card">
             <h3>Contact</h3>
             <p>
-              Travel & Tourism, 2855 Nelsonville Rd, Boston, Massachusetts (MA),
-              40107.
+              House # 33A(4th Floor), Road # 4, Dhanmondi, Dhaka-1205,
+              Bangladesh
             </p>
             <div className="socialLinks">
               <a href={facebookLink}>

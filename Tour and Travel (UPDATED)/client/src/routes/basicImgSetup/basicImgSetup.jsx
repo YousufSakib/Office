@@ -49,7 +49,7 @@ function BasicImgSetup() {
       console.log(key, value);
     }
 
-    const url = `${BACKEND_URL}/api/v1/site-images/8`;
+    const url = `${BACKEND_URL}/api/v1/site-images/11`;
 
     try {
       console.log("Sending request to:", url);
@@ -74,6 +74,7 @@ function BasicImgSetup() {
   };
 
   return (
+
     <div className="ImgInfoWrapper">
       <div className="basicImgs">
         <h2>Images</h2>

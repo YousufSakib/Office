@@ -74,7 +74,7 @@ function Navbar() {
             well-planned Bangladesh Itinerary
           </p>
           <Link to="/book-tour">
-            <button>Book Your Tour Now</button>
+            <button className="button">Book Your Tour Now</button>
           </Link>
         </div>
 

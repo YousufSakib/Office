@@ -5,7 +5,7 @@ import "./map.scss";
 import "leaflet/dist/leaflet.css";
 import Footer from "../footer/Footer";
 function Map() {
-  const position = [23.8041, 90.4152];
+  const position = [23.740824, 90.378509];
 
   return (
     <MapContainer
@@ -21,6 +21,7 @@ function Map() {
       <Marker position={position}>
         <Popup className="mapPopUp">
           <img src="office.jpg" alt="" />
+          <p>IGL GROUP</p>
         </Popup>
       </Marker>
     </MapContainer>
