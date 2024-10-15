@@ -62,6 +62,7 @@ function AdminUpdatePackage() {
   const handleImagesChange = (event) => {
     // console.log(event.target.files);
     // console.log(typeof event.target.files);
+    console.log("called handle images");
     setImages(Array.from(event.target.files));
   };
 
@@ -73,8 +74,8 @@ function AdminUpdatePackage() {
         console.log(response.data);
         setData(response.data);
         setLoading(false);
-        setProfileImg(response.data.profileImg);
-        setImages(response.data.images);
+        // setProfileImg(response.data.profileImg);
+        // setImages(response.data.images);
         setCreatedBy(response.data.createdBy);
         setDestination(response.data.destination);
         setDuration(response.data.duration);
@@ -106,10 +107,13 @@ function AdminUpdatePackage() {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("profileImg", profileImg);
+    if (profileImg) formData.append("profileImg", profileImg);
     console.log("from to update package");
     console.log(typeof images);
-    images.forEach((img) => {
+    console.log(images);
+    console.log(typeof profileImg);
+    console.log(profileImg);
+    images?.forEach((img) => {
       formData.append("images", img);
     });
 
@@ -132,6 +136,7 @@ function AdminUpdatePackage() {
       "tourHighLights",
       JSON.stringify(funcFormatTourHighLights(tourHighLights)),
     );
+    console.log("from admim package update");
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
@@ -167,7 +172,6 @@ function AdminUpdatePackage() {
                 id="profileImg"
                 accept="image/*"
                 onChange={handleProfileImgChange}
-                required
               />
             </div>
             <div className="row full">
@@ -180,7 +184,6 @@ function AdminUpdatePackage() {
                 accept="image/*"
                 multiple
                 onChange={handleImagesChange}
-                required
               />
             </div>
 
