@@ -37,8 +37,8 @@ sequelize
   .sync({ alter: true }) // 'alter' ensures the table is updated with new changes
   .then(() => {
     console.log("Database synced");
-    app.listen(3000, () =>
-      console.log("Server running on http://localhost:3000")
+    app.listen(3001, () =>
+      console.log("Server running on http://localhost:3001"),
     );
     // app.listen();
   })

@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(
       null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname),
     );
   },
 });
@@ -48,6 +48,9 @@ router.post(
     { name: "aboutHeroImg", maxCount: 1 },
     { name: "homeHeroImg", maxCount: 1 },
     { name: "logo", maxCount: 1 },
+    { name: "placesToVistHeroImg", maxCount: 1 },
+    { name: "meetBangladeshHeroImg", maxCount: 1 },
+    { name: "contactUsHeroImg", maxCount: 1 },
   ]),
   async (req, res) => {
     try {
@@ -64,6 +67,15 @@ router.post(
         logo: req.files["logo"]
           ? path.basename(req.files["logo"][0].path)
           : null,
+        placesToVistHeroImg: req.files["placesToVistHeroImg"]
+          ? path.basename(req.files["placesToVistHeroImg"][0].path)
+          : null,
+        meetBangladeshHeroImg: req.files["meetBangladeshHeroImg"]
+          ? path.basename(req.files["meetBangladeshHeroImg"][0].path)
+          : null,
+        contactUsHeroImg: req.files["contactUsHeroImg"]
+          ? path.basename(req.files["contactUsHeroImg"][0].path)
+          : null,
       });
 
       res.status(201).json(newImageEntry);
@@ -71,7 +83,7 @@ router.post(
       console.error("Error uploading images:", error);
       res.status(500).json({ error: "Failed to upload images." });
     }
-  }
+  },
 );
 
 // PUT route to update existing image entries
@@ -82,6 +94,9 @@ router.put(
     { name: "aboutHeroImg", maxCount: 1 },
     { name: "homeHeroImg", maxCount: 1 },
     { name: "logo", maxCount: 1 },
+    { name: "placesToVistHeroImg", maxCount: 1 },
+    { name: "meetBangladeshHeroImg", maxCount: 1 },
+    { name: "contactUsHeroImg", maxCount: 1 },
   ]),
   async (req, res) => {
     try {
@@ -102,10 +117,25 @@ router.put(
             req.files["homeHeroImg"] && req.files["homeHeroImg"].length > 0
               ? path.basename(req.files["homeHeroImg"][0].path)
               : imageEntry.homeHeroImg,
+          placesToVistHeroImg:
+            req.files["placesToVistHeroImg"] &&
+            req.files["placesToVistHeroImg"].length > 0
+              ? path.basename(req.files["placesToVistHeroImg"][0].path)
+              : imageEntry.placesToVistHeroImg,
           logo:
             req.files["logo"] && req.files["logo"].length > 0
               ? path.basename(req.files["logo"][0].path)
               : imageEntry.logo,
+          meetBangladeshHeroImg:
+            req.files["meetBangladeshHeroImg"] &&
+            req.files["meetBangladeshHeroImg"].length > 0
+              ? path.basename(req.files["meetBangladeshHeroImg"][0].path)
+              : imageEntry.meetBangladeshHeroImg,
+          contactUsHeroImg:
+            req.files["contactUsHeroImg"] &&
+            req.files["contactUsHeroImg"].length > 0
+              ? path.basename(req.files["contactUsHeroImg"][0].path)
+              : imageEntry.contactUsHeroImg,
         });
 
         res.status(200).json({ message: "Images updated successfully" });
@@ -116,7 +146,7 @@ router.put(
       console.error("Error updating images:", error);
       res.status(500).json({ error: "Failed to update images." });
     }
-  }
+  },
 );
 // GET route to fetch existing images
 router.get("/site-images/:id", async (req, res) => {

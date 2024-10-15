@@ -20,6 +20,18 @@ const Image = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    placesToVistHeroImg: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    meetBangladeshHeroImg: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    contactUsHeroImg: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     tableName: "images",
