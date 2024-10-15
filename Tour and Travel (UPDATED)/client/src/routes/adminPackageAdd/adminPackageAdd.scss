@@ -23,6 +23,41 @@
       display: flex;
       width: 100%;
       gap: 12px;
+      .showSelectedImages {
+        background-color: rgba(58, 64, 65, 0.473);
+        padding: 10px;
+        border-radius: 10px;
+
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        align-items: center;
+        justify-content: start;
+        gap: 10px;
+        div.image {
+          max-width: 200px;
+          max-height: 200px;
+          position: relative;
+          img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            background-color: white;
+          }
+          span {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            padding: 6px;
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: rgba(222, 224, 224, 0.733);
+            &:hover {
+              background-color: rgba(222, 224, 224, 0.575);
+            }
+          }
+        }
+      }
       input {
         height: 30px;
         width: 100%;

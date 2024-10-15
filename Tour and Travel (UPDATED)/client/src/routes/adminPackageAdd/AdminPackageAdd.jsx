@@ -52,11 +52,16 @@ function AdminPackageAdd() {
   };
 
   const handleImagesChange = (event) => {
-    console.log("from handleImageschange");
-    console.log(event.target.files);
-    console.log(typeof event.target.files);
-    setImages(Array.from(event.target.files));
+    const fileSelected = Array.from(event.target.files);
+    setImages((prev) => [...prev, ...fileSelected]);
   };
+  console.log("all images selected");
+  console.log(images);
+  console.log("images is is array now");
+  console.log(Array.isArray(images));
+
+  const handleFileRemove = (removeFile) =>
+    setImages(images.filter((file) => file !== removeFile));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -139,6 +144,26 @@ function AdminPackageAdd() {
             onChange={handleImagesChange}
             required
           />
+        </div>
+        <div className="row">
+          <div className="showSelectedImages">
+            {Array.isArray(images) &&
+              images?.map((file) => (
+                <div className="image">
+                  <img src={URL.createObjectURL(file)} alt={file.name} />
+                  <span onClick={() => handleFileRemove(file)}>X</span>
+                </div>
+              ))}
+          </div>
+          {images.length < 2 ||
+            (images.length > 4 && (
+              <p style={{ color: "red", padding: "10px", margin: "0" }}>
+                You must select between 2 to 4 images
+              </p>
+            ))}
+          <p
+            style={{ color: "yellow", padding: "10px", margin: "0" }}
+          >{` ${images.length} images has selected`}</p>
         </div>
 
         <div className="row">
