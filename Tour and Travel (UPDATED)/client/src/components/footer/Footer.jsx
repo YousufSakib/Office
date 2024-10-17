@@ -1,9 +1,9 @@
 import React from "react";
 import "./footer.scss";
-import { usedata } from "../DataContext";
+import { useInfo } from "../CompanyInfoContext";
 
 function Footer() {
-  const { companyName, facebookLink, instagramLink, tweeterLink } = usedata();
+  const { companyName, facebookLink, instagramLink, tweeterLink } = useInfo();
   console.log("from Footer");
   console.log(companyName);
   return (

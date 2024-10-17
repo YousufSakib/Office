@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../../dynamicInfo";
 
 const ImageContext = createContext();
 
-export const ImageProvider = ({ children }) => {
+const ImageProvider = ({ children }) => {
   const [images, setImages] = useState({});
 
   const fetchImages = async () => {
@@ -30,6 +30,8 @@ export const ImageProvider = ({ children }) => {
   );
 };
 
-export const useImages = () => {
+const useImages = () => {
   return useContext(ImageContext);
 };
+
+export {useImages, ImageProvider};

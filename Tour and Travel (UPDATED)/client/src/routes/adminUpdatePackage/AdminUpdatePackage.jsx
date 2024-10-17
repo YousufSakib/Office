@@ -9,152 +9,160 @@ import randomChar from "../../lib/randomChar";
 
 function AdminUpdatePackage() {
   const { id } = useParams();
-
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
-
-  const [profileImg, setProfileImg] = useState(null);
-  const [images, setImages] = useState([]);
-  const [createdBy, setCreatedBy] = useState("");
-  const [destination, setDestination] = useState("");
-  const [duration, setDuration] = useState("");
-  const [category, setCategory] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [attractions, setAttractions] = useState("");
-  const [tourHighLights, setTourHighLights] = useState("");
-  const [pricePerPerson, setPricePerPerson] = useState("");
-
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  const handlePricePerPersonChange = (event) => {
-    setPricePerPerson(event.target.value);
+  const [formData, setFormData] = useState({
+    profileImg: null,
+    images: [],
+    createdBy: "",
+    destination: "",
+    duration: "",
+    category: "",
+    name: "",
+    description: "",
+    attractions: "",
+    tourHighLights: "",
+    pricePerPerson: "",
+  });
+  const [existingImages, setExistingImages] = useState([]);
+  // const [existingProfileImg, setExistingProfileImg] = useState([]);
+
+  useEffect(() => {
+    const fetchPackageData = async () => {
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/api/v1/packages/${id}`
+        );
+        const packageData = response.data;
+
+        console.log("from admin package update");
+        console.log("after fetching package data from server in the useEffect");
+        console.log(packageData);
+
+        setFormData({
+          ...packageData,
+          attractions: JSON.parse(packageData.attractions)
+            .map((text) => `${text.attraction};`)
+            .join("\n"),
+          tourHighLights: JSON.parse(packageData.tourHighLights)
+            .map((text) => `${text.highlight} : ${text.description}`)
+            .join("\n"),
+          pricePerPerson: JSON.parse(packageData)
+            .map((text) => `${text.priceType} : ${text.priceTaka}`)
+            .join("\n"),
+          images: [], // Start with empty new images
+        });
+
+        // Construct the full URLs for existing images
+        const fullImageUrls = packageData.images.map(
+          (basename) => `${BACKEND_URL}/uploads/${basename}`
+        );
+        setExistingImages(fullImageUrls);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching package data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchPackageData();
+  }, []);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleTourHighLightsChange = (event) => {
-    setTourHighLights(event.target.value);
-  };
-  const handleAttractionsChange = (event) => {
-    setAttractions(event.target.value);
-  };
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
-  };
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-  };
-  const handleDurationChange = (event) => {
-    setDuration(event.target.value);
-  };
-  const handleDestinationChange = (event) => {
-    setDestination(event.target.value);
-  };
-  const handlCreatedByChange = (event) => {
-    setCreatedBy(event.target.value);
-  };
   const handleProfileImgChange = (event) => {
-    setProfileImg(event.target.files[0]);
+    setFormData((prev) => ({
+      ...prev,
+      profileImg: event.target.files[0],
+    }));
   };
 
   const handleImagesChange = (event) => {
-    // console.log(event.target.files);
-    // console.log(typeof event.target.files);
-    console.log("called handle images");
-    setImages(Array.from(event.target.files));
+    const fileSelected = Array.from(event.target.files);
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...fileSelected],
+    }));
   };
 
-  useEffect(() => {
-    const url = `${BACKEND_URL}/api/v1/packages/${id}`;
-    axios
-      .get(url)
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-        setLoading(false);
-        // setProfileImg(response.data.profileImg);
-        // setImages(response.data.images);
-        setCreatedBy(response.data.createdBy);
-        setDestination(response.data.destination);
-        setDuration(response.data.duration);
-        setCategory(response.data.category);
-        setName(response.data.name);
-        setDescription(response.data.description);
-
-        let modifiedText = JSON.parse(JSON.parse(response.data.attractions))
-          .map((item) => `${item.attraction};`)
-          .join("\n");
-        setAttractions(modifiedText);
-
-        modifiedText = JSON.parse(JSON.parse(response.data.tourHighLights))
-          .map((item) => `${item.highlight} : ${item.description};`)
-          .join("\n");
-        setTourHighLights(modifiedText);
-        modifiedText = JSON.parse(JSON.parse(response.data.pricePerPerson))
-          .map((item) => `${item.priceType} : ${item.priceTaka};`)
-          .join("\n");
-        setPricePerPerson(modifiedText);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, []);
-
+  const handleFileRemove = (removeFile) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((file) => file !== removeFile),
+    }));
+  };
+  const handleExistingImgRemove = (removeUrl) => {
+    setExistingImages(existingImages.filter((url) => url !== removeUrl));
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData();
-    if (profileImg) formData.append("profileImg", profileImg);
-    console.log("from to update package");
-    console.log(typeof images);
-    console.log(images);
-    console.log(typeof profileImg);
-    console.log(profileImg);
-    images?.forEach((img) => {
-      formData.append("images", img);
+    if (formData.images.length < 2 || formData.images.length > 4) {
+      alert("You must select between 2 to 4 new images.");
+      return;
+    }
+
+    if (!formData.profileImg) {
+      alert("Please select a profile image.");
+      return;
+    }
+
+    const data = new FormData();
+
+    // Append profile image if selected
+    if (formData.profileImg) {
+      data.append("profileImg", formData.profileImg);
+    }
+
+    // Append new images
+    formData.images.forEach((img) => {
+      data.append("images", img);
     });
 
-    formData.append("createdBy", createdBy);
-    formData.append("duration", duration);
-    formData.append("name", name);
-    formData.append("destination", destination);
-    formData.append("category", category);
-    formData.append("description", description);
+    // Append existing images (only their basenames)
+    existingImages.forEach((img) => {
+      const basename = img.split("/").pop(); // Extract the basename
+      data.append("existingImages", basename);
+    });
 
-    formData.append(
-      "attractions",
-      JSON.stringify(funcFormatAttractions(attractions)),
-    );
-    formData.append(
-      "pricePerPerson",
-      JSON.stringify(funcFormatPricePerPerson(pricePerPerson)),
-    );
-    formData.append(
-      "tourHighLights",
-      JSON.stringify(funcFormatTourHighLights(tourHighLights)),
-    );
-    console.log("from admim package update");
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    // Append other form data
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== "images" && key !== "profileImg") {
+        if (key === "attractions") {
+          data.append(key, funcFormatAttractions(value));
+        } else if (key === "pricePerPerson") {
+          data.append(key, funcFormatPricePerPerson(value));
+        } else if (key === "tourHighLights") {
+          data.append(key, funcFormatTourHighLights(value));
+        } else {
+          data.append(key, value);
+        }
+      }
+    });
+
     try {
       const response = await axios.put(
         `${BACKEND_URL}/api/v1/packages/${id}`,
-        formData,
+        data,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
-      alert("The packageackage updated successfully!");
-      navigate(-1);
+      alert("Package updated successfully!");
+      navigate("/admin/packages");
     } catch (error) {
-      console.error("Error packageackage", error);
-      alert("Failed to update");
+      console.error("Error updating packages:", error);
+      if (error.response) {
+        alert("Failed to update package, Try Again.");
+      } else {
+        alert("An unexpected error occurred. Try Again.");
+      }
     }
   };
 
@@ -162,9 +170,10 @@ function AdminUpdatePackage() {
     <>
       {loading && <FullScreenloading />}
       {loading || (
-        <div className="adminPackageUpdate">
-          <h2>Update and Save</h2>
+        <div className="adminPackageAdd">
           <form onSubmit={handleSubmit}>
+            <h2>Update the tour package</h2>
+
             <div className="row full">
               <label htmlFor="profileImg">Choose a feature image:</label>
               <input
@@ -174,6 +183,7 @@ function AdminUpdatePackage() {
                 onChange={handleProfileImgChange}
               />
             </div>
+
             <div className="row full">
               <label htmlFor="multiPleTourimages">
                 Choose multiple images:
@@ -188,106 +198,71 @@ function AdminUpdatePackage() {
             </div>
 
             <div className="row">
-              <label htmlFor="createdBy">CreatedBy</label>
-              <input
-                type="text"
-                name="createdBy"
-                id="createdBy"
-                onChange={handlCreatedByChange}
-                value={createdBy}
-              />
+              <div className="showSelectedImages">
+                {existingImages.map((img) => (
+                  <div key={img} className="image">
+                    <img src={img} alt="Existing" />
+                    <span onClick={() => handleExistingImgRemove(img)}>x</span>
+                  </div>
+                ))}
+                {formData.images.map((file) => (
+                  <div key={file.name} className="image">
+                    <img src={URL.createObjectURL(file)} alt={file.name} />
+                    <span onClick={() => handleFileRemove(file)}>x</span>
+                  </div>
+                ))}
+              </div>
+              {formData.images.length + existingImages.length < 2 ||
+              formData.images.length + existingImages.length > 4 ? (
+                <p style={{ color: "red", padding: "10px", margin: "0" }}>
+                  You must select between 2 to 4 images.
+                </p>
+              ) : null}
+              <p style={{ color: "yellow", padding: "10px", margin: "0" }}>
+                {`${formData.images.length} new images have been selected`}
+              </p>
             </div>
 
-            <div className="row">
-              <label htmlFor="destination">Destination</label>
-              <input
-                type="text"
-                name="destination"
-                id="destination"
-                onChange={handleDestinationChange}
-                value={destination}
-              />
-            </div>
+            {[
+              "createdBy",
+              "destination",
+              "duration",
+              "category",
+              "name",
+              "description",
+              "attractions",
+              "tourHighLights",
+              "pricePerPerson",
+            ].map((field) => (
+              <div className="row" key={field}>
+                <label htmlFor={field}>
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+                {field === "description" ||
+                field === "attractions" ||
+                field === "tourHighLights" ||
+                field === "pricePerPerson" ? (
+                  <textarea
+                    name={field}
+                    id={field}
+                    onChange={handleChange}
+                    value={formData[field]}
+                  />
+                ) : (
+                  <input
+                    type={field === "duration" ? "number" : "text"}
+                    name={field}
+                    id={field}
+                    onChange={handleChange}
+                    value={formData[field]}
+                  />
+                )}
+              </div>
+            ))}
 
-            <div className="row">
-              <label htmlFor="tourDuration">Tour Duration</label>
-              <input
-                type="number"
-                name="duration"
-                id="tourDuration"
-                onChange={handleDurationChange}
-                value={duration}
-              />
-            </div>
-
-            <div className="row">
-              <label htmlFor="tourCategory">Category</label>
-              <input
-                type="text"
-                name="category"
-                id="tourCategory"
-                onChange={handleCategoryChange}
-                value={category}
-              />
-            </div>
-
-            <div className="row">
-              <label htmlFor="tourHeader">Tour Header</label>
-              <input
-                type="text"
-                name="name"
-                id="tourHeader"
-                onChange={handleNameChange}
-                value={name}
-              />
-            </div>
-
-            <div className="row">
-              <label htmlFor="tourDescription">Tour Description</label>
-              <textarea
-                name="description"
-                id="tourDescription"
-                onChange={handleDescriptionChange}
-                value={description}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="Tourattractions">Tour Attractions</label>
-              <textarea
-                name="attractions"
-                id="Tourattractions"
-                onChange={handleAttractionsChange}
-                value={attractions}
-              />
-            </div>
-
-            <div className="row">
-              <label htmlFor="tourHighLights">Tour HighLights</label>
-              <textarea
-                name="tourHighLights"
-                id="tourHighLights"
-                onChange={handleTourHighLightsChange}
-                value={tourHighLights}
-              />
-            </div>
-
-            <div className="row">
-              <label htmlFor="pricePerPerson">Prices</label>
-              <textarea
-                name="pricePerPerson"
-                id="pricePerPerson"
-                onChange={handlePricePerPersonChange}
-                value={pricePerPerson}
-              />
-            </div>
-            <div className="updateCancel">
-              <button type="submit" className="button">
-                Save
-              </button>
-              <button className="button" onClick={() => navigate(-1)}>
-                Cancel
-              </button>
-            </div>
+            <button type="submit" className="button adminpaneladdButton">
+              Update
+            </button>
           </form>
         </div>
       )}

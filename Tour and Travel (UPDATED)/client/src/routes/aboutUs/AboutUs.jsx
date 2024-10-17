@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./aboutUs.scss";
-import { usedata } from "../../components/DataContext";
+import { useInfo } from "../../components/CompanyInfoContext"
 import slowScrollToTop from "../../lib/slowScrolltoTop";
 
 function AboutUs() {
@@ -9,7 +9,7 @@ function AboutUs() {
     slowScrollToTop(targetElement, 80, 1000);
     // targetElement.scrollIntoView({ behavior: "smooth" });
   }, []);
-  const { aboutUs } = usedata();
+  const { aboutUs } = useInfo();
 
   return (
     <div className="aboutContainer" id="aboutUsContainer">

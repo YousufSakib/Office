@@ -1,14 +1,13 @@
 @import "../../responsive.scss";
 .adminPackageAdd {
   width: 100%;
-  h2 {
-    padding: 0 0 5px 0px;
-    margin-top: 0;
-    width: 100%;
-    border-bottom: 2px solid white;
-    color: white;
-  }
   form {
+    h2 {
+      padding: 5px 0 5px 0px;
+      max-width: 100%;
+      color: white;
+      border-bottom: 2px solid white;
+    }
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -24,15 +23,15 @@
       width: 100%;
       gap: 12px;
       .showSelectedImages {
-        background-color: rgba(58, 64, 65, 0.473);
         padding: 10px;
         border-radius: 10px;
-
+        box-sizing: border-box;
         display: flex;
         flex-wrap: wrap;
-        width: 100%;
+        max-width: 100%;
         align-items: center;
         justify-content: start;
+        box-sizing: border-box;
         gap: 10px;
         div.image {
           max-width: 200px;
@@ -46,14 +45,18 @@
           }
           span {
             position: absolute;
-            top: 6px;
-            left: 6px;
-            padding: 6px;
+            top: 10px;
+            right: 10px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
             border-radius: 50%;
-            background-color: rgba(222, 224, 224, 0.733);
+            background-color: rgba(222, 224, 224, 0.356);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             &:hover {
-              background-color: rgba(222, 224, 224, 0.575);
+              background-color: rgba(222, 224, 224, 0.61);
             }
           }
         }
@@ -76,8 +79,8 @@
       }
     }
     .adminpaneladdButton {
-      padding: 15px 20px;
-      font-size: 20px;
+      padding: 10px 15px;
+      font-size: 19px;
       background-color: white;
       max-width: 150px;
       cursor: pointer;
@@ -98,7 +101,7 @@
   input[type="text"],
   input[type="number"],
   textarea {
-    border: 1px solid white;
+    border: 1px solid gray;
   }
   textarea {
     padding: 5px;

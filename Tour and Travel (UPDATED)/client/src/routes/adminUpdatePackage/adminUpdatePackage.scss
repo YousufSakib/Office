@@ -3,14 +3,13 @@
   // position: static;
   padding-bottom: 60px;
   width: 100%;
-  h2 {
-    margin-top: 0;
-    padding: 0 0 5px 0px;
-    width: 100%;
-    color: white;
-    border-bottom: 2px solid white;
-  }
   form {
+    h2 {
+      padding: 5px 0 5px 0px;
+      max-width: 100%;
+      color: white;
+      border-bottom: 2px solid white;
+    }
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -54,7 +53,7 @@
       input[type="text"],
       input[type="number"],
       textarea {
-        border: 1px solid white;
+        border: 1px solid gray;
       }
       textarea {
         padding: 5px;

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./contactUsForm.scss";
 import { Form } from "react-router-dom";
-import { usedata } from "../DataContext";
+import { useInfo } from "../CompanyInfoContext";
+
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import slowScrollToTop from "../../lib/slowScrolltoTop";
@@ -15,7 +16,7 @@ function ContactUsForm() {
     facebookLink,
     instagramLink,
     companyEmail,
-  } = usedata();
+  } = useInfo();
 
   const [formData, setFormData] = useState({
     name: "",

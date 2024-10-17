@@ -3,10 +3,12 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const express = require("express");
 const sequelize = require("./config/db");
-const packageRoutes = require("./routes/packageRoutes");
-const companyInfo = require("./routes/companyInfo");
-const imagesRoute = require("./routes/imagesRoute");
-const contactRoute = require("./routes/contactRoute");
+
+const packageRoutes = require("./controllers/packageRoutes");
+const companyInfoRouter = require("./routes/companyInfo");
+const imagesRoute = require("./controllers/imagesRoute");
+const contactRoute = require("./controllers/contactRoute");
+
 const cors = require("cors");
 
 const app = express();
@@ -30,7 +32,7 @@ app.use((req, res, next) => {
 // Use the package routes
 app.use("/api/v1", imagesRoute);
 app.use("/api/v1", packageRoutes);
-app.use("/api/v1", companyInfo);
+app.use("/api/v1", companyInfoRouter);
 app.use("/api/v1", contactRoute);
 // Sync Sequelize with MySQL
 sequelize
@@ -38,7 +40,7 @@ sequelize
   .then(() => {
     console.log("Database synced");
     app.listen(3001, () =>
-      console.log("Server running on http://localhost:3001"),
+      console.log("Server running on http://localhost:3001")
     );
     // app.listen();
   })

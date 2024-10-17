@@ -1,9 +1,9 @@
 import React from "react";
 import "./homeBookCall.scss";
-import { usedata } from "../DataContext";
+import { useInfo } from "../CompanyInfoContext";
 
 function HomeBookCall() {
-  const { companyPhoneNo } = usedata();
+  const { companyPhoneNo } = useInfo();
 
   return (
     <div className="HomeBookCall">

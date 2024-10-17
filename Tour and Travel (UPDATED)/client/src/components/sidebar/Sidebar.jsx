@@ -9,7 +9,7 @@ function Sidebar() {
       <Link to="/admin">AdminPage</Link>
       <Link to="/admin/packages">All Packages</Link>
       <Link to="/admin/packageAdd">Add new Package</Link>
-      <Link to="/admin/basic-set-up">Basic set-up</Link>
+      <Link to="/admin/companyInfoSetUp">Info Setup</Link>
       <Link to="/admin/basic-images">Basic Images</Link>
     </div>
   );

@@ -21,7 +21,7 @@ import AdminHome from "./routes/adminHome/AdminHome";
 import AdminAllPackage from "./routes/adminAllPackage/AdminAllPackage";
 import FullScreenloading from "./components/fullScreenloading/FullScreenloading";
 import AdminUpdatePackage from "./routes/adminUpdatePackage/AdminUpdatePackage";
-import BasicSetUp from "./routes/basicSetUp/BasicSetUp";
+import CompanyInfoSetUp from "./routes/companyInfoSetUp/CompanyInfoSetUp";
 import BasicImgSetup from "./routes/basicImgSetup/basicImgSetup";
 import AboutUs from "./routes/aboutUs/AboutUs";
 import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
@@ -107,8 +107,8 @@ function App() {
           element: <AdminPackageAdd />,
         },
         {
-          path: "/admin/basic-set-up",
-          element: <BasicSetUp />,
+          path: "/admin/companyInfoSetUp",
+          element: <CompanyInfoSetUp />,
         },
         {
           path: "/admin/basic-images",

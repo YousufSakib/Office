@@ -6,98 +6,87 @@ import { BACKEND_URL } from "../../../dynamicInfo";
 import { useNavigate } from "react-router-dom";
 
 function AdminPackageAdd() {
-  const [profileImg, setProfileImg] = useState(null);
-  const [images, setImages] = useState([]);
-  const [createdBy, setCreatedBy] = useState("");
-  const [destination, setDestination] = useState("");
-  const [duration, setDuration] = useState("");
-  const [category, setCategory] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [attractions, setAttractions] = useState("");
-  const [tourHighLights, setTourHighLights] = useState("");
-  const [pricePerPerson, setPricePerPerson] = useState("");
+  const [formData, setFormData] = useState({
+    profileImg: null,
+    images: [],
+    createdBy: "",
+    destination: "",
+    duration: "",
+    category: "",
+    name: "",
+    description: "",
+    attractions: "",
+    tourHighLights: "",
+    pricePerPerson: "",
+  });
+
   const navigate = useNavigate();
 
-  const handlePricePerPersonChange = (event) => {
-    setPricePerPerson(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleTourHighLightsChange = (event) => {
-    setTourHighLights(event.target.value);
-  };
-  const handleAttractionsChange = (event) => {
-    setAttractions(event.target.value);
-  };
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
-  };
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-  };
-  const handleDurationChange = (event) => {
-    setDuration(event.target.value);
-  };
-  const handleDestinationChange = (event) => {
-    setDestination(event.target.value);
-  };
-  const handlCreatedByChange = (event) => {
-    setCreatedBy(event.target.value);
-  };
   const handleProfileImgChange = (event) => {
-    setProfileImg(event.target.files[0]);
+    setFormData((prev) => ({
+      ...prev,
+      profileImg: event.target.files[0],
+    }));
   };
 
   const handleImagesChange = (event) => {
     const fileSelected = Array.from(event.target.files);
-    setImages((prev) => [...prev, ...fileSelected]);
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...fileSelected],
+    }));
   };
-  console.log("all images selected");
-  console.log(images);
-  console.log("images is is array now");
-  console.log(Array.isArray(images));
 
   const handleFileRemove = (removeFile) =>
-    setImages(images.filter((file) => file !== removeFile));
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((file) => file !== removeFile),
+    }));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!profileImg || images.length === 0) {
-      alert("Please select a profile image, multiple images.");
+    if (formData.images.length < 2 || formData.images.length > 4) {
+      alert("You must select between 2 to 4 images.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("profileImg", profileImg);
-    images.forEach((img) => {
-      formData.append("images", img);
+    if (!formData.profileImg) {
+      alert("Please select a profile image.");
+      return;
+    }
+
+    const data = new FormData();
+
+    data.append("profileImg", formData.profileImg);
+    formData.images.forEach((img) => {
+      data.append("images", img);
     });
 
-    formData.append("createdBy", createdBy);
-    formData.append("destination", destination);
-    formData.append("duration", duration);
-    formData.append("category", category);
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append(
-      "attractions",
-      JSON.stringify(funcFormatAttractions(attractions))
-    );
-    formData.append(
-      "pricePerPerson",
-      JSON.stringify(funcFormatPricePerPerson(pricePerPerson))
-    );
-    formData.append(
-      "tourHighLights",
-      JSON.stringify(funcFormatTourHighLights(tourHighLights))
-    );
+    // Append other form data
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== "images" && key !== "profileImg") {
+        if (key === "attractions") {
+          data.append(key, JSON.stringify(funcFormatAttractions(value)));
+        } else if (key === "pricePerPerson") {
+          data.append(key, JSON.stringify(funcFormatPricePerPerson(value)));
+        } else if (key === "tourHighLights") {
+          data.append(key, JSON.stringify(funcFormatTourHighLights(value)));
+        } else {
+          data.append(key, value);
+        }
+      }
+    });
 
     console.log("from Admin package add page");
-    for (const [key, value] of formData.entries()) {
+    console.log("the following data is going to submitted to the server");
+
+    for (const [key, value] of data.entries()) {
       console.log(`${key}:`, value);
       console.log(typeof value);
     }
@@ -105,25 +94,34 @@ function AdminPackageAdd() {
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/packages`,
-        formData,
-        {
+        data,
+        
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
       );
       alert("Package created successfully!");
-      navigate(-1);
+      navigate("/admin/packages");
     } catch (error) {
       console.error("Error creating packages:", error);
-      alert("Failed to creating package.");
+      if (error.response) {
+        alert(
+          `Failed to create package: ${
+            error.response.data.message || error.message
+          }`
+        );
+      } else {
+        alert("An unexpected error occurred.");
+      }
     }
   };
 
   return (
     <div className="adminPackageAdd">
-      <h2>Fill all the below field to create a new tour package</h2>
       <form onSubmit={handleSubmit}>
+        <h2>Fill all the below fields to create a new package</h2>
+
         <div className="row full">
           <label htmlFor="profileImg">Choose a feature image:</label>
           <input
@@ -134,6 +132,7 @@ function AdminPackageAdd() {
             required
           />
         </div>
+
         <div className="row full">
           <label htmlFor="multiPleTourimages">Choose multiple images:</label>
           <input
@@ -145,121 +144,65 @@ function AdminPackageAdd() {
             required
           />
         </div>
+
         <div className="row">
           <div className="showSelectedImages">
-            {Array.isArray(images) &&
-              images?.map((file) => (
-                <div className="image">
+            {Array.isArray(formData.images) &&
+              formData.images.map((file) => (
+                <div key={file.name} className="image">
                   <img src={URL.createObjectURL(file)} alt={file.name} />
-                  <span onClick={() => handleFileRemove(file)}>X</span>
+                  <span onClick={() => handleFileRemove(file)}>x</span>
                 </div>
               ))}
           </div>
-          {images.length < 2 ||
-            (images.length > 4 && (
-              <p style={{ color: "red", padding: "10px", margin: "0" }}>
-                You must select between 2 to 4 images
-              </p>
-            ))}
-          <p
-            style={{ color: "yellow", padding: "10px", margin: "0" }}
-          >{` ${images.length} images has selected`}</p>
+          {formData.images.length < 2 || formData.images.length > 4 ? (
+            <p style={{ color: "red", padding: "10px", margin: "0" }}>
+              You must select between 2 to 4 images
+            </p>
+          ) : null}
+          <p style={{ color: "yellow", padding: "10px", margin: "0" }}>
+            {`${formData.images.length} images have been selected`}
+          </p>
         </div>
 
-        <div className="row">
-          <label htmlFor="createdBy">CreatedBy</label>
-          <input
-            type="text"
-            name="createdBy"
-            id="createdBy"
-            onChange={handlCreatedByChange}
-            value={createdBy}
-          />
-        </div>
+        {[
+          "createdBy",
+          "destination",
+          "duration",
+          "category",
+          "name",
+          "description",
+          "attractions",
+          "tourHighLights",
+          "pricePerPerson",
+        ].map((field) => (
+          <div className="row" key={field}>
+            <label htmlFor={field}>
+              {field.charAt(0).toUpperCase() + field.slice(1)}
+            </label>
+            {field === "description" ||
+            field === "attractions" ||
+            field === "tourHighLights" ||
+            field === "pricePerPerson" ? (
+              <textarea
+                name={field}
+                id={field}
+                onChange={handleChange}
+                value={formData[field]}
+              />
+            ) : (
+              <input
+                type={field === "duration" ? "number" : "text"}
+                name={field}
+                id={field}
+                onChange={handleChange}
+                value={formData[field]}
+              />
+            )}
+          </div>
+        ))}
 
-        <div className="row">
-          <label htmlFor="destination">Destination</label>
-          <input
-            type="text"
-            name="destination"
-            id="destination"
-            onChange={handleDestinationChange}
-            value={destination}
-          />
-        </div>
-
-        <div className="row">
-          <label htmlFor="tourDuration">Tour Duration</label>
-          <input
-            type="number"
-            name="duration"
-            id="tourDuration"
-            onChange={handleDurationChange}
-            value={duration}
-          />
-        </div>
-
-        <div className="row">
-          <label htmlFor="tourCategory">Category</label>
-          <input
-            type="text"
-            name="category"
-            id="tourCategory"
-            onChange={handleCategoryChange}
-            value={category}
-          />
-        </div>
-
-        <div className="row">
-          <label htmlFor="tourHeader">Tour Header</label>
-          <input
-            type="text"
-            name="name"
-            id="tourHeader"
-            onChange={handleNameChange}
-            value={name}
-          />
-        </div>
-
-        <div className="row">
-          <label htmlFor="tourDescription">Tour Description</label>
-          <textarea
-            name="description"
-            id="tourDescription"
-            onChange={handleDescriptionChange}
-            value={description}
-          />
-        </div>
-        <div className="row">
-          <label htmlFor="Tourattractions">Tour Attractions</label>
-          <textarea
-            name="attractions"
-            id="Tourattractions"
-            onChange={handleAttractionsChange}
-            value={attractions}
-          />
-        </div>
-
-        <div className="row">
-          <label htmlFor="tourHighLights">Tour HighLights</label>
-          <textarea
-            name="tourHighLights"
-            id="tourHighLights"
-            onChange={handleTourHighLightsChange}
-            value={tourHighLights}
-          />
-        </div>
-
-        <div className="row">
-          <label htmlFor="pricePerPerson">Prices</label>
-          <textarea
-            name="pricePerPerson"
-            id="pricePerPerson"
-            onChange={handlePricePerPersonChange}
-            value={pricePerPerson}
-          />
-        </div>
-        <button type="submit" className="adminpaneladdButton">
+        <button type="submit" className="button adminpaneladdButton">
           Save
         </button>
       </form>

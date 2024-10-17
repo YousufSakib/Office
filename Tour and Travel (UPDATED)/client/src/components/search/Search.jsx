@@ -5,35 +5,114 @@ function Search() {
   const duration = [
     {
       value: "",
-      name: "All Duration",
+      name: "All selected",
     },
     { value: "weekend", name: "Weekend Trips" },
     {
+      value: "2d",
+      name: "2 days package",
+    },
+    {
+      value: "3d",
+      name: "3 days package",
+    },
+    {
       value: "4d",
       name: "4 days package",
+    },
+    {
+      value: "5d",
+      name: "5 days package",
+    },
+    {
+      value: "6d",
+      name: "6 days package",
+    },
+    {
+      value: "7d",
+      name: "7 days package",
+    },
+    {
+      value: "7+d",
+      name: "7+ days package",
     },
   ];
   const category = [
     {
       value: "",
-      name: "All Categories",
+      name: "All selected",
     },
-    { value: "wildlifetour", name: "Wild life tours" },
+    {
+      value: "wildlife",
+      name: "wildlife",
+    },
     {
       value: "photography",
-      name: "Photography tours",
+      name: "photography",
     },
+    {
+      value: "adventure",
+      name: "adventure",
+    },
+    {
+      value: "cultural",
+      name: "cultural",
+    },
+    {
+      value: "culinary",
+      name: "culinary",
+    },
+    {
+      value: "hitorical",
+      name: "hitorical",
+    },
+    {
+      value: "ecoTour", 
+      name: "eco_Tour"
+    },
+    {
+      value: "luxuryTour",
+      name: "luxury_Tour"
+    }
   ];
   const destination = [
-    { value: "", name: "All destination" },
+    { value: "", name: "All selected" },
     {
-      value: "Sylhet",
-      name: "Sylhet",
+      value: "sylhet",
+      name: "sylhet",
     },
     {
-      value: "Chittagong",
-      name: "Chittagong",
+      value: "chittagong",
+      name: "chittagong",
     },
+    {
+      value: "dhaka",
+      name: "dhaka"
+    },
+    {
+      value: "sundarbans",
+      name: "sundarbans",
+    },
+    {
+      value: "coxBazar",
+      name: "cox Bazar",
+    },
+    {
+      value: "rangamati",
+      name: "rangamati",
+    },
+    {
+      value: "bandarban",
+      name: "bandarban",
+    },
+    {
+      value: "sundarbans",
+      name: "sundarbans",
+    },
+    {
+      value: "sundarbans",
+      name: "sundarbans",
+    }
   ];
 
   return (
@@ -45,7 +124,7 @@ function Search() {
           <label htmlFor="category">Choose a category</label>
         </div>
         <div className="col-right">
-          <select name="destination" id="destination">
+          <select name="destination" id="destination" multiple>
             {destination.map((i) => (
               <option value={i.value} key={i.key}>
                 {i.name}
