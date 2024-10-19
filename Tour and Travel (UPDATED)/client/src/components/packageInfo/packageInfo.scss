@@ -27,10 +27,10 @@
       -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
       box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
 
-      border-radius: 13px 10px 63px 10px;
-      -moz-border-radius: 13px 10px 63px 10px;
-      -webkit-border-radius: 13px 10px 63px 10px;
-      border: 15px groove #d4d4d4;
+      border-radius: 13px 10px 13px 10px;
+      -moz-border-radius: 13px 10px 13px 10px;
+      -webkit-border-radius: 13px 10px 13px 10px;
+      border: 5px groove white;
     }
   }
 
@@ -45,7 +45,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border: 5px solid white;
+        border: 5px groove white;
         box-sizing: border-box;
         border-radius: 3px;
         // transition: transform 0.5s;
@@ -60,9 +60,9 @@
         background-color: white;
         animation: myAnim 1.5s ease 0s 1 normal forwards;
         &:hover {
-          border-radius: 0px 0px 50px 0px;
-          -moz-border-radius: 0px 0px 50px 0px;
-          -webkit-border-radius: 0px 0px 50px 0px;
+          border-radius: 10px 10px 10px 10px;
+          -moz-border-radius: 10px 10px 10px 10px;
+          -webkit-border-radius: 10px 10px 10px 10px;
         }
       }
     }

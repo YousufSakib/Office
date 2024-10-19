@@ -103,8 +103,8 @@ nav {
     .burgerButton {
       display: none;
       img {
-        height: 25px;
-        width: 25px;
+        height: 20px;
+        width: 20px;
         cursor: pointer;
       }
       @include md {
@@ -117,12 +117,16 @@ nav {
   }
 }
 .heroTextWrapper {
-  background-color: purple;
+  // background-color: purple;
   position: absolute;
   top: 80px;
-  left: 5%;
-  right: 20px;
+  // width: 100%;
+  max-width: $maxWidth;
+  margin: 0 auto 0 auto;
+  left: 0;
+  right: 0;
   .HeroText {
+    // background-color: yellow;
     position: relative;
     top: 80px;
     left: 0px;
@@ -146,35 +150,39 @@ nav {
       margin: 0;
       font-size: large;
     }
-    button {
-      align-self: start;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 9px 18px;
+    a {
+      align-self: flex-start;
+      button {
+        align-self: start;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 9px 18px;
+      }
     }
     @include sm {
       display: none;
     }
   }
-  @include lg {
-    left: 5%;
-  }
-  @include sm {
-    left: 2%;
-  }
 
   .search {
-    background-color: cadetblue;
+    // background-color: cadetblue;
     position: absolute;
-    top: 80px;
+    top: 30px;
     right: 0;
     width: 35%;
     max-width: 500px;
     color: white;
     @include sm {
-      width: 60%;
-      left: 0;
+      width: 70%;
+      left: 10px;
       right: 0;
     }
+    @include lg {
+      right: 10px;
+    }
+  }
+  @include lg {
+    padding: 0 10px 0 10px;
+    box-sizing: border-box;
   }
 }

@@ -11,6 +11,7 @@
     rgba(210, 209, 218, 1) 100%
   );
   padding: 5px;
+  box-sizing: border-box;
   border-radius: 5px;
   div {
     display: flex;
@@ -29,6 +30,9 @@
         margin: 0;
         padding: 0;
         // height: 40px;
+      }
+      label[for="destination"] {
+        height: 120px;
       }
     }
     .col-right {
@@ -59,6 +63,9 @@
           font-size: large;
           transition: all 1s;
           color: rgb(12, 63, 139);
+        }
+        &#destination {
+          height: 120px;
         }
       }
     }

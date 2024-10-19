@@ -11,7 +11,7 @@ function Places_to_visit() {
   }, []);
   return (
     <div className="places_to_visit" id="places_to_visit">
-      <h1>Places to visit</h1>
+      <h1>Must see destinations</h1>
       <p>
         Highlights of Bangladesh Tour covers top sites of Bangladesh including
         UNESCO World Heritages. This is a captivating sojourn through the

@@ -6,51 +6,44 @@ function Attraction() {
   return (
     <div className="attraction">
       <p>
-        Bangladesh is a land of river and smiling people in South Asia,
-        exhilarating mix with fascinating history, vibrant cultures and
-        panoramic beauty of nature is waiting to welcome you. The world's single
-        largest mangrove forest, ruins of the largest Buddhist monastery,
-        colorful Indigenous groups, the mystery of hilly regions, longest
-        unbroken sea-beach & the flourishing islands, endless tea plantations,
-        and the generous people are a lifetime experience for travelers.
+        <span style={{ color: "blue" }}>Highlights of the Bangladesh Tour</span>{" "}
+        takes you to the must-visit destinations of this enchanting country,
+        featuring its UNESCO World Heritage sites. This captivating journey
+        invites you to explore the cultural and natural wonders of South Asia’s
+        hidden gem. Venture into the Sundarbans, the largest mangrove forest in
+        the world, where you might spot the majestic Bengal tiger. Experience
+        the historical allure of Bagerhat, home to remarkable mosques, including
+        the famous Sixty Dome Mosque. Discover the bustling city of Dhaka, the
+        ancient capital of Sonargaon, and the picturesque Barisal, known for its
+        scenic backwater cruises and floating markets. Uncover the Ruins of the
+        Buddhist Vihara at Paharpur, which reflect Bangladesh’s rich cultural
+        heritage, alongside the 3rd-century BC remnants at Mahasthangarh and the
+        historic Puthia City in Rajshahi. In Sreemangal, witness the lush
+        landscapes of the “Tea Capital of Bangladesh,” where you can explore
+        verdant tea gardens, savor renowned flavors, and immerse yourself in the
+        biodiversity of Lawachara National Park, including visits to Manipuri,
+        Khasia, and Tripura villages. This journey weaves together a rich array
+        of experiences, from serene landscapes to the profound cultural heritage
+        of Bangladesh, creating an unforgettable adventure for those eager to
+        uncover the unique treasures of this vibrant and diverse nation.
       </p>
       <div className="items">
         <Link to="/meet-Bangladesh">
           <div className="item">
-            <img src="pf/meet-bangladesh.png" alt="" />
+            <img src="pf/Bangladesh_map.png" alt="" />
             <div className="text">
-              <span>Meet Bangladesh</span>
-              <p>Land, People & Culture</p>
-            </div>
-          </div>
-        </Link>
-
-        <Link>
-          <div className="item">
-            <img src="pf/things-to-do.png" alt="" />
-            <div className="text">
-              <span>Things to do</span>
-              <p>Festivals, activities & events</p>
+              <span>Discover Bangladesh</span>
+              <p>Terrain, People & Heritage</p>
             </div>
           </div>
         </Link>
 
         <Link to="/places-to-visit">
           <div className="item">
-            <img src="pf/Places-to-visit.png" alt="" />
+            <img src="pf/culture.webp" alt="" />
             <div className="text">
-              <span>Places to visit</span>
-              <p>World famous & popular list</p>
-            </div>
-          </div>
-        </Link>
-
-        <Link>
-          <div className="item">
-            <img src="pf/world-heritage.png" alt="" />
-            <div className="text">
-              <span>World heritages</span>
-              <p>UNESCO sites</p>
+              <span>Must-see destinations</span>
+              <p>Globally renowned & recognized list</p>
             </div>
           </div>
         </Link>

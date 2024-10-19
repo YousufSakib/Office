@@ -67,13 +67,13 @@ function Search() {
       name: "hitorical",
     },
     {
-      value: "ecoTour", 
-      name: "eco_Tour"
+      value: "ecoTour",
+      name: "eco_Tour",
     },
     {
       value: "luxuryTour",
-      name: "luxury_Tour"
-    }
+      name: "luxury_Tour",
+    },
   ];
   const destination = [
     { value: "", name: "All selected" },
@@ -87,7 +87,7 @@ function Search() {
     },
     {
       value: "dhaka",
-      name: "dhaka"
+      name: "dhaka",
     },
     {
       value: "sundarbans",
@@ -112,14 +112,14 @@ function Search() {
     {
       value: "sundarbans",
       name: "sundarbans",
-    }
+    },
   ];
 
   return (
     <Form className="searchPackages">
       <div>
         <div className="col-left">
-          <label htmlFor="destination">Choose a destination</label>
+          <label htmlFor="destination">Choose one or more destinations</label>
           <label htmlFor="duration">Choose a duration</label>
           <label htmlFor="category">Choose a category</label>
         </div>

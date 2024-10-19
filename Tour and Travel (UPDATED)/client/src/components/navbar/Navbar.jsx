@@ -85,9 +85,9 @@ function Navbar() {
 
           <div className={burgermenu ? "menues open" : "menues"}>
             <Link to="/">HOME</Link>
-            <Link to="/packages">packages</Link>
-            <Link to="/places-to-visit">places to visit</Link>
-            <Link to="/meet-bangladesh">meet bangladesh</Link>
+            <Link to="/packages">Packages</Link>
+            <Link to="/places-to-visit">Must-see destinations</Link>
+            <Link to="/meet-bangladesh">Discover Bangladesh</Link>
             <Link to="/about-us">about us</Link>
             <Link to="/contact-us">Contact us</Link>
           </div>

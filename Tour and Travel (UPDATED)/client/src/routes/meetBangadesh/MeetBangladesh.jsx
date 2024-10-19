@@ -11,20 +11,21 @@ function MeetBangladesh() {
   }, []);
   return (
     <div className="meetBangladesh" id="meetBangladesh">
-      <h1>Meet Bangladesh</h1>
+      <h1>Discover Bangladesh</h1>
       <p>
-        Bangladesh is a South-Asia greenest bijou- a land plaited with rivers &
-        smiling peoples and exhilarating mix with fascinating history, vibrant
-        cultures, panoramic beauties, historical ruins, flora and fauna, hills
-        and forests, sandy sea beaches and wildlife, is waiting to welcome . The
-        world’s longest sandy beach- Cox’s Bazaar, the world’s single largest
-        mangrove forest- Sundarbans forest-the home of man eating tigers,
-        Oceanic Kuakata, Coral island-Saint martin’s, the home of colorful
-        Indigenous group Chittagong Hill Tracts Bandarban and Lake City
-        Rangamati, the scenic beauty of the hilly regions, historic and
-        archaeological sites etc. are life time experience for travelers.
-        Bangladesh, a land of tourists, researchers, and wildlife and nature
-        lovers.
+        Bangladesh is a verdant gem in South Asia, characterized by its
+        intricate network of rivers and friendly locals. This captivating
+        country boasts a rich tapestry of history, dynamic cultures, and
+        stunning natural landscapes. Visitors can explore the world’s longest
+        natural sandy beach, Cox’s Bazar, and the expansive Sundarbans, the
+        largest mangrove forest known for its intriguing wildlife, including the
+        famous Bengal tiger. Other highlights include the picturesque Kuakata
+        beach, the coral paradise of Saint Martin’s Island, and the culturally
+        diverse Chittagong Hill Tracts, home to vibrant indigenous communities.
+        The breathtaking hilly landscapes of Bandarban and the charming lakes of
+        Rangamati offer unforgettable experiences. With its wealth of historical
+        sites and natural wonders, Bangladesh is a paradise for travelers,
+        researchers, and nature enthusiasts alike.
       </p>
       <div className="images">
         <div>
@@ -41,38 +42,39 @@ function MeetBangladesh() {
           <SingleClickableImg src="Paharpur-Temple-Village-Tou.jpg" />
         </div>
       </div>
-      <h2>Hidden Riches</h2>
+      <h2>Concealed Treasures</h2>
       <p>
-        The hidden riches of Bangladesh will seduce you gradually to be amazed
-        like seasonal colors and smiling people. The world’s largest mangrove
-        forest is here, the land of man-eater tigers, saltwater crocodiles,
-        dotted deer, birds, bull sharks, various primates and snakes with more
-        than 300 rivers named Sundarbans which covers an area of 10000 square
-        kilometers. It’s been marked as UNESCO world heritage site along with
-        Paharpur Buddist Temple and famous 15th Century creation ‘Sixty Domed
-        Mosque’ in Bagerhat, will force you to call ‘Bangladesh’ as a beautiful
-        country. Besides, the mosques and temples made more than 100 centuries,
-        and the archeological monuments will enrich the historical tradition of
-        this land to you. Did you know that? This small country having the
-        largest sea beach in the world. Cox’s Bazaar, the 120 km longest beach
-        of Bay of Bengal, which can give you tranquility. And never miss Saint
-        Martin Island, the island of blue water and coconut garden. Although,
-        majority of the people are Muslim, you can find the separate world when
-        you step down to the Chittagong hill tracts area. There is still home to
-        Christian and Buddhist Adivasi tribal peoples, who spend life with their
-        own cultures. Sylhet is familiar as ‘land of tea’ will give you the
-        various taste of tea as well as the technique to sink greenery.
+        The hidden treasures of Bangladesh will enchant you with their charm,
+        much like the changing seasons and the warm smiles of its people. Home
+        to the world’s largest mangrove forest, the Sundarbans, this remarkable
+        region is inhabited by Bengal tigers, saltwater crocodiles, spotted
+        deer, diverse bird species, and various primates. Spanning over 10,000
+        square kilometers, the Sundarbans is recognized as a UNESCO World
+        Heritage site, alongside the Paharpur Buddhist Temple and the stunning
+        15th-century Sixty Dome Mosque in Bagerhat, both of which highlight
+        Bangladesh's beauty. With over a century's worth of mosques and temples
+        and rich archaeological sites, the historical legacy of this land is
+        truly captivating. Did you know that Bangladesh boasts the longest
+        natural sea beach in the world? Cox’s Bazar stretches for 120 kilometers
+        along the Bay of Bengal, offering serene moments by the sea. Don't miss
+        the enchanting Saint Martin Island, known for its crystal-clear waters
+        and coconut groves. While the majority of the population is Muslim, the
+        Chittagong Hill Tracts present a different cultural landscape, home to
+        Christian and Buddhist Adivasi communities living in harmony with their
+        traditions. Sylhet, famously known as the “land of tea,” invites you to
+        savor a variety of teas amidst its lush green scenery.
         <div style={{ marginTop: "25px" }}>
           <SingleClickableImg src="Rangamati.jpg" />
         </div>
       </p>
-      <h2>Welcoming People</h2>
+      <h2>Warm-hearted Locals</h2>
       <p>
-        Bangladeshi culture is famously welcoming and hospitable. If you enjoy
-        making friends, blending with so people and traveling without any
-        disturbance, this is apparently the best country to explore. You could
-        be served by being the center of attention very easily here, with full
-        of joy and smiling faces.
+        Bangladeshi culture is renowned for its warmth and hospitality. If you
+        love making friends, connecting with locals, and experiencing travel
+        without disruptions, this is undoubtedly the ideal country to explore.
+        Here, you'll find yourself at the center of attention, surrounded by
+        joyful, smiling faces eager to share their culture and traditions with
+        you.
       </p>
       <div className="images">
         <div>
@@ -85,7 +87,7 @@ function MeetBangladesh() {
           <SingleClickableImg src="Otter-Fishing-Tour.jpg" />
         </div>
       </div>
-      <h2>Quick Facts</h2>
+      <h2>Fast Facts</h2>
       <div className="quick-fact">
         <p>
           <span>Official Name:</span> The People’s Republic of Bangladesh.
@@ -104,8 +106,7 @@ function MeetBangladesh() {
           <span>Territorial Water:</span> 200 nautical miles.
         </p>
         <p>
-          <span>Population:</span> 2016 estimate- 162,951,560, 2011
-          census-149,772,364, Density- 1,106/ sq. km. (2,864.5/sq mi)
+          <span>Population:</span> 2024 estimate- 173,562,364
         </p>
         <p>
           <span>State Religion:</span> Islam but other main religions namely
@@ -121,7 +122,10 @@ function MeetBangladesh() {
         </p>
         <p>
           <span>Geographical Location:</span> North, West & South-India, East-
-          India and Myanmar.<span>Drives:</span> On the left.
+          India and Myanmar.
+        </p>
+        <p>
+          <span>Drives:</span> On the left.
         </p>
         <p>
           <span>Time Zone:</span> UTC +6 (BST)
