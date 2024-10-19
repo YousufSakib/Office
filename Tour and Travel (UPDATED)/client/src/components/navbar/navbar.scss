@@ -2,7 +2,8 @@
 
 .heroBanner {
   width: 100%;
-  background-color: tan;
+  background-color: rgb(19, 101, 139);
+  position: relative;
   .heroBannerImg {
     height: 500px;
     width: 100%;
@@ -13,97 +14,110 @@
   }
 }
 nav {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  display: flex;
-  justify-content: space-between;
-  max-width: $maxWidth;
-  margin: 0 auto 0 auto;
-
+  position: fixed;
+  top: 0;
+  padding: 0 10px 0 10px;
+  box-sizing: border-box;
+  width: 100%;
+  z-index: 10;
+  height: $navBarHeight;
+  // background-color: chocolate;
+  background-color: black;
+  transition: all 0.5s linear;
   .logoAndMenues {
+    width: 100%;
+    margin: 0 auto 0 auto;
+    max-width: $maxWidth;
+    gap: 50px;
     display: flex;
-    gap: 150px;
-    .navIcon {
-      a {
-        img {
-          height: 30px;
-          width: 50px;
-          height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    // background-color: blue;
+    .logoWrapper {
+      // background-color: red;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      .navIcon {
+        // background-color: green;
+        a {
+          img {
+            height: 30px;
+            width: 50px;
+            height: 50px;
+          }
+        }
+      }
+      .navCompanyName {
+        // background-color: purple;
+        a {
+          span {
+            font-size: 30px;
+            color: white;
+          }
         }
       }
     }
+
     .menues {
       display: flex;
       gap: 40px;
-
+      // background-color: green;
+      transition: all 0.5s linear;
       a {
-        // text-shadow: -3px 4px 7px rgba(0, 0, 0, 0.5);
         text-transform: uppercase;
-        display: flex;
-        align-items: center;
+        text-align: center;
         cursor: pointer;
         color: rgb(255, 254, 254);
         &:hover {
           color: white;
         }
       }
-      @include md {
-        display: none;
-      }
-      &.open {
-        display: none;
-        background-color: white;
-        padding: 10px;
-        width: calc(100% + 20px);
-        position: absolute;
-        left: -20px;
-        top: 60px;
-        z-index: 10;
 
-        a {
-          background-color: initial;
-          color: gray;
-          padding: 5px 0;
-        }
-        @include md {
-          display: initial;
+      @include lg {
+        gap: 15px;
+      }
+      @include md {
+        position: absolute;
+        right: 100%;
+        &.open {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: $maxWidth;
+          top: $navBarHeight;
+          left: 0;
+          z-index: 9;
+          background-color: black;
+          a {
+            color: white;
+            padding: 5px 0;
+            transition: all 0.5s linear;
+            &:hover {
+              background-color: rgb(22, 22, 22);
+            }
+          }
         }
       }
     }
-  }
-  .navButton {
-    padding: 15px 28px;
-    background-color: transparent;
-    text-transform: uppercase;
-    color: white;
-    border: 1px solid white;
-    letter-spacing: 2px;
-    transition: color 1s;
-    &:hover {
-      background-color: white;
-      color: black;
-    }
-    @include md {
+    .burgerButton {
       display: none;
+      img {
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+      }
+      @include md {
+        display: initial;
+      }
     }
   }
-  .burgerButton {
-    display: none;
-    img {
-      height: 25px;
-      width: 25px;
-    }
-    &:active {
-      border: 1px dotted black;
-    }
-    @include md {
-      display: initial;
-    }
+  &.hide {
+    transform: translate(0px, -$navBarHeight);
   }
 }
 .heroTextWrapper {
+  background-color: purple;
   position: absolute;
   top: 80px;
   left: 5%;
@@ -150,6 +164,7 @@ nav {
   }
 
   .search {
+    background-color: cadetblue;
     position: absolute;
     top: 80px;
     right: 0;

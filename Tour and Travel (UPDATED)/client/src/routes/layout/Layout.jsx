@@ -6,11 +6,11 @@ import HomeBookCall from "../../components/homeBookCall/HomeBookCall";
 function Layout({}) {
   return (
     <div className="layout">
-      {/* <div className="show-responsive">
+      <div className="show-responsive">
         <div className="md">Mid</div>
         <div className="lg">large</div>
         <div className="sm">small</div>
-      </div> */}
+      </div>
       {console.log("layout is rendering")}
       <div className="navbar">
         <Navbar />
