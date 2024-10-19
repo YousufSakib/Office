@@ -13,7 +13,7 @@ function AdminUpdatePackage() {
   const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
-    profileImg: null,
+    profileImg: [],
     images: [],
     createdBy: "",
     destination: "",
@@ -26,13 +26,15 @@ function AdminUpdatePackage() {
     pricePerPerson: "",
   });
   const [existingImages, setExistingImages] = useState([]);
-  // const [existingProfileImg, setExistingProfileImg] = useState([]);
+  const [existingProfileImg, setExistingProfileImg] = useState(null);
 
+  console.log("formData");
+  console.log(formData);
   useEffect(() => {
     const fetchPackageData = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/api/v1/packages/${id}`
+          `${BACKEND_URL}/api/v1/packages/${id}`,
         );
         const packageData = response.data;
 
@@ -42,23 +44,33 @@ function AdminUpdatePackage() {
 
         setFormData({
           ...packageData,
-          attractions: JSON.parse(packageData.attractions)
-            .map((text) => `${text.attraction};`)
+          attractions: JSON.parse(JSON.parse(packageData.attractions))
+            .map((obj) => `${obj.attraction}`)
             .join("\n"),
-          tourHighLights: JSON.parse(packageData.tourHighLights)
-            .map((text) => `${text.highlight} : ${text.description}`)
+          tourHighLights: JSON.parse(JSON.parse(packageData.tourHighLights))
+            .map((obj) => `${obj.highlight} : ${obj.description}`)
             .join("\n"),
-          pricePerPerson: JSON.parse(packageData)
-            .map((text) => `${text.priceType} : ${text.priceTaka}`)
+          pricePerPerson: JSON.parse(JSON.parse(packageData.pricePerPerson))
+            .map((obj) => `${obj.priceType} : ${obj.priceTaka}`)
             .join("\n"),
           images: [], // Start with empty new images
+          profileImg: [],
         });
+        console.log("after parsing and formatting data looks like");
+        console.log(formData);
+        console.log("test parsing. images");
+        console.log(packageData.images);
+        console.log(JSON.parse(packageData.images));
+        // console.log(JSON.parse(JSON.parse(packageData.images)));
 
         // Construct the full URLs for existing images
-        const fullImageUrls = packageData.images.map(
-          (basename) => `${BACKEND_URL}/uploads/${basename}`
-        );
-        setExistingImages(fullImageUrls);
+        const images = JSON.parse(packageData.images).map((obj) => ({
+          ...obj,
+        }));
+        console.log("all images");
+        console.log(images);
+        setExistingImages(images);
+        setExistingProfileImg(packageData.profileImg);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching package data:", error);
@@ -77,10 +89,11 @@ function AdminUpdatePackage() {
   const handleProfileImgChange = (event) => {
     setFormData((prev) => ({
       ...prev,
-      profileImg: event.target.files[0],
+      profileImg: Array.from(event.target.files),
     }));
   };
-
+  console.log("form data");
+  console.log(formData);
   const handleImagesChange = (event) => {
     const fileSelected = Array.from(event.target.files);
     setFormData((prev) => ({
@@ -101,7 +114,10 @@ function AdminUpdatePackage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (formData.images.length < 2 || formData.images.length > 4) {
+    if (
+      formData.images.length + existingImages.length < 2 ||
+      formData.images.length + existingImages.length > 4
+    ) {
       alert("You must select between 2 to 4 new images.");
       return;
     }
@@ -125,7 +141,7 @@ function AdminUpdatePackage() {
 
     // Append existing images (only their basenames)
     existingImages.forEach((img) => {
-      const basename = img.split("/").pop(); // Extract the basename
+      const basename = img.src;
       data.append("existingImages", basename);
     });
 
@@ -152,7 +168,7 @@ function AdminUpdatePackage() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       alert("Package updated successfully!");
       navigate("/admin/packages");
@@ -183,7 +199,36 @@ function AdminUpdatePackage() {
                 onChange={handleProfileImgChange}
               />
             </div>
-
+            <div className="row">
+              {formData.profileImg.length > 0 && (
+                <div className="showSelectedImages">
+                  <div className="image">
+                    <img
+                      src={URL.createObjectURL(formData.profileImg[0])}
+                      alt="new profile"
+                    />
+                    <span
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, profileImg: [] }))
+                      }
+                    >
+                      x
+                    </span>
+                  </div>
+                </div>
+              )}
+              {!existingProfileImg || formData.profileImg.length > 0 || (
+                <div className="showSelectedImages">
+                  <div className="image">
+                    <img
+                      src={`${BACKEND_URL}/uploads/${existingProfileImg}`}
+                      alt="Existing profile"
+                    />
+                    <span onClick={() => setExistingProfileImg("")}>x</span>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="row full">
               <label htmlFor="multiPleTourimages">
                 Choose multiple images:
@@ -200,13 +245,17 @@ function AdminUpdatePackage() {
             <div className="row">
               <div className="showSelectedImages">
                 {existingImages.map((img) => (
-                  <div key={img} className="image">
-                    <img src={img} alt="Existing" />
+                  <div key={img.key} className="image">
+                    <img
+                      src={`${BACKEND_URL}/uploads/${img.src}`}
+                      alt="Existing"
+                    />
                     <span onClick={() => handleExistingImgRemove(img)}>x</span>
                   </div>
                 ))}
                 {formData.images.map((file) => (
                   <div key={file.name} className="image">
+                    {console.log("file: ", file)}
                     <img src={URL.createObjectURL(file)} alt={file.name} />
                     <span onClick={() => handleFileRemove(file)}>x</span>
                   </div>
@@ -219,7 +268,9 @@ function AdminUpdatePackage() {
                 </p>
               ) : null}
               <p style={{ color: "yellow", padding: "10px", margin: "0" }}>
-                {`${formData.images.length} new images have been selected`}
+                {`${
+                  formData.images.length + existingImages.length
+                } new images have been selected`}
               </p>
             </div>
 
@@ -277,7 +328,7 @@ const funcFormatAttractions = (input) => {
     .trim()
     .split("\n")
     .map((line) => {
-      const attraction = line.replace(";", "").trim();
+      const attraction = line.trim();
       return {
         attraction,
         key: randomChar(10),
@@ -288,8 +339,8 @@ const funcFormatAttractions = (input) => {
 
 const funcFormatPricePerPerson = (input) => {
   const output = input
-    .split(";") // Split by semicolon to get each entry
-    .filter((line) => line.trim()) // Filter out any empty lines
+    .split("\n")
+    .filter((line) => line.trim())
     .map((line) => {
       const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
       return {
@@ -303,7 +354,7 @@ const funcFormatPricePerPerson = (input) => {
 
 const funcFormatTourHighLights = (input) => {
   const output = input
-    .split(";") // Split by semicolon to get each entry
+    .split("\n")
     .filter((line) => line.trim()) // Filter out any empty lines
     .map((line) => {
       const [highlight, description] = line

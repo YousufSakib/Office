@@ -95,21 +95,19 @@ function AdminPackageAdd() {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/packages`,
         data,
-        
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        {
+          "Content-Type": "multipart/form-data",
+        },
       );
       alert("Package created successfully!");
-      navigate("/admin/packages");
+      // navigate("/admin/packages");
     } catch (error) {
       console.error("Error creating packages:", error);
       if (error.response) {
         alert(
           `Failed to create package: ${
             error.response.data.message || error.message
-          }`
+          }`,
         );
       } else {
         alert("An unexpected error occurred.");
@@ -211,12 +209,13 @@ function AdminPackageAdd() {
 }
 
 export default AdminPackageAdd;
+
 const funcFormatAttractions = (input) => {
   const output = input
     .trim()
     .split("\n")
     .map((line) => {
-      const attraction = line.replace(";", "").trim();
+      const attraction = line.trim();
       return {
         attraction,
         key: randomChar(10),
@@ -227,8 +226,8 @@ const funcFormatAttractions = (input) => {
 
 const funcFormatPricePerPerson = (input) => {
   const output = input
-    .split(";") // Split by semicolon to get each entry
-    .filter((line) => line.trim()) // Filter out any empty lines
+    .split("\n")
+    .filter((line) => line.trim())
     .map((line) => {
       const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
       return {
@@ -242,7 +241,7 @@ const funcFormatPricePerPerson = (input) => {
 
 const funcFormatTourHighLights = (input) => {
   const output = input
-    .split(";") // Split by semicolon to get each entry
+    .split("\n")
     .filter((line) => line.trim()) // Filter out any empty lines
     .map((line) => {
       const [highlight, description] = line
@@ -256,7 +255,6 @@ const funcFormatTourHighLights = (input) => {
     });
   return output;
 };
-
 /*
 Trek to Nilgiri Hill for panoramic views;
 Boat ride on the Sangu River;
