@@ -1,22 +1,23 @@
-const { deleteFile } = require("./deleteFile");
-const Package = require("../models/packageModel");
+const fs = require("fs");
+const path = require("path");
 
-const deletePackagePhotos = async (req, res, next) => {
-  try {
-    const oldpackage = await Package.findByPk(req.params.id);
-    if (!oldpackage)
-      return res.status(404).json({ message: "Package not found" });
+// Function to delete specified images
+const deleteSpecifiedImages = async (imagesToDelete) => {
+  const directoryPath = path.join(__dirname, "..", "uploads");
 
-    const images = JSON.parse(oldpackage.images);
-    for (let i = 0; i < images.length; i++) {
-      console.log(images[i].src);
-      await deleteFile(`/uploads/${images[i].src}`);
-    }
-    await deleteFile(`/uploads/${oldpackage.profileImg}`);
-    next();
-  } catch (err) {
-    console.log(err);
-  }
+  imagesToDelete.forEach((image) => {
+    const filePath = path.join(directoryPath, image);
+
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(`Error deleting file ${image}:`, err);
+      } else {
+        console.log(`Deleted image: ${filePath}`);
+      }
+    });
+  });
 };
 
-module.exports = { deletePackagePhotos };
+module.exports = {
+  deleteSpecifiedImages,
+};

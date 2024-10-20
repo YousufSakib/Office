@@ -30,11 +30,15 @@ function AdminUpdatePackage() {
 
   console.log("formData");
   console.log(formData);
+  console.log("Existing images");
+  console.log(existingImages);
+  console.log("Existing profile image");
+  console.log(existingProfileImg);
   useEffect(() => {
     const fetchPackageData = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/api/v1/packages/${id}`,
+          `${BACKEND_URL}/api/v1/packages/${id}`
         );
         const packageData = response.data;
 
@@ -61,14 +65,11 @@ function AdminUpdatePackage() {
         console.log("test parsing. images");
         console.log(packageData.images);
         console.log(JSON.parse(packageData.images));
-        // console.log(JSON.parse(JSON.parse(packageData.images)));
 
-        // Construct the full URLs for existing images
         const images = JSON.parse(packageData.images).map((obj) => ({
           ...obj,
         }));
-        console.log("all images");
-        console.log(images);
+
         setExistingImages(images);
         setExistingProfileImg(packageData.profileImg);
         setLoading(false);
@@ -92,8 +93,7 @@ function AdminUpdatePackage() {
       profileImg: Array.from(event.target.files),
     }));
   };
-  console.log("form data");
-  console.log(formData);
+
   const handleImagesChange = (event) => {
     const fileSelected = Array.from(event.target.files);
     setFormData((prev) => ({
@@ -118,48 +118,56 @@ function AdminUpdatePackage() {
       formData.images.length + existingImages.length < 2 ||
       formData.images.length + existingImages.length > 4
     ) {
-      alert("You must select between 2 to 4 new images.");
-      return;
-    }
-
-    if (!formData.profileImg) {
-      alert("Please select a profile image.");
+      alert("You must select between 2 to 4 Gallery Images.");
       return;
     }
 
     const data = new FormData();
 
     // Append profile image if selected
-    if (formData.profileImg) {
-      data.append("profileImg", formData.profileImg);
+    if (formData.profileImg.length > 0) {
+      data.append("profileImg", formData.profileImg[0]);
+    } else if (existingProfileImg.length > 0) {
+      data.append("existingProfileImg", existingProfileImg);
+    } else {
+      alert("You must select at least one profile image.");
+      return;
     }
 
-    // Append new images
+    // Append new gallery images
     formData.images.forEach((img) => {
       data.append("images", img);
     });
 
-    // Append existing images (only their basenames)
+    // Append existing gallery images
     existingImages.forEach((img) => {
-      const basename = img.src;
-      data.append("existingImages", basename);
+      data.append("existingImages", img.src);
     });
 
     // Append other form data
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== "images" && key !== "profileImg") {
         if (key === "attractions") {
-          data.append(key, funcFormatAttractions(value));
+          data.append(key, JSON.stringify(funcFormatAttractions(value)));
         } else if (key === "pricePerPerson") {
-          data.append(key, funcFormatPricePerPerson(value));
+          data.append(key, JSON.stringify(funcFormatPricePerPerson(value)));
         } else if (key === "tourHighLights") {
-          data.append(key, funcFormatTourHighLights(value));
+          data.append(key, JSON.stringify(funcFormatTourHighLights(value)));
         } else {
           data.append(key, value);
         }
       }
     });
 
+    console.log("Your data is going to submitted in the server");
+    data.forEach((value, key) => {
+      if(value instanceof File){
+        console.log(`${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`);
+      } else {
+        console.log(`${key} : ${value}`);
+      }
+    });
+    // return;
     try {
       const response = await axios.put(
         `${BACKEND_URL}/api/v1/packages/${id}`,
@@ -168,10 +176,10 @@ function AdminUpdatePackage() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       alert("Package updated successfully!");
-      navigate("/admin/packages");
+      // navigate("/admin/packages");
     } catch (error) {
       console.error("Error updating packages:", error);
       if (error.response) {
@@ -191,7 +199,7 @@ function AdminUpdatePackage() {
             <h2>Update the tour package</h2>
 
             <div className="row full">
-              <label htmlFor="profileImg">Choose a feature image:</label>
+              <label htmlFor="profileImg">Choose a profile image:</label>
               <input
                 type="file"
                 id="profileImg"
@@ -230,9 +238,7 @@ function AdminUpdatePackage() {
               )}
             </div>
             <div className="row full">
-              <label htmlFor="multiPleTourimages">
-                Choose multiple images:
-              </label>
+              <label htmlFor="multiPleTourimages">Choose gallery images:</label>
               <input
                 type="file"
                 id="multiPleTourimages"

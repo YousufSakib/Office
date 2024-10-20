@@ -4,6 +4,7 @@ const Package = require("../models/packageModel");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
+const imagesToDelete = require("../lib/deleteExistingPhotos");
 
 // Configure multer
 const storage = multer.diskStorage({
@@ -30,40 +31,23 @@ router.post(
         src: path.basename(file.path),
         key: Math.random().toString(16).slice(2),
       }));
-      const createdBy = req.body.createdBy;
-      const destination = req.body.destination;
-      const duration = req.body.duration;
-      const category = req.body.category;
-      const name = req.body.name;
-      const description = req.body.description;
-      const tourHighLights = req.body.tourHighLights;
-      const pricePerPerson = req.body.pricePerPerson;
-      const attractions = req.body.attractions;
 
       const doc = {
+        ...req.body,
         profileImg: profileImgPath,
         images: imagePaths,
-        createdBy: createdBy,
-        destination: destination,
-        duration: Number(duration),
-        category: category,
-        name: name,
-        description: description,
-        attractions: attractions,
-        tourHighLights: tourHighLights,
-        pricePerPerson: pricePerPerson,
       };
 
-      console.log("creation object");
+      console.log("The new package object is going to created");
       console.log(doc);
-
+      // return;
       const newPackage = await Package.create(doc);
       res.status(201).json(newPackage);
     } catch (err) {
       console.log(err);
       res.status(400).json({ message: err.message });
     }
-  },
+  }
 );
 
 // Get all packages
@@ -78,8 +62,6 @@ router.get("/packages", async (req, res) => {
 
 // Get a package by ID
 router.get("/packages/:id", async (req, res) => {
-  console.log("req : " + req.url);
-  console.log("id: " + req.params.id);
   try {
     const package = await Package.findByPk(req.params.id);
     if (!package) return res.status(404).json({ message: "Package not found" });
@@ -92,46 +74,111 @@ router.get("/packages/:id", async (req, res) => {
 // Update a package
 router.put(
   "/packages/:id",
-
-  upload.fields([{ name: "profileImg" }, { name: "images" }]),
+  upload.fields([{ name: "profileImg", maxCount: 1 }, { name: "images" }]),
 
   async (req, res) => {
     try {
       const packageEntry = await Package.findByPk(req.params.id);
 
+      const uploadedImages = req.files["images"]
+        ? req.files["images"].map((file) => ({
+            src: path.basename(file.path), // Get the file name
+            key: Math.random().toString(16).slice(2), // Generate a unique key
+          }))
+        : []; // Default to an empty array if no images were uploaded
+
+      console.log("uploaded images");
+      console.log(typeof uploadedImages);
+      console.log(uploadedImages);
+
+      const existingImageSrc = req.body["existingImages"]
+        ? Array.isArray(req.body["existingImages"])
+          ? req.body["existingImages"]
+          : [req.body["existingImages"]]
+        : [];
+
+      const existingImages = existingImageSrc.map((src) => ({
+        src, //images src
+        key: Math.random().toString(16).slice(2), // Generate a unique key
+      }));
+
+      console.log("existing images");
+      console.log(typeof existingImages);
+      console.log(existingImages);
+
+      const allImages = uploadedImages.concat(existingImages); // Combine both arrays
+
+      const profileImg =
+        req.files["profileImg"] && req.files["profileImg"].length > 0
+          ? path.basename(req.files["profileImg"][0].path)
+          : req.body.existingProfileImg;
+
       if (packageEntry) {
+        const prevGalleryImages = JSON.parse(packageEntry.images).map(
+          (obj) => obj.src
+        );
+        const prevProfileImage = packageEntry.profileImg;
+
         await packageEntry.update({
-          profileImg:
-            req.files["profileImg"] && req.files["profileImg"].length > 0
-              ? path.basename(req.files["profileImg"][0].path)
-              : packageEntry.profileImg,
-          images:
-            req.files["images"] && req.files["images"].length > 0
-              ? req.files["images"].map((file) => ({
-                  src: path.basename(file.path),
-                  key: Math.random().toString(16).slice(2),
-                }))
-              : packageEntry.images,
+          profileImg,
+          images: allImages,
           ...req.body,
         });
+
+        //Now delete the unnecessary images
+        // return;
+
+        const unnecessaryImages = prevGalleryImages.filter(
+          (src) => !existingImageSrc.includes(src)
+        );
+        //if profile img changes, then delete previous profile img;
+        req.files["profileImg"] && req.files["profileImg"].length > 0
+          ? unnecessaryImages.push(prevProfileImage)
+          : "";
+        console.log("unnecessaryImages");
+        console.log(unnecessaryImages);
+        imagesToDelete.deleteSpecifiedImages(unnecessaryImages);
       } else {
         return res.status(404).json({ message: "Package not found" });
       }
       return res.status(200).json({ message: "Package updated successfully" });
     } catch (err) {
+      console.log(err);
       res.status(500).json({ message: err.message });
     }
-  },
+  }
 );
 
 // Delete a package
 router.delete("/packages/:id", async (req, res) => {
   try {
+    const packageEntry = await Package.findByPk(req.params.id);
+    if (packageEntry) {
+      const prevGalleryImages = JSON.parse(packageEntry.images).map(
+        (obj) => obj.src
+      );
+      const prevProfileImage = packageEntry.profileImg;
+      console.log("prevProfileImage");
+      console.log(typeof prevProfileImage);
+      console.log(prevProfileImage);
+
+      console.log("prevGalleryImages");
+      console.log(typeof prevGalleryImages);
+      console.log(prevGalleryImages);
+
+      prevGalleryImages.push(prevProfileImage);
+      const unnecessaryImages = prevGalleryImages;
+      console.log("hi", unnecessaryImages);
+      // return;
+      imagesToDelete.deleteSpecifiedImages(unnecessaryImages);
+    } else {
+      return res.status(404).json({ message: "Package not found" });
+    }
+
     const result = await Package.destroy({
       where: { id: req.params.id },
     });
-    if (result === 0)
-      return res.status(404).json({ message: "Package not found" });
+
     res.status(200).json({ message: "Package deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
