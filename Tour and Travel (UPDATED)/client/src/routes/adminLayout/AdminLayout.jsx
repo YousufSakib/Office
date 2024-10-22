@@ -1,22 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
-import { Outlet } from "react-router-dom";
+import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
+import { Link, Outlet } from "react-router-dom";
 import "./adminLayout.scss";
 import Footer from "../../components/footer/Footer";
 
 function AdminLayout() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isSideOpen, setIsSideOpen] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const handleBugerClick = () => {
+    setIsSideOpen((prev) => !prev);
+  };
   return (
     <>
       {/* <Navbar /> */}
-      {/* <div className="show-responsive">
+      <div className="show-responsive">
         <div className="md">Mid</div>
         <div className="lg">large</div>
         <div className="sm">small</div>
-      </div> */}
-      <div className="adminLayout">
-        <div className="sideBar">
-          <Sidebar />
+      </div>
+      <div
+        className={`adminLayout ${isSideOpen ? "open" : ""} ${
+          isHovered ? "hovered" : ""
+        }`}
+      >
+        <div className="fullScreenShadow"></div>
+        <div
+          className={`adminSidebarTop`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="left">Logo</div>
+          {/* <img onClick={handleBugerClick} src="burger-bar.png" alt="" /> */}
+          <span onClick={handleBugerClick}>sksk</span>
+        </div>
+        <div
+          className={`adminSidebar ${isSideOpen ? "open" : ""}`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* <AdminSidebar /> */}
+          <div className="sidebarwrapper">
+            <div className="row">
+              <img src="../../../../public/homePage.png" alt="homePage" />
+              <Link to="/">Home</Link>
+            </div>
+            <div className="row">
+              <img src="../../../../public/adminPage.png" alt="adminPage" />
+              <Link to="/admin">AdminPage</Link>
+            </div>
+            <div className="row">
+              <img src="../../../../public/allPackages.png" alt="allPackages" />
+              <Link to="/admin/packages">All Packages</Link>
+            </div>
+            <div className="row">
+              <img src="../../../../public/packageAdd.png" alt="packageAdd" />
+              <Link to="/admin/packageAdd">Add new Package</Link>
+            </div>
+            <div className="row">
+              <img src="../../../../public/infoSetup.png" alt="infoSetup" />
+
+              <Link to="/admin/companyInfoSetUp">Info Setup</Link>
+            </div>
+            <div className="row">
+              <img
+                src="../../../../public/basicImages.png"
+                alt="basicImages add"
+              />
+              <Link to="/admin/basic-images">Basic Images</Link>
+            </div>
+          </div>
         </div>
         <div className="content">
           <Outlet />

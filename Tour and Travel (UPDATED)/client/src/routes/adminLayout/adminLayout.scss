@@ -1,46 +1,130 @@
 @import "../../responsive.scss";
 
 .adminLayout {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+
   width: 100%;
-  .sideBar {
-    position: fixed;
+  .fullScreenShadow {
+    display: none;
+    width: 100vw;
     height: 100vh;
+    position: fixed;
     top: 0;
-    width: 15%;
-    background-color: #af1763;
-    border-right: 2px solid white;
-    box-sizing: border-box;
+    left: 0;
+    background-color: rgba(11, 29, 34, 0.233);
+    z-index: 8;
+  }
+  .adminSidebarTop {
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    height: $adminNavbarHeight;
+    width: $adminSidebarBaseWidth;
+    background-color: $adminSidebarBackGroundColor;
+    transition: all 0.3s linear;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     @include md {
-      width: 20%;
+      width: 100%;
     }
-    @include sm {
-      width: 25%;
+  }
+  .adminSidebar {
+    z-index: 9;
+    width: $adminSidebarBaseWidth;
+    background-color: $adminSidebarBackGroundColor;
+    top: $adminNavbarHeight;
+    height: calc(100% - $adminNavbarHeight);
+    position: fixed;
+    -webkit-box-shadow: 3px 0px 31px -9px rgba(65, 77, 101, 1);
+    -moz-box-shadow: 3px 0px 31px -9px rgba(65, 77, 101, 1);
+    box-shadow: 3px 0px 31px -9px rgba(65, 77, 101, 1);
+    transition: all 0.3s linear;
+
+    .sidebarwrapper {
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+      gap: 15px;
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+          width: 20px;
+          height: 20px;
+        }
+        a {
+          font-size: 15px;
+          color: #a3b1cb;
+          &.hover {
+            color: #57abc5;
+          }
+        }
+      }
     }
   }
   .content {
     position: relative;
-    padding-top: 20px;
-    padding-bottom: 50px;
-    left: 15%;
-    width: 85%;
-    max-width: 85%;
-    box-sizing: border-box;
-    top: 0;
-    min-height: 100vh;
-    background-color: #191c24;
+    transition: all 0.3s linear;
+    width: calc(100% - $adminSidebarBaseWidth);
+    left: $adminSidebarBaseWidth;
+    right: 0;
     @include md {
-      left: 20%;
-      max-width: 80%;
-    }
-    @include sm {
-      left: 25%;
-      max-width: 75%;
-    }
-    // background-color: rgb(14, 137, 151);
-    @include lg {
+      top: $navBarHeight;
     }
   }
-  // display: flex;
+
+  @include md {
+    .adminSidebar {
+      transform: translateX(-100%);
+      &.open {
+        transform: translateX(0);
+      }
+    }
+    &.open {
+      .fullScreenShadow {
+        display: initial;
+      }
+    }
+  }
+  @include gtmd {
+    &.hovered {
+      .fullScreenShadow {
+        display: initial;
+      }
+      .adminSidebarTop {
+        width: $adminSidebarFinalWidth;
+      }
+      .adminSidebar {
+        width: $adminSidebarFinalWidth;
+      }
+    }
+    &.open {
+      // display: flex;
+      .adminSidebarTop {
+        width: $adminSidebarFinalWidth;
+      }
+      .adminSidebar {
+        width: $adminSidebarFinalWidth;
+      }
+      .content {
+        left: $adminSidebarFinalWidth;
+        width: calc(100% - $adminSidebarFinalWidth);
+      }
+      &.hovered {
+        .fullScreenShadow {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 .show-responsive {

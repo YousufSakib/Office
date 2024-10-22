@@ -16,12 +16,22 @@
   }
 }
 
+@mixin gtmd {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
 $linkColor: #e7e7e7;
 $linkHoverColor: #ffffff;
 $grayTextColor: rgb(63, 63, 63);
 $maxWidth: 1280px;
 $loginColor: rgb(43, 165, 165);
 $navBarHeight: 60px;
+$adminSidebarBaseWidth: 80px;
+$adminSidebarFinalWidth: 280px;
+$adminSidebarBackGroundColor: #414d65;
+$adminNavbarHeight: 70px;
 // width: 370px;
 // height: 440px;
 

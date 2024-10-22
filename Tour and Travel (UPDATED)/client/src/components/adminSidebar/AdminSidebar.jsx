@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./sidebar.scss";
+import "./adminSidebar.scss";
 
-function Sidebar() {
+function AdminSidebar() {
   return (
     <div className="sidebarwrapper">
       <Link to="/">Home</Link>
@@ -15,4 +15,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default AdminSidebar;
