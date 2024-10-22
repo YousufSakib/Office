@@ -14,20 +14,46 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(11, 29, 34, 0.233);
+    background-color: rgba(70, 79, 107, 0.37);
     z-index: 8;
   }
   .adminSidebarTop {
     position: fixed;
     z-index: 9;
     top: 0;
-    height: $adminNavbarHeight;
+    min-height: $adminNavbarHeight;
     width: $adminSidebarBaseWidth;
     background-color: $adminSidebarBackGroundColor;
     transition: all 0.3s linear;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
+    padding: 0 15px 0 18px;
+    box-sizing: border-box;
+    .left {
+      width: $adminSidebarBaseWidth;
+      height: 100%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      // background-color: black;
+      img {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+      }
+      span {
+        display: none;
+      }
+    }
+    img.adminNavcross {
+      display: none;
+      width: 20px;
+      height: 20px;
+    }
     @include md {
       width: 100%;
     }
@@ -39,14 +65,12 @@
     top: $adminNavbarHeight;
     height: calc(100% - $adminNavbarHeight);
     position: fixed;
-    -webkit-box-shadow: 3px 0px 31px -9px rgba(65, 77, 101, 1);
-    -moz-box-shadow: 3px 0px 31px -9px rgba(65, 77, 101, 1);
-    box-shadow: 3px 0px 31px -9px rgba(65, 77, 101, 1);
     transition: all 0.3s linear;
-
+    padding-top: 20px;
     .sidebarwrapper {
+      // background-color: blueviolet;
       width: 100%;
-      padding: 20px;
+      padding-left: 20px;
       box-sizing: border-box;
       display: flex;
       align-items: start;
@@ -55,38 +79,79 @@
       .row {
         display: flex;
         align-items: center;
+        // background-color: purple;
         gap: 10px;
         img {
           width: 20px;
           height: 20px;
+          box-sizing: border-box;
         }
         a {
+          display: none;
+          transition: all 0.3s linear;
           font-size: 15px;
-          color: #a3b1cb;
-          &.hover {
-            color: #57abc5;
+          color: #bcc5d6;
+        }
+        &:hover {
+          img {
+            padding: 2px;
+            border-radius: 50%;
+            border: 1px solid #00c8ff;
+          }
+          a {
+            color: #00c8ff;
           }
         }
       }
     }
   }
   .content {
-    position: relative;
+    position: absolute;
     transition: all 0.3s linear;
     width: calc(100% - $adminSidebarBaseWidth);
     left: $adminSidebarBaseWidth;
+    min-height: 100vh;
     right: 0;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    // background-image: linear-gradient(90deg, #000046 0%, #1cb5e0 100%);
+    background-image: linear-gradient(90deg, #3a6186 0%, #89253e 100%);
     @include md {
-      top: $navBarHeight;
+      top: $adminNavbarHeight;
     }
   }
-
+  //*Styles for mid*//
   @include md {
+    .adminSidebarTop {
+      .left {
+        width: initial;
+        span {
+          display: initial;
+        }
+      }
+      img.adminNavcross {
+        display: initial;
+      }
+    }
     .adminSidebar {
+      width: $adminSidebarFinalWidth;
       transform: translateX(-100%);
       &.open {
         transform: translateX(0);
       }
+      .sidebarwrapper {
+        .row {
+          a {
+            display: initial;
+          }
+        }
+      }
+    }
+    .content {
+      width: 100%;
+      left: 0;
     }
     &.open {
       .fullScreenShadow {
@@ -94,6 +159,7 @@
       }
     }
   }
+  //*styles for larger*//
   @include gtmd {
     &.hovered {
       .fullScreenShadow {
@@ -101,15 +167,40 @@
       }
       .adminSidebarTop {
         width: $adminSidebarFinalWidth;
+        .left {
+          width: initial;
+          span {
+            display: initial;
+          }
+        }
+        img.adminNavcross {
+          display: initial;
+        }
       }
       .adminSidebar {
         width: $adminSidebarFinalWidth;
+        .sidebarwrapper {
+          .row {
+            a {
+              display: initial;
+            }
+          }
+        }
       }
     }
     &.open {
       // display: flex;
       .adminSidebarTop {
         width: $adminSidebarFinalWidth;
+        .left {
+          width: initial;
+          span {
+            display: initial;
+          }
+        }
+        img.adminNavcross {
+          display: initial;
+        }
       }
       .adminSidebar {
         width: $adminSidebarFinalWidth;
@@ -117,6 +208,13 @@
       .content {
         left: $adminSidebarFinalWidth;
         width: calc(100% - $adminSidebarFinalWidth);
+      }
+      .sidebarwrapper {
+        .row {
+          a {
+            display: initial;
+          }
+        }
       }
       &.hovered {
         .fullScreenShadow {

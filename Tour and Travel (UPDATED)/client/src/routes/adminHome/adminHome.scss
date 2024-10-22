@@ -1,36 +1,131 @@
 @import "../../responsive.scss";
 
+h1 {
+  color: white;
+  margin-top: 0;
+}
 .alluserContacted {
   width: 100%;
-  max-width: $maxWidth;
-  margin: 0px auto;
-  //   background-color: rgba(64, 64, 97, 0.479);
-  // padding: 10px;
-  box-sizing: border-box;
-  h1 {
-    color: white;
-    margin-top: 0;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 20px;
   .UserContacted {
-    background-color: #0d6efd;
+    background-color: $adminSidebarBackGroundColor;
+    position: relative; //to position 3 dots(top - right)
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 15px;
     padding: 20px;
     box-sizing: border-box;
-    margin-bottom: 40px;
+    align-items: center;
+    width: 200px;
+    span.name {
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    img.profile {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #6f86d6;
+    }
     .row {
+      justify-self: start;
+      width: 100%;
       display: flex;
-      gap: 5px;
+      gap: 10px;
+      img.icon {
+        height: 20px;
+        width: 20px;
+      }
       span {
         color: white;
-        font-size: 18px;
-        &:first-child {
-          min-width: 180px;
-          border-right: 1px solid white;
-          box-sizing: border-box;
-        }
+        white-space: nowrap; /* Prevent text from wrapping */
+        overflow: hidden; /* Hide overflowed text */
+        text-overflow: ellipsis; /* Add ellipsis */
       }
     }
+    .dots {
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      cursor: pointer;
+      border-radius: 50%;
+      padding: 2px;
+      &:hover {
+        background-color: $adminSidebarBackGroundColor;
+      }
+    }
+    .seeMore {
+      align-self: start;
+      cursor: pointer;
+      font-weight: 500;
+      color: white;
+    }
+  }
+}
+
+.WrapperUserContactedPopup {
+  position: fixed;
+  z-index: 9;
+  background-color: #11152653;
+
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  .UserContactedPopup {
+    position: absolute;
+    top: 120px;
+    bottom: 120px;
+    left: 200px;
+    right: 120px;
+    z-index: 10;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    // background-color: black;
+    background-color: $adminSidebarBackGroundColor;
+    img.cross {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid black;
+      cursor: pointer;
+      background-color: black;
+    }
+    animation: myAnim 0.3s linear 0s 1 normal forwards;
+
+    -webkit-box-shadow: 10px 10px 19px -8px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 19px -8px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 19px -8px rgba(0, 0, 0, 0.75);
+
+    @include lg {
+      position: fixed;
+      top: 80px;
+      bottom: 80px;
+      left: 80px;
+      right: 80px;
+    }
+    @include sm {
+      left: 10px;
+      right: 10px;
+    }
+  }
+}
+
+@keyframes myAnim {
+  0% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }

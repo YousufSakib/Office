@@ -51,12 +51,12 @@
             height: 22px;
             cursor: pointer;
             border-radius: 50%;
-            background-color: rgba(222, 224, 224, 0.356);
+            // background-color: rgba(222, 224, 224, 0.356);
             display: flex;
             align-items: center;
             justify-content: center;
             &:hover {
-              background-color: rgba(222, 224, 224, 0.61);
+              // background-color: rgba(222, 224, 224, 0.61);
             }
           }
         }
@@ -92,8 +92,8 @@
     font-size: 18px;
     padding: 0 5px;
     box-sizing: border-box;
-    background-color: #191c24;
-    color: white;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.77);
     &:focus {
       outline: none;
     }

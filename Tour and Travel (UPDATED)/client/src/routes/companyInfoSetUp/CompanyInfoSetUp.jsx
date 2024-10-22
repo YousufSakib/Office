@@ -3,7 +3,7 @@ import "./companyInfoSetUp.scss";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
-import {useInfo} from "../../components/CompanyInfoContext";
+import { useInfo } from "../../components/CompanyInfoContext";
 
 function CompanyInfoSetUp() {
   const {
@@ -24,19 +24,18 @@ function CompanyInfoSetUp() {
   const [loading, setLoading] = useState(false);
 
   const [obj, setObj] = useState({
-    companyName: companyName,
-    companyEmail: companyEmail,
-    companyPhoneNo: companyPhoneNo,
-    receptionOffice: receptionOffice,
-    receptionHours: receptionHours,
-    latitude: latitude,
-    longitude: longitude,
-    facebookLink: facebookLink,
-    instagramLink: instagramLink,
-    tweeterLink: tweeterLink,
-    aboutUs: aboutUs,
+    companyName: companyName || "",
+    companyEmail: companyEmail || "",
+    companyPhoneNo: companyPhoneNo || "",
+    receptionOffice: receptionOffice || "",
+    receptionHours: receptionHours || "",
+    latitude: latitude || "",
+    longitude: longitude || "",
+    facebookLink: facebookLink || "",
+    instagramLink: instagramLink || "",
+    tweeterLink: tweeterLink || "",
+    aboutUs: aboutUs || "",
   });
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -91,7 +90,7 @@ function CompanyInfoSetUp() {
                 name="companyName"
                 id="companyName"
                 onChange={handleChange}
-                value={companyName || ""}
+                value={obj.companyName}
                 required
                 disabled={isInfoDisabled}
               />
@@ -103,7 +102,7 @@ function CompanyInfoSetUp() {
                 name="companyEmail"
                 id="companyEmail"
                 onChange={handleChange}
-                value={companyEmail || ""}
+                value={obj.companyEmail}
                 required
                 disabled={isInfoDisabled}
               />
@@ -115,7 +114,7 @@ function CompanyInfoSetUp() {
                 name="companyPhoneNo"
                 id="companyPhoneNo"
                 onChange={handleChange}
-                value={companyPhoneNo || ""}
+                value={obj.companyPhoneNo}
                 required
                 disabled={isInfoDisabled}
               />
@@ -128,7 +127,7 @@ function CompanyInfoSetUp() {
                 id="receptionOffice"
                 placeholder=""
                 onChange={handleChange}
-                value={receptionOffice || ""}
+                value={obj.receptionOffice}
                 required
                 disabled={isInfoDisabled}
               />
@@ -140,7 +139,7 @@ function CompanyInfoSetUp() {
                 name="receptionHours"
                 id="receptionHours"
                 onChange={handleChange}
-                value={receptionHours || ""}
+                value={obj.receptionHours}
                 required
                 disabled={isInfoDisabled}
               />
@@ -153,7 +152,7 @@ function CompanyInfoSetUp() {
                 id="latitude"
                 placeholder=""
                 onChange={handleChange}
-                value={latitude || ""}
+                value={obj.latitude}
                 required
                 disabled={isInfoDisabled}
               />
@@ -166,7 +165,7 @@ function CompanyInfoSetUp() {
                 id="longitude"
                 placeholder=""
                 onChange={handleChange}
-                value={longitude || ""}
+                value={obj.longitude}
                 required
                 disabled={isInfoDisabled}
               />
@@ -178,7 +177,7 @@ function CompanyInfoSetUp() {
                 name="facebookLink"
                 id="facebookLink"
                 onChange={handleChange}
-                value={facebookLink || ""}
+                value={obj.facebookLink}
                 required
                 disabled={isInfoDisabled}
               />
@@ -190,7 +189,7 @@ function CompanyInfoSetUp() {
                 name="instagramLink"
                 id="instagramLink"
                 onChange={handleChange}
-                value={instagramLink || ""}
+                value={obj.instagramLink}
                 required
                 disabled={isInfoDisabled}
               />
@@ -202,7 +201,7 @@ function CompanyInfoSetUp() {
                 name="tweeterLink"
                 id="tweeterLink"
                 onChange={handleChange}
-                value={tweeterLink || ""}
+                value={obj.tweeterLink}
                 required
                 disabled={isInfoDisabled}
               />
@@ -213,7 +212,7 @@ function CompanyInfoSetUp() {
                 name="aboutUs"
                 id="aboutUs"
                 onChange={handleChange}
-                value={aboutUs || ""}
+                value={obj.aboutUs}
                 required
                 disabled={isInfoDisabled}
               />

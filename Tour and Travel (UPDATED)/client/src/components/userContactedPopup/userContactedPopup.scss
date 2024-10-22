@@ -1,0 +1,24 @@
+@import "../../responsive.scss";
+
+.UserContacted {
+  background-color: $adminSidebarBackGroundColor;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+  .row {
+    display: flex;
+    gap: 5px;
+    span {
+      color: white;
+      font-size: 18px;
+      &:first-child {
+        min-width: 180px;
+        border-right: 1px solid white;
+        box-sizing: border-box;
+      }
+    }
+  }
+}

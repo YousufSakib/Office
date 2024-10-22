@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import Navbar from "../../components/navbar/Navbar";
-import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { Link, Outlet } from "react-router-dom";
 import "./adminLayout.scss";
 import Footer from "../../components/footer/Footer";
-
+import { useImages } from "../../components/ImageContext";
+import { useInfo } from "../../components/CompanyInfoContext";
+import { BACKEND_URL } from "../../../dynamicInfo";
 function AdminLayout() {
   const [isHovered, setIsHovered] = useState(false);
   const [isSideOpen, setIsSideOpen] = useState(false);
+  const { logo } = useImages();
+  const { companyName } = useInfo();
+
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -30,18 +33,25 @@ function AdminLayout() {
           isHovered ? "hovered" : ""
         }`}
       >
-        <div className="fullScreenShadow"></div>
+        <div onClick={handleBugerClick} className="fullScreenShadow"></div>
         <div
-          className={`adminSidebarTop`}
+          className='rightShadow adminSidebarTop'
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="left">Logo</div>
-          {/* <img onClick={handleBugerClick} src="burger-bar.png" alt="" /> */}
-          <span onClick={handleBugerClick}>sksk</span>
+          <div className="left">
+            <img src={`${BACKEND_URL}/uploads/${logo}`} alt="" />
+            <span>{companyName}</span>
+          </div>
+          <img
+            className="adminNavcross"
+            onClick={handleBugerClick}
+            src={ `"../../../../public/${isSideOpen ? 'adminX.png' : 'adminMenu.png'}`}
+            alt=""
+          />
         </div>
         <div
-          className={`adminSidebar ${isSideOpen ? "open" : ""}`}
+          className={`rightShadow adminSidebar ${isSideOpen ? "open" : ""}`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

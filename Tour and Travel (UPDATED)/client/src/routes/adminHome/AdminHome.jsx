@@ -3,20 +3,28 @@ import "./adminHome.scss";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import axios from "axios";
 import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
+import UserContactedPopup from "../../components/userContactedPopup/UserContactedPopup";
 
 function AdminHome() {
-  const [contact, setContact] = useState({});
+  const [contact, setContact] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [contactedPopup, setContactedPopup] = useState(null);
+
+  const handleSeeMore = (id) => {
+    setContactedPopup(id);
+  };
+
+  const handleClose = (event) => {
+    setContactedPopup(null);
+    event.stopPropagation();
+  };
 
   useEffect(() => {
     const url = `${BACKEND_URL}/api/v1/contacts`;
     axios
       .get(url)
       .then((response) => {
-        console.log(response.data);
         setContact(response.data);
-        console.log("from Admin home");
-        console.log("contact", contact);
         setLoading(false);
       })
       .catch((error) => {
@@ -28,46 +36,66 @@ function AdminHome() {
   return (
     <>
       {loading && <FullScreenloading />}
-      {loading || (
-        <div className="alluserContacted">
-          <h1>Cutomers Contacted</h1>
-          {contact.map((item) => (
-            <div className="UserContacted">
-              <div className="row">
-                <span>Name</span>
-                <span>{item.name}</span>
+      {!loading && (
+        <>
+          <h1>Contacted Clients</h1>
+          <div className="alluserContacted">
+            {contact.map((item) => (
+              <div className="UserContacted" key={item.id}>
+                <img
+                  className="profile"
+                  src={
+                    item.gender === "f" ? "avaterFemale.jpg" : "avaterMale.jpg"
+                  }
+                  alt=""
+                />
+                <span className="name">{item.name}</span>
+                <div className="row">
+                  <img className="icon" src="adminPhone.png" alt="" />
+                  <span>{item.phoneNo}</span>
+                </div>
+                <div className="row">
+                  <img className="icon" src="adminEmail.png" alt="" />
+                  <span>{item.email}</span>
+                </div>
+                <div className="row">
+                  <img className="icon" src="pinDrop.png" alt="" />
+                  <span>{item.destination}</span>
+                </div>
+                <img
+                  className="icon dots"
+                  src="homePageDots.png"
+                  alt="options"
+                />
+                <span
+                  onClick={() => handleSeeMore(item.id)}
+                  className="seeMore"
+                >
+                  See more . . .
+                </span>
               </div>
-              <div className="row">
-                <span>Phone No</span>
-                <span>{item.phoneNo}</span>
-              </div>
-              <div className="row">
-                <span>Email</span>
-                <span>{item.email}</span>
-              </div>
-              <div className="row">
-                <span>Message</span>
-                <span>{item.message}</span>
-              </div>
-              <div className="row">
-                <span>Tour Date</span>
-                <span>{item.date.split("T")[0]}</span>
-              </div>
-              <div className="row">
-                <span>Tour Destination</span>
-                <span>{item.destination}</span>
-              </div>
-              <div className="row">
-                <span>Tour Duration</span>
-                <span>{item.tourDuration} days</span>
-              </div>
-              <div className="row">
-                <span>Number of Person</span>
-                <span>{item.travellerNo} persons</span>
+            ))}
+          </div>
+          {contactedPopup && (
+            <div
+              onClick={() => setContactedPopup(null)} // Close on outer click
+              className="WrapperUserContactedPopup"
+            >
+              <div
+                className="UserContactedPopup"
+                onClick={(e) => e.stopPropagation()} // Prevent outer click
+              >
+                <UserContactedPopup id={{ id: contactedPopup }} />
+                <img
+                  onClick={handleClose}
+                  className="cross"
+                  src="adminX.png"
+                  alt="Close"
+                />
               </div>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </>
   );
