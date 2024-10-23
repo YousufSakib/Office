@@ -17,12 +17,12 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 50px;
-    color: white;
     .item {
       display: flex;
       flex-direction: column;
       align-items: start;
       gap: 10px;
+      background-color: rgb(238, 235, 229);
       p {
         font-weight: bold;
         font-size: large;
@@ -69,12 +69,6 @@
       box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
 
       animation: myAnim 1.5s ease 0s 1 normal forwards;
-      &:hover {
-        border-radius: 0px 0px 50px 0px;
-        -moz-border-radius: 0px 0px 50px 0px;
-        -webkit-border-radius: 0px 0px 50px 0px;
-        border: 0px solid #000000;
-      }
     }
   }
 }

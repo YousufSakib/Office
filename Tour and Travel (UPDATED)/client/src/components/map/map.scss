@@ -8,8 +8,7 @@
   .leaflet-popup-content {
     width: 50vw;
     height: 300px;
-    // display: flex;
-
+    overflow: hidden;
     img {
       width: 170px;
       height: 170px;

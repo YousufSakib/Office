@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
-import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 
 import "./basicImgSetup.scss";
 
 function BasicImgSetup() {
   const [isImgDisabled, setIsImgDisabled] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState({
     logo: null,
     homeHeroImg: null,
@@ -23,25 +21,24 @@ function BasicImgSetup() {
     const { name, files } = event.target;
 
     if (files.length > 0) {
-      // Check if files array has files
       setImages((prevState) => ({
         ...prevState,
         [name]: files[0],
       }));
     } else {
-      console.log(`${name} was not selected.`);
+      alert(`${name} was not selected.`);
     }
   };
 
   const handleImgSubmit = async (event) => {
     const formData = new FormData();
-    formData.append("packageHeroImg", images.packageHeroImg);
-    formData.append("aboutHeroImg", images.aboutHeroImg);
-    formData.append("homeHeroImg", images.homeHeroImg);
-    formData.append("logo", images.logo);
-    formData.append("placesToVistHeroImg", images.placesToVistHeroImg);
-    formData.append("meetBangladeshHeroImg", images.meetBangladeshHeroImg);
-    formData.append("contactUsHeroImg", images.contactUsHeroImg);
+    console.log("from basic Img setup");
+    for (const [key, value] of Object.entries(images)) {
+      if (value) {
+        formData.append(`${key}`, value);
+        console.log(key, value);
+      }
+    }
 
     // Log the FormData entries
     console.log("from Basic img setup page: images");
@@ -49,11 +46,11 @@ function BasicImgSetup() {
       console.log(key, value);
     }
 
-    const url = `${BACKEND_URL}/api/v1/site-images/11`;
+    const url = `${BACKEND_URL}/api/v1/site-images`;
 
     try {
       console.log("Sending request to:", url);
-      const response = await axios.put(url, formData, {
+      const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -74,7 +71,6 @@ function BasicImgSetup() {
   };
 
   return (
-
     <div className="ImgInfoWrapper">
       <div className="basicImgs">
         <h2>Images</h2>

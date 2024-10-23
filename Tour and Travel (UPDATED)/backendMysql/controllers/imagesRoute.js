@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(
       null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname),
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
     );
   },
 });
@@ -39,10 +39,7 @@ const upload = multer({ storage, fileFilter });
 
 router.post(
   "/site-images",
-  (req, res, next) => {
-    console.log("Upload requested files:", req.files);
-    next();
-  },
+
   upload.fields([
     { name: "packageHeroImg", maxCount: 1 },
     { name: "aboutHeroImg", maxCount: 1 },
@@ -78,12 +75,13 @@ router.post(
           : null,
       });
 
-      res.status(201).json(newImageEntry);
+      console.log(newImageEntry);
+      return res.status(201).json({ message: "Successfully images uploaded" });
     } catch (error) {
       console.error("Error uploading images:", error);
       res.status(500).json({ error: "Failed to upload images." });
     }
-  },
+  }
 );
 
 // PUT route to update existing image entries
@@ -100,7 +98,7 @@ router.put(
   ]),
   async (req, res) => {
     try {
-      const imageEntry = await Image.findByPk(req.params.id);
+      const imageEntry = await Image.findAll();
 
       if (imageEntry) {
         await imageEntry.update({
@@ -146,13 +144,13 @@ router.put(
       console.error("Error updating images:", error);
       res.status(500).json({ error: "Failed to update images." });
     }
-  },
+  }
 );
 // GET route to fetch existing images
-router.get("/site-images/:id", async (req, res) => {
+router.get("/site-images", async (req, res) => {
   try {
-    const imageEntry = await Image.findByPk(req.params.id);
-    res.status(200).json(imageEntry);
+    const imageEntry = await Image.findAll();
+    res.status(200).json(imageEntry[0]);
   } catch (error) {
     console.error("Error fetching images:", error);
     res.status(500).json({ error: "Failed to fetch images." });

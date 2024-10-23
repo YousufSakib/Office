@@ -62,10 +62,10 @@ function AdminAllPackage() {
                 )}
                 <div className="buttons">
                   <Link to={"update/" + i.id}>
-                    <div className="button">Update</div>
+                    <div className="button update-btn">Update</div>
                   </Link>
                   <div
-                    className="button delete"
+                    className="button delete-btn"
                     onClick={() => handleDelete(i.id)}
                   >
                     Delete

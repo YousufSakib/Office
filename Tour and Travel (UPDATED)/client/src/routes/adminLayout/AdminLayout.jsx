@@ -35,7 +35,7 @@ function AdminLayout() {
       >
         <div onClick={handleBugerClick} className="fullScreenShadow"></div>
         <div
-          className='rightShadow adminSidebarTop'
+          className="adminSidebarTop"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
@@ -46,12 +46,14 @@ function AdminLayout() {
           <img
             className="adminNavcross"
             onClick={handleBugerClick}
-            src={ `"../../../../public/${isSideOpen ? 'adminX.png' : 'adminMenu.png'}`}
+            src={`"../../../../public/${
+              isSideOpen ? "adminX.png" : "adminMenu.png"
+            }`}
             alt=""
           />
         </div>
         <div
-          className={`rightShadow adminSidebar ${isSideOpen ? "open" : ""}`}
+          className={`adminSidebar ${isSideOpen ? "open" : ""}`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

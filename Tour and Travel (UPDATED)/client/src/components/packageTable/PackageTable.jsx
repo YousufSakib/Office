@@ -36,11 +36,10 @@ function PackageTable({ packageResponse }) {
         </tr>
         {packageResponse.tourHighLights.map((i) => (
           <tr key={i.key}>
-            <td>*</td>
             <td>
-              {/* <span>{i.highlight + " "}</span> */}
-              {i.description}
+              <span>{i.highlight + " : "}</span>
             </td>
+            <td>{i.description}</td>
           </tr>
         ))}
       </table>

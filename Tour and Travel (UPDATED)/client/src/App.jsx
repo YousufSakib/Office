@@ -3,9 +3,7 @@ import { Layout, SimpleLayout } from "./routes/layout/Layout";
 import HomePage from "./routes/homePage/HomePage";
 import Login from "./routes/login/Login";
 import Register from "./routes/register/Register";
-import AmenitiesPage from "./routes/amenitiesPage/AmenitiesPage";
 import ContactUs from "./routes/contactUs/ContactUs";
-import Room from "./routes/room/Room";
 import MeetBangladesh from "./routes/meetBangadesh/MeetBangladesh";
 import Package from "./routes/package/Package";
 import BookTour from "./routes/bookTour/BookTour";
@@ -13,7 +11,7 @@ import {
   packagePageLoader,
   homePageLoader,
   allPackagesPageLoader,
-} from "./lib/loaders"; // Ensure loaders are correctly imported
+} from "./lib/loaders";
 import Allpackages from "./routes/Allpackages";
 import AdminLayout from "./routes/adminLayout/AdminLayout";
 import AdminPackageAdd from "./routes/adminPackageAdd/AdminPackageAdd";
@@ -25,6 +23,8 @@ import CompanyInfoSetUp from "./routes/companyInfoSetUp/CompanyInfoSetUp";
 import BasicImgSetup from "./routes/basicImgSetup/basicImgSetup";
 import AboutUs from "./routes/aboutUs/AboutUs";
 import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
+import TestInput from "./components/TestInput";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -59,16 +59,16 @@ function App() {
       ],
     },
     {
-      path: "/", // This could be adjusted if needed
+      path: "/",
       element: <SimpleLayout />, // Alternative layout for package-related routes
       children: [
         {
-          path: "packages", // running
+          path: "packages",
           element: <Allpackages />,
           loader: allPackagesPageLoader,
         },
         {
-          path: "packages/:id", //running
+          path: "packages/:id",
           element: <Package />,
           loader: packagePageLoader,
         },
@@ -86,10 +86,6 @@ function App() {
       path: "/admin",
       element: <AdminLayout />,
       children: [
-        {
-          path: "/admin/loading",
-          element: <FullScreenloading />,
-        },
         {
           path: "/admin",
           element: <AdminHome />,
@@ -113,6 +109,14 @@ function App() {
         {
           path: "/admin/basic-images",
           element: <BasicImgSetup />,
+        },
+        {
+          path: "/admin/test",
+          element: <TestInput />,
+        },
+        {
+          path: "/admin/loading",
+          element: <FullScreenloading />,
         },
       ],
     },

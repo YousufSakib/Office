@@ -37,10 +37,11 @@ function SingleClickableImg({ src }) {
             justifyContent: "center",
             width: "100vw",
             height: "100vh",
-            zIndex: 9,
+            zIndex: 10,
           }}
         >
           <img
+            onClick={(event) => event.stopPropagation()}
             style={{
               width: "80%",
               height: "80%",
@@ -50,6 +51,19 @@ function SingleClickableImg({ src }) {
             src={src}
             alt=""
           />
+          <span
+            onClick={handleClick}
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              backgroundColor: "gray",
+              padding: "10px",
+              cursor: "pointer",
+            }}
+          >
+            X
+          </span>
         </div>
       )}
     </>
