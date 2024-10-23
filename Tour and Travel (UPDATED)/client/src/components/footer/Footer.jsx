@@ -60,7 +60,7 @@ function Footer() {
       </div>
       <p className="copyright">
         {`
-         Copyright © 2024 Travel & Tourism | Powered by
+         Copyright © ${new Date().getFullYear()} Travel & Tourism | Powered by
          ${companyName}
          `}
       </p>
