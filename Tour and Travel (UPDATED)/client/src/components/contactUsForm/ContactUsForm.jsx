@@ -6,6 +6,8 @@ import { useInfo } from "../CompanyInfoContext";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import slowScrollToTop from "../../lib/slowScrolltoTop";
+import { isNotValidatedEmail } from "../../lib/validateRegex";
+import { isNotValidatedPhone } from "../../lib/validateRegex";
 
 function ContactUsForm() {
   const {
@@ -18,6 +20,9 @@ function ContactUsForm() {
     companyEmail,
   } = useInfo();
 
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phoneNo: "",
@@ -31,18 +36,17 @@ function ContactUsForm() {
 
   const destination = [
     "Rajshahi",
-    "Bandarban",
     "Jaflong",
-    "dhaka",
+    "Dhaka",
     "Cox's Bazar",
     "Sylhet",
     "Srimangal",
     "Bandarban",
+    "Sonargaon",
     "Chittagong Hill Tracts",
     "Khulna",
-    "Sonargaon",
-    "Sundarbans",
     "Rangamati",
+    "Sundarbans",
     "Paharpur",
   ];
   useEffect(() => {
@@ -50,16 +54,35 @@ function ContactUsForm() {
     slowScrollToTop(targetElement, 70, 1000);
     // targetElement.scrollIntoView({ behavior: "smooth" });
   }, []);
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name === "email") value = value;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    if (isSubmitClicked) {
+      if (name === "email") {
+        setEmailError(isNotValidatedEmail(value));
+      } else if (name === "phoneNo") {
+        setPhoneError(isNotValidatedPhone(value));
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitClicked(true);
+    if (
+      isNotValidatedEmail(formData.email) ||
+      isNotValidatedPhone(formData.phoneNo)
+    ) {
+      setEmailError(isNotValidatedEmail(formData.email));
+      setPhoneError(isNotValidatedPhone(formData.phoneNo));
+      return;
+    }
+    console.log("Following object is going to save into server", formData);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/contacts`,
@@ -147,6 +170,17 @@ function ContactUsForm() {
               value={formData.phoneNo}
               onChange={handleChange}
             />
+            {phoneError && (
+              <span
+                style={{
+                  margin: "10px 0 10px 0",
+                  display: "block",
+                  color: "red",
+                }}
+              >
+                {phoneError}
+              </span>
+            )}
           </div>
           <div className="row">
             <label htmlFor="email">
@@ -161,6 +195,17 @@ function ContactUsForm() {
               value={formData.email}
               onChange={handleChange}
             />
+            {emailError && (
+              <span
+                style={{
+                  margin: "10px 0 10px 0",
+                  display: "block",
+                  color: "red",
+                }}
+              >
+                {emailError}
+              </span>
+            )}
           </div>
           <div className="row">
             <label htmlFor="tourDuration">
