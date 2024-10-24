@@ -23,6 +23,7 @@ import CompanyInfoSetUp from "./routes/companyInfoSetUp/CompanyInfoSetUp";
 import BasicImgSetup from "./routes/basicImgSetup/basicImgSetup";
 import AboutUs from "./routes/aboutUs/AboutUs";
 import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
+import Test from "./routes/test/Test";
 
 function App() {
   const router = createBrowserRouter([
@@ -111,7 +112,7 @@ function App() {
         },
         {
           path: "/admin/test",
-          element: <p>Test page</p>,
+          element: <Test />,
         },
         {
           path: "/admin/loading",

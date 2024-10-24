@@ -21,9 +21,8 @@ function AdminUpdatePackage() {
     category: "",
     name: "",
     description: "",
-    attractions: "",
-    tourHighLights: "",
-    pricePerPerson: "",
+    tourHighLights: [],
+    pricePerPerson: [],
   });
   const [existingImages, setExistingImages] = useState([]);
   const [existingProfileImg, setExistingProfileImg] = useState(null);
@@ -48,15 +47,8 @@ function AdminUpdatePackage() {
 
         setFormData({
           ...packageData,
-          attractions: JSON.parse(JSON.parse(packageData.attractions))
-            .map((obj) => `${obj.attraction}`)
-            .join("\n"),
-          tourHighLights: JSON.parse(JSON.parse(packageData.tourHighLights))
-            .map((obj) => `${obj.highlight} : ${obj.description}`)
-            .join("\n"),
-          pricePerPerson: JSON.parse(JSON.parse(packageData.pricePerPerson))
-            .map((obj) => `${obj.priceType} : ${obj.priceTaka}`)
-            .join("\n"),
+          tourHighLights: JSON.parse(JSON.parse(packageData.tourHighLights)),
+          pricePerPerson: JSON.parse(JSON.parse(packageData.pricePerPerson)),
           images: [], // Start with empty new images
           profileImg: [],
         });
@@ -111,6 +103,95 @@ function AdminUpdatePackage() {
   const handleExistingImgRemove = (removeUrl) => {
     setExistingImages(existingImages.filter((url) => url !== removeUrl));
   };
+  const handleCancel = (event) => {
+    event.preventDefault();
+    const confirmation = confirm(
+      "Are you sure you want to cancel update package?"
+    );
+    if (confirmation) {
+      navigate(-1);
+    }
+  };
+  /* handlding TourHighLight related data */
+  const handleTourHightLightChange = (event, changedIndex, attribute) => {
+    setFormData((prev) => ({
+      ...prev,
+      tourHighLights: formData.tourHighLights.map((item, index) => {
+        if (index === changedIndex) {
+          item[attribute] = event.target.value;
+        }
+        return item;
+      }),
+    }));
+  };
+
+  const handleTourHightLightAdd = (event) => {
+    event.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      tourHighLights: [
+        ...prev.tourHighLights,
+        {
+          key: randomChar(5),
+          highlight: "Day x",
+          description: "Explore the Sylhet city...",
+        },
+      ],
+    }));
+  };
+
+  const handleTourHightLightDelete = (event, deletingIndex) => {
+    event.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      tourHighLights: prev.tourHighLights.filter(
+        (_, index) =>
+          prev.tourHighLights.length === 1 || index !== deletingIndex
+      ),
+    }));
+  };
+
+  /*Handling Price related data */
+  const handlePriceChange = (event, changedIndex, attribute) => {
+    setFormData((prev) => ({
+      ...prev,
+      pricePerPerson: formData.pricePerPerson.map((item, index) => {
+        if (index === changedIndex) {
+          item[attribute] = event.target.value;
+        }
+        return item;
+      }),
+    }));
+  };
+
+  const handlePriceAdd = (event) => {
+    event.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      pricePerPerson: [
+        ...prev.pricePerPerson,
+        {
+          key: randomChar(5),
+          priceType: "Price Type",
+          priceTaka: "Price Taka",
+        },
+      ],
+    }));
+  };
+
+  const handlePriceDelete = (event, deletingIndex) => {
+    event.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      pricePerPerson: prev.pricePerPerson.filter(
+        (_, index) =>
+          prev.pricePerPerson.length === 1 || index !== deletingIndex
+      ),
+    }));
+  };
+
+  /*handle submit */
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -147,12 +228,10 @@ function AdminUpdatePackage() {
     // Append other form data
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== "images" && key !== "profileImg") {
-        if (key === "attractions") {
-          data.append(key, JSON.stringify(funcFormatAttractions(value)));
-        } else if (key === "pricePerPerson") {
-          data.append(key, JSON.stringify(funcFormatPricePerPerson(value)));
+        if (key === "pricePerPerson") {
+          data.append(key, JSON.stringify(value));
         } else if (key === "tourHighLights") {
-          data.append(key, JSON.stringify(funcFormatTourHighLights(value)));
+          data.append(key, JSON.stringify(value));
         } else {
           data.append(key, value);
         }
@@ -161,8 +240,10 @@ function AdminUpdatePackage() {
 
     console.log("Your data is going to submitted in the server");
     data.forEach((value, key) => {
-      if(value instanceof File){
-        console.log(`${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`);
+      if (value instanceof File) {
+        console.log(
+          `${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`
+        );
       } else {
         console.log(`${key} : ${value}`);
       }
@@ -238,7 +319,9 @@ function AdminUpdatePackage() {
               )}
             </div>
             <div className="row full">
-              <label htmlFor="multiPleTourimages">Choose gallery images:</label>
+              <label htmlFor="multiPleTourimages">
+                Choose multiple gallery images:
+              </label>
               <input
                 type="file"
                 id="multiPleTourimages"
@@ -287,18 +370,12 @@ function AdminUpdatePackage() {
               "category",
               "name",
               "description",
-              "attractions",
-              "tourHighLights",
-              "pricePerPerson",
             ].map((field) => (
               <div className="row" key={field}>
                 <label htmlFor={field}>
                   {field.charAt(0).toUpperCase() + field.slice(1)}
                 </label>
-                {field === "description" ||
-                field === "attractions" ||
-                field === "tourHighLights" ||
-                field === "pricePerPerson" ? (
+                {field === "description" ? (
                   <textarea
                     name={field}
                     id={field}
@@ -317,9 +394,87 @@ function AdminUpdatePackage() {
               </div>
             ))}
 
-            <button type="submit" className="button adminpaneladdButton">
-              Update
-            </button>
+            <div className="row">
+              <h3>Package HighLights</h3>
+              {formData.tourHighLights.map((item, index) => {
+                return (
+                  <div className="line" key={item.key}>
+                    <input
+                      onChange={(event) =>
+                        handleTourHightLightChange(event, index, "highlight")
+                      }
+                      value={item.highlight}
+                      type="text"
+                    />
+                    {" : "}
+                    <input
+                      onChange={(event) =>
+                        handleTourHightLightChange(event, index, "description")
+                      }
+                      value={item.description}
+                      type="text"
+                    />
+                    <button
+                      onClick={(event) =>
+                        handleTourHightLightDelete(event, index)
+                      }
+                      className="delete"
+                    >
+                      -
+                    </button>
+                  </div>
+                );
+              })}
+              <button
+                onClick={handleTourHightLightAdd}
+                className="button safe-btn"
+              >
+                +
+              </button>
+            </div>
+
+            <div className="row">
+              <h3>Package prices (Per person)</h3>
+              {formData.pricePerPerson.map((item, index) => {
+                return (
+                  <div className="line" key={item.key}>
+                    <input
+                      onChange={(event) =>
+                        handlePriceChange(event, index, "priceType")
+                      }
+                      value={item.priceType}
+                      type="text"
+                    />
+                    {" : "}
+                    <input
+                      onChange={(event) =>
+                        handlePriceChange(event, index, "priceTaka")
+                      }
+                      value={item.priceTaka}
+                      type="text"
+                    />
+                    <button
+                      onClick={(event) => handlePriceDelete(event, index)}
+                      className="delete"
+                    >
+                      -
+                    </button>
+                  </div>
+                );
+              })}
+              <button onClick={handlePriceAdd} className="button safe-btn">
+                +
+              </button>
+            </div>
+
+            <div className="buttonRow">
+              <button type="submit" className="button safe-btn">
+                Update
+              </button>
+              <button onClick={handleCancel} className="button warning-btn">
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       )}
@@ -328,49 +483,3 @@ function AdminUpdatePackage() {
 }
 
 export default AdminUpdatePackage;
-
-const funcFormatAttractions = (input) => {
-  const output = input
-    .trim()
-    .split("\n")
-    .map((line) => {
-      const attraction = line.trim();
-      return {
-        attraction,
-        key: randomChar(10),
-      };
-    });
-  return output;
-};
-
-const funcFormatPricePerPerson = (input) => {
-  const output = input
-    .split("\n")
-    .filter((line) => line.trim())
-    .map((line) => {
-      const [priceType, priceTaka] = line.split(":").map((part) => part.trim());
-      return {
-        priceType: priceType,
-        priceTaka: parseInt(priceTaka, 10) || 0, // Convert price to number
-        key: randomChar(10),
-      };
-    });
-  return output;
-};
-
-const funcFormatTourHighLights = (input) => {
-  const output = input
-    .split("\n")
-    .filter((line) => line.trim()) // Filter out any empty lines
-    .map((line) => {
-      const [highlight, description] = line
-        .split(":")
-        .map((part) => part.trim());
-      return {
-        highlight: highlight,
-        description: description,
-        key: randomChar(10),
-      };
-    });
-  return output;
-};

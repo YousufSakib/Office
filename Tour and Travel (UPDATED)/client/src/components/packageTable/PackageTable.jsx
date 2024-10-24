@@ -18,26 +18,16 @@ function PackageTable({ packageResponse }) {
             <td>Location : </td>
             <td> {" " + packageResponse?.destination}</td>
           </tr>
-          <tr>
-            <td>Attractions :</td>
-            <td>
-              <ul>
-                {packageResponse?.attractions.map((i) => (
-                  <li key={i.key}>{i.attraction}</li>
-                ))}
-              </ul>
-            </td>
-          </tr>
         </table>
       </div>
       <table style={{ overflowX: "auto", marginTop: "40px" }}>
         <tr>
-          <th colspan="2">Tour Highlighs</th>
+          <th colspan="2">Package Highlights</th>
         </tr>
         {packageResponse.tourHighLights.map((i) => (
           <tr key={i.key}>
             <td>
-              <span>{i.highlight + " : "}</span>
+              <span>{i.highlight}</span>
             </td>
             <td>{i.description}</td>
           </tr>
@@ -45,7 +35,7 @@ function PackageTable({ packageResponse }) {
       </table>
       <table style={{ overflowX: "auto", marginTop: "40px" }}>
         <tr>
-          <th colSpan="2">Price for the tour (Per Person)</th>
+          <th colSpan="2">Price for the package (Per Person)</th>
         </tr>
         {packageResponse.pricePerPerson.map((i) => (
           <tr key={i.key}>

@@ -57,6 +57,12 @@ body {
   &.update-btn {
     background-image: linear-gradient(90deg, #093028 0%, #237a57 100%);
   }
+  &.safe-btn{
+    background-image: linear-gradient(90deg, #09300e 0%, #079e0c 100%);
+  }
+  &.warning-btn{
+    background-image:linear-gradient(90deg, #460606 0%, #a80505 100%);
+  }
 }
 
 .button:focus {
