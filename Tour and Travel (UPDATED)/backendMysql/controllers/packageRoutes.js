@@ -47,16 +47,55 @@ router.post(
       console.log(err);
       res.status(400).json({ message: err.message });
     }
-  }
+  },
 );
 
-// Get all packages
-router.get("/packages", async (req, res) => {
+router.get("/popularPackages", async (req, res) => {
   try {
-    const packages = await Package.findAll();
-    res.status(200).json(packages);
+    const { rows } = await Package.findAndCountAll({ offset: 0, limit: 5 });
+
+    console.log(rows);
+
+    res.status(200).json({
+      data: rows,
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// Get packages (paginated)
+router.get("/packages", async (req, res) => {
+  const DEFAULT_PAGE = 1;
+  const DEFAULT_LIMIT = 8;
+
+  try {
+    let page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
+    let limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;
+
+    // Ensure pagination numbers are valid and not negative
+    if (page < 1) page = DEFAULT_PAGE;
+    if (limit < 1 || limit > 100) limit = DEFAULT_LIMIT; // Set max limit to prevent large payloads
+
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Package.findAndCountAll({ offset, limit });
+
+    console.log(rows);
+
+    const totalPages = Math.ceil(count / limit);
+
+    res.status(200).json({
+      data: rows,
+      pagination: {
+        totalItems: count,
+        totalPages,
+        currentPage: page,
+        pageSize: limit,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -67,7 +106,7 @@ router.get("/packages/:id", async (req, res) => {
     if (!package) return res.status(404).json({ message: "Package not found" });
     res.status(200).json(package);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -115,7 +154,7 @@ router.put(
 
       if (packageEntry) {
         const prevGalleryImages = JSON.parse(packageEntry.images).map(
-          (obj) => obj.src
+          (obj) => obj.src,
         );
         const prevProfileImage = packageEntry.profileImg;
 
@@ -129,7 +168,7 @@ router.put(
         // return;
 
         const unnecessaryImages = prevGalleryImages.filter(
-          (src) => !existingImageSrc.includes(src)
+          (src) => !existingImageSrc.includes(src),
         );
         //if profile img changes, then delete previous profile img;
         req.files["profileImg"] && req.files["profileImg"].length > 0
@@ -146,7 +185,7 @@ router.put(
       console.log(err);
       res.status(500).json({ message: err.message });
     }
-  }
+  },
 );
 
 // Delete a package
@@ -155,7 +194,7 @@ router.delete("/packages/:id", async (req, res) => {
     const packageEntry = await Package.findByPk(req.params.id);
     if (packageEntry) {
       const prevGalleryImages = JSON.parse(packageEntry.images).map(
-        (obj) => obj.src
+        (obj) => obj.src,
       );
       const prevProfileImage = packageEntry.profileImg;
       console.log("prevProfileImage");

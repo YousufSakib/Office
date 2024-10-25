@@ -56,7 +56,7 @@ function AdminPackageAdd() {
   const handleCancel = (event) => {
     event.preventDefault();
     const confirmation = confirm(
-      "Are you sure you want to cancel creating new package?"
+      "Are you sure you want to cancel creating new package?",
     );
     if (confirmation) {
       navigate(-1);
@@ -103,7 +103,7 @@ function AdminPackageAdd() {
       ...prev,
       tourHighLights: prev.tourHighLights.filter(
         (_, index) =>
-          prev.tourHighLights.length === 1 || index !== deletingIndex
+          prev.tourHighLights.length === 1 || index !== deletingIndex,
       ),
     }));
   };
@@ -142,7 +142,7 @@ function AdminPackageAdd() {
       ...prev,
       pricePerPerson: prev.pricePerPerson.filter(
         (_, index) =>
-          prev.pricePerPerson.length === 1 || index !== deletingIndex
+          prev.pricePerPerson.length === 1 || index !== deletingIndex,
       ),
     }));
   };
@@ -196,7 +196,7 @@ function AdminPackageAdd() {
         data,
         {
           "Content-Type": "multipart/form-data",
-        }
+        },
       );
       alert("Package created successfully!");
       // navigate("/admin/packages");
@@ -206,7 +206,7 @@ function AdminPackageAdd() {
         alert(
           `Failed to create package: ${
             error.response.data.message || error.message
-          }`
+          }`,
         );
       } else {
         alert("An unexpected error occurred.");

@@ -60,13 +60,13 @@ function AdminLayout() {
           {/* <AdminSidebar /> */}
           <div className="sidebarwrapper">
             <div className="row">
-              <img src="../../../../public/homePage.png" alt="homePage" />
-              <Link to="/">Home</Link>
+              <img src="../../../../public/homePage.png" alt="Admin" />
+              <Link to="/admin">AdminHome</Link>
             </div>
-            <div className="row">
+            {/* <div className="row">
               <img src="../../../../public/adminPage.png" alt="adminPage" />
               <Link to="/admin">AdminPage</Link>
-            </div>
+            </div> */}
             <div className="row">
               <img src="../../../../public/allPackages.png" alt="allPackages" />
               <Link to="/admin/packages">All Packages</Link>
@@ -81,10 +81,7 @@ function AdminLayout() {
               <Link to="/admin/companyInfoSetUp">Info Setup</Link>
             </div>
             <div className="row">
-              <img
-                src="../../../../public/basicImages.png"
-                alt="basicImages add"
-              />
+              <img src="../../../../public/basicImages.png" alt="basicImages" />
               <Link to="/admin/basic-images">Basic Images</Link>
             </div>
           </div>

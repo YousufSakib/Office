@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import FullScreenloading from "../fullScreenloading/FullScreenloading";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import axios from "axios";
 import "./userContactedPopup.scss";
+import ComponentLoader from "../componentLoader/ComponentLoader";
 
 function UserContactedPopup({ id }) {
   const [contact, setContact] = useState({});
@@ -26,9 +26,10 @@ function UserContactedPopup({ id }) {
     <>
       {console.log("User contacted-popup rendering")}
       {console.log(id)}
-      {loading && <FullScreenloading />}
-      {loading || (
-          <div className="UserContacted">
+      <div className="UserContacted">
+        {loading && <ComponentLoader />}
+        {loading || (
+          <>
             <div className="row">
               <span>Name</span>
               <span>{contact.name}</span>
@@ -61,8 +62,9 @@ function UserContactedPopup({ id }) {
               <span>Number of Person</span>
               <span>{contact.travellerNo} persons</span>
             </div>
-          </div>
-      )}
+          </>
+        )}
+      </div>
     </>
   );
 }

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 02:01 PM
+-- Host: localhost
+-- Generation Time: Oct 25, 2024 at 10:59 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,38 +24,40 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `companies`
+-- Table structure for table `CompanyInfos`
 --
 
-CREATE TABLE `companies` (
+CREATE TABLE `CompanyInfos` (
   `id` int(11) NOT NULL,
-  `companyName` varchar(255) NOT NULL,
-  `companyEmail` varchar(255) NOT NULL,
-  `companyPhoneNo` varchar(255) NOT NULL,
-  `receptionOffice` varchar(255) NOT NULL,
-  `receptionHours` varchar(255) NOT NULL,
+  `companyName` varchar(255) DEFAULT NULL,
+  `companyEmail` varchar(255) DEFAULT NULL,
+  `companyPhoneNo` varchar(255) DEFAULT NULL,
+  `receptionOffice` varchar(255) DEFAULT NULL,
+  `receptionHours` varchar(255) DEFAULT NULL,
   `latitude` varchar(255) DEFAULT NULL,
   `longitude` varchar(255) DEFAULT NULL,
   `facebookLink` varchar(255) DEFAULT NULL,
   `instagramLink` varchar(255) DEFAULT NULL,
   `tweeterLink` varchar(255) DEFAULT NULL,
-  `aboutUs` text DEFAULT NULL
+  `aboutUs` text DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `companies`
+-- Dumping data for table `CompanyInfos`
 --
 
-INSERT INTO `companies` (`id`, `companyName`, `companyEmail`, `companyPhoneNo`, `receptionOffice`, `receptionHours`, `latitude`, `longitude`, `facebookLink`, `instagramLink`, `tweeterLink`, `aboutUs`) VALUES
-(1, 'IGL TOUR', 'igltour', '01958-66699', 'House # 33A(4th Floor), Road # 4, Dhanmondi, Dhaka-1205, Bangladesh', '9:00 AM - 6:00 PM', '23.740824', '90.378509', 'https://www.facebook.com/IGLWebLtd/', '#', 'https://x.com/iglwebltd', 'IGL Web Ltd is Software company since 2007 in Bangladesh location but services provide any country in the World about software, website development, web hosting, domain registration. but others services like server and network environment installation only in Bangladesh based service and support. IGL Web Ltd is a sister concern of IGL Group');
+INSERT INTO `CompanyInfos` (`id`, `companyName`, `companyEmail`, `companyPhoneNo`, `receptionOffice`, `receptionHours`, `latitude`, `longitude`, `facebookLink`, `instagramLink`, `tweeterLink`, `aboutUs`, `createdAt`, `updatedAt`) VALUES
+(1, 'IGL TOUR', 'igltour', '01958-66699', 'House # 33A(4th Floor), Road # 4, Dhanmondi, Dhaka-1205, Bangladesh', '9:00 AM - 6:00 PM', '23.740824', '90.378509', 'https://www.facebook.com/IGLWebLtd/', '#', 'https://x.com/iglwebltd', 'IGL Web Ltd is Software company since 2007 in Bangladesh location but services provide any country in the World about software, website development, web hosting, domain registration. but others services like server and network environment installation only in Bangladesh based service and support. IGL Web Ltd is a sister concern of IGL Group', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contacts`
+-- Table structure for table `Contacts`
 --
 
-CREATE TABLE `contacts` (
+CREATE TABLE `Contacts` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phoneNo` varchar(255) NOT NULL,
@@ -70,21 +72,22 @@ CREATE TABLE `contacts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `contacts`
+-- Dumping data for table `Contacts`
 --
 
-INSERT INTO `contacts` (`id`, `name`, `phoneNo`, `email`, `tourDuration`, `travellerNo`, `date`, `destination`, `message`, `createdAt`, `updatedAt`) VALUES
+INSERT INTO `Contacts` (`id`, `name`, `phoneNo`, `email`, `tourDuration`, `travellerNo`, `date`, `destination`, `message`, `createdAt`, `updatedAt`) VALUES
 (1, 'Yousuf Ali Shakib', '01782884480', 'yousufsakib29603@gmail.com', 5, 6, '2024-10-18 00:00:00', 'Chittagong Hill Tracts', '\"IGL Web Ltd is Software company since 2007 in Bangladesh location but services provide any country in the World about software, website development, web hosting, domain registration. but others services like server and network environment installation only in Bangladesh based service and support. IGL Web Ltd is a sister concern of IGL Group.\"', '2024-10-14 18:54:33', '2024-10-14 18:54:33'),
 (2, 'ইউসুফ সাকিব', '01782884480', 'sakib@gmail.com', 4, 6, '2024-10-26 00:00:00', 'Bandarban', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchan', '2024-10-22 17:24:52', '2024-10-22 17:24:52'),
-(3, 'Rakibul Hasal', '0135345353', 'reslass53@gmail.com', 7, 7, '2024-11-08 00:00:00', 'Sundarbans', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchan', '2024-10-22 17:27:24', '2024-10-22 17:27:24');
+(3, 'Rakibul Hasal', '0135345353', 'reslass53@gmail.com', 7, 7, '2024-11-08 00:00:00', 'Sundarbans', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchan', '2024-10-22 17:27:24', '2024-10-22 17:27:24'),
+(4, 'Obaidul', '01782889909', 'Email@gmail.com', 4, 4, '2024-11-01 00:00:00', 'Srimangal', 'uuuuii', '2024-10-25 12:12:20', '2024-10-25 12:12:20');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `images`
+-- Table structure for table `Images`
 --
 
-CREATE TABLE `images` (
+CREATE TABLE `Images` (
   `id` int(11) NOT NULL,
   `packageHeroImg` varchar(255) DEFAULT NULL,
   `aboutHeroImg` varchar(255) DEFAULT NULL,
@@ -92,23 +95,25 @@ CREATE TABLE `images` (
   `logo` varchar(255) DEFAULT NULL,
   `placesToVistHeroImg` varchar(255) DEFAULT NULL,
   `meetBangladeshHeroImg` varchar(255) DEFAULT NULL,
-  `contactUsHeroImg` varchar(255) DEFAULT NULL
+  `contactUsHeroImg` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `images`
+-- Dumping data for table `Images`
 --
 
-INSERT INTO `images` (`id`, `packageHeroImg`, `aboutHeroImg`, `homeHeroImg`, `logo`, `placesToVistHeroImg`, `meetBangladeshHeroImg`, `contactUsHeroImg`) VALUES
-(9, 'packageHeroImg-1729660692709-895339981.jpg', 'aboutHeroImg-1729660692719-893951306.jpg', 'homeHeroImg-1729660692707-83254369.jpg', 'logo-1729660692705-818050622.png', 'placesToVistHeroImg-1729660692720-840001087.jpg', 'meetBangladeshHeroImg-1729660692962-6010556.jpg', 'contactUsHeroImg-1729660692999-570173416.jpg');
+INSERT INTO `Images` (`id`, `packageHeroImg`, `aboutHeroImg`, `homeHeroImg`, `logo`, `placesToVistHeroImg`, `meetBangladeshHeroImg`, `contactUsHeroImg`, `createdAt`, `updatedAt`) VALUES
+(9, 'packageHeroImg-1729889488107-699318373.JPG', 'aboutHeroImg-1729660692719-893951306.jpg', 'homeHeroImg-1729660692707-83254369.jpg', 'logo-1729889178967-139934859.png', 'placesToVistHeroImg-1729660692720-840001087.jpg', 'meetBangladeshHeroImg-1729660692962-6010556.jpg', 'contactUsHeroImg-1729889916910-709458909.png', '0000-00-00 00:00:00', '2024-10-25 20:58:36');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `packages`
+-- Table structure for table `Packages`
 --
 
-CREATE TABLE `packages` (
+CREATE TABLE `Packages` (
   `id` int(11) NOT NULL,
   `createdBy` varchar(255) NOT NULL,
   `destination` varchar(255) NOT NULL,
@@ -126,10 +131,10 @@ CREATE TABLE `packages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `packages`
+-- Dumping data for table `Packages`
 --
 
-INSERT INTO `packages` (`id`, `createdBy`, `destination`, `duration`, `category`, `name`, `profileImg`, `description`, `images`, `tourHighLights`, `pricePerPerson`, `createdAt`, `updatedAt`, `attractions`) VALUES
+INSERT INTO `Packages` (`id`, `createdBy`, `destination`, `duration`, `category`, `name`, `profileImg`, `description`, `images`, `tourHighLights`, `pricePerPerson`, `createdAt`, `updatedAt`, `attractions`) VALUES
 (33, 'Yousuf Shakib (admin)', 'Sundarbans Mangrove Adventure', 3, 'Adventure, Wildlife', 'Sundarbans Mangrove Adventure', '1729615675812-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg', 'Explore the UNESCO World Heritage site of Sundarbans, home to the Royal Bengal Tiger and diverse wildlife. Experience boat safaris, nature walks, and immerse yourself in the beauty of the mangroves.', '[{\"src\":\"1729615676046-logo.png\",\"key\":\"c09cad948db43\"},{\"src\":\"1729615676046-istockphoto-1167235640-1024x1024.jpg\",\"key\":\"60a6eeac2c00f\"}]', '\"[{\\\"highlight\\\":\\\"Day 1\\\",\\\"description\\\":\\\"Guided boat tour through the Sundarbans.\\\",\\\"key\\\":\\\"MVIW0lvjkQ\\\"},{\\\"highlight\\\":\\\"Day 2\\\",\\\"description\\\":\\\"Wildlife safari with chances to spot tigers, crocodiles, and rare birds.\\\",\\\"key\\\":\\\"zb1HC8jIht\\\"},{\\\"highlight\\\":\\\"Day 3\\\",\\\"description\\\":\\\"Visit local villages and experience traditional honey harvesting.\\\",\\\"key\\\":\\\"aFvQo2qbbQ\\\"},{\\\"highlight\\\":\\\"Day 3\\\",\\\"description\\\":\\\"Camping under the stars.\\\",\\\"key\\\":\\\"t6MXQWkiSc\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting Price\\\",\\\"priceTaka\\\":15000,\\\"key\\\":\\\"wqRqcFhVQP\\\"}]\"', '2024-10-22 16:47:56', '2024-10-23 09:11:03', '\"[{\\\"attraction\\\":\\\"Sundarbans Mangrove Forest\\\",\\\"key\\\":\\\"08gtWoztbt\\\"},{\\\"attraction\\\":\\\"Royal Bengal Tiger\\\",\\\"key\\\":\\\"55f5LW7dTm\\\"},{\\\"attraction\\\":\\\"Wildlife Safari\\\",\\\"key\\\":\\\"TEWOgkRi8y\\\"}]\"'),
 (34, 'Yousuf Shakib (admin)', 'Cox’s Bazar', 4, 'Beach, Leisure', 'Cox’s Bazar Beach Getaway', '1729615839844-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg', 'A luxury beach vacation on the world’s longest natural sea beach. Relax, swim, and explore the serene beauty of Cox’s Bazar, with day trips to nearby islands and national parks.', '[{\"src\":\"1729615839884-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg\",\"key\":\"3ea0017de4a1d\"},{\"src\":\"1729615839898-istockphoto-1167235640-1024x1024.jpg\",\"key\":\"971b2208be481\"}]', '\"[{\\\"highlight\\\":\\\"Day 1-2\\\",\\\"description\\\":\\\"Stay at a luxury beachfront resort.\\\",\\\"key\\\":\\\"qINAiAFUj3\\\"},{\\\"highlight\\\":\\\"Day 2\\\",\\\"description\\\":\\\"Relax on Cox’s Bazar Beach.\\\",\\\"key\\\":\\\"xZiq74e0yw\\\"},{\\\"highlight\\\":\\\"Day 3\\\",\\\"description\\\":\\\"Visit Saint Martin’s Island and enjoy snorkeling.\\\",\\\"key\\\":\\\"YSAKwvw9VF\\\"},{\\\"highlight\\\":\\\"Day 4\\\",\\\"description\\\":\\\"Explore Himchari National Park and Inani Beach.\\\",\\\"key\\\":\\\"5kxT5fqEso\\\"},{\\\"highlight\\\":\\\"Day 4\\\",\\\"description\\\":\\\"Beach BBQ dinner.\\\",\\\"key\\\":\\\"7TwKtojw9U\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting price\\\",\\\"priceTaka\\\":25000,\\\"key\\\":\\\"fbyQDXFKkZ\\\"}]\"', '2024-10-22 16:50:39', '2024-10-23 03:35:55', '\"[{\\\"attraction\\\":\\\"Cox\'s Bazar Beach\\\",\\\"key\\\":\\\"BPnF2cBDSX\\\"},{\\\"attraction\\\":\\\"Himchari National Park\\\",\\\"key\\\":\\\"NfBWbQGvtt\\\"},{\\\"attraction\\\":\\\"Saint Martin’s Island\\\",\\\"key\\\":\\\"FFbDyMFdX9\\\"}]\"'),
 (35, 'Yousuf Shakib (admin)', 'Dhaka', 2, 'Cultural, Historical', 'Historic Dhaka City Exploration', '1729615950523-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg', 'Discover the rich history and cultural heritage of Bangladesh\'s capital, Dhaka. Visit historic sites, explore bustling markets, and enjoy traditional cuisine.', '[{\"src\":\"1729615950556-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg\",\"key\":\"2db65f436c934\"},{\"src\":\"1729615950581-istockphoto-1167235640-1024x1024.jpg\",\"key\":\"ade44ed5dfeb5\"}]', '\"[{\\\"highlight\\\":\\\"Day 1\\\",\\\"description\\\":\\\"Visit Lalbagh Fort, Ahsan Manzil, and Dhakeshwari Temple.\\\",\\\"key\\\":\\\"5s1ddbJSco\\\"},{\\\"highlight\\\":\\\"Day 1\\\",\\\"description\\\":\\\"Explore Old Dhaka and its street food culture.\\\",\\\"key\\\":\\\"wV3z1P6hcG\\\"},{\\\"highlight\\\":\\\"Day 2\\\",\\\"description\\\":\\\"Boat ride on the Buriganga River.\\\",\\\"key\\\":\\\"Eh8sKThgcn\\\"},{\\\"highlight\\\":\\\"Day 2\\\",\\\"description\\\":\\\"our National Museum and Liberation War Museum.\\\",\\\"key\\\":\\\"63NFsO3yfw\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting Price\\\",\\\"priceTaka\\\":10000,\\\"key\\\":\\\"q2HO2PCNBZ\\\"}]\"', '2024-10-22 16:52:30', '2024-10-23 03:34:02', '\"[{\\\"attraction\\\":\\\"Lalbagh Fort\\\",\\\"key\\\":\\\"kCrJHY9wgi\\\"},{\\\"attraction\\\":\\\"Ahsan Manzil\\\",\\\"key\\\":\\\"YweAM8m8f0\\\"},{\\\"attraction\\\":\\\"Old Dhaka\\\",\\\"key\\\":\\\"2rzQuQC2ic\\\"}]\"'),
@@ -144,34 +149,34 @@ INSERT INTO `packages` (`id`, `createdBy`, `destination`, `duration`, `category`
 (44, 'Yousuf Shakib (admin)', 'Cox’s Bazar, Saint Martin’s Island, Bandarban, Rangamati', 8, 'Adventure, Beach, Nature', 'Southern Coastline and Hill Tracts Adventure', '1729617272110-istockphoto-1167235640-1024x1024.jpg', 'A perfect blend of beach relaxation and hill trekking. From the world\'s longest beach at Cox’s Bazar to the rugged beauty of the Chittagong Hill Tracts, this tour covers the best of southern Bangladesh.\r\n', '[{\"src\":\"1729617272110-logo.png\",\"key\":\"77f48c1a9b377\"},{\"src\":\"1729617272110-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg\",\"key\":\"73d06dc160a7b\"}]', '\"[{\\\"highlight\\\":\\\"Day 1-3\\\",\\\"description\\\":\\\"Relax at Cox’s Bazar Beach and take a day trip to Saint Martin’s Island.\\\",\\\"key\\\":\\\"PzskwN61D9\\\"},{\\\"highlight\\\":\\\"Day 4-5\\\",\\\"description\\\":\\\"Travel to Bandarban for trekking and visits to Nilgiri Hill and Boga Lake.\\\",\\\"key\\\":\\\"qc4To4hDEc\\\"},{\\\"highlight\\\":\\\"Day 6-7\\\",\\\"description\\\":\\\"Explore Rangamati’s Kaptai Lake and tribal villages, with a boat cruise on the lake.\\\",\\\"key\\\":\\\"whLBDYF39o\\\"},{\\\"highlight\\\":\\\"Day 8\\\",\\\"description\\\":\\\"Return to Chittagong/Dhaka.\\\",\\\"key\\\":\\\"Sc4LxNl7vF\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting price\\\",\\\"priceTaka\\\":45000,\\\"key\\\":\\\"x3JGA07COp\\\"}]\"', '2024-10-22 17:14:32', '2024-10-22 17:14:32', '\"[{\\\"attraction\\\":\\\"Cox’s Bazar\\\",\\\"key\\\":\\\"ko5XvOC7yU\\\"},{\\\"attraction\\\":\\\"Saint Martin’s Island\\\",\\\"key\\\":\\\"X4T0mwoL2D\\\"},{\\\"attraction\\\":\\\"Bandarban\\\",\\\"key\\\":\\\"EusYJ3QHmQ\\\"},{\\\"attraction\\\":\\\"Rangamati\\\",\\\"key\\\":\\\"1w61IRYMTt\\\"}]\"'),
 (45, 'Yousuf Shakib (admin)', 'Dhaka, Srimangal, Sylhet, Paharpur', 6, 'Cultural, Historical, Nature', 'Cultural Triangle and Tea Garden Escape', '1729617408656-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg', 'Discover the cultural and natural diversity of Bangladesh with a trip through the vibrant capital, the tranquil tea gardens of Srimangal, and the ancient ruins of Paharpur.', '[{\"src\":\"1729617408688-logo.png\",\"key\":\"ac14935060e1\"},{\"src\":\"1729617408688-jcob-nasyr-67sVPjK6Q7I-unsplash.jpg\",\"key\":\"e21b367bbf4e4\"},{\"src\":\"1729617408704-istockphoto-1167235640-1024x1024.jpg\",\"key\":\"6383765b19e89\"}]', '\"[{\\\"highlight\\\":\\\"Day 1-2\\\",\\\"description\\\":\\\"Dhaka city tour (Ahsan Manzil, Liberation War Museum, Old Dhaka).\\\",\\\"key\\\":\\\"85RYQpcbQi\\\"},{\\\"highlight\\\":\\\"Day 3-4\\\",\\\"description\\\":\\\"Srimangal tea garden visit and nature walk in Lawachara National Park.\\\",\\\"key\\\":\\\"dxkeJXQqHc\\\"},{\\\"highlight\\\":\\\"Day 5\\\",\\\"description\\\":\\\"Travel to Sylhet for a tour of Jaflong and Ratargul Swamp Forest.\\\",\\\"key\\\":\\\"EOAQq7QnhY\\\"},{\\\"highlight\\\":\\\"Day 6\\\",\\\"description\\\":\\\"Visit the ancient Buddhist site of Paharpur before returning to Dhaka.\\\",\\\"key\\\":\\\"9hDUnxHjYs\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting price\\\",\\\"priceTaka\\\":20000,\\\"key\\\":\\\"L1qkXgKC2U\\\"}]\"', '2024-10-22 17:16:48', '2024-10-22 17:16:48', '\"[{\\\"attraction\\\":\\\"1.Dhaka\\\",\\\"key\\\":\\\"PMHVscjCLI\\\"},{\\\"attraction\\\":\\\"2.Srimangal\\\",\\\"key\\\":\\\"LpEfNRgQxd\\\"},{\\\"attraction\\\":\\\"3.Sylhet\\\",\\\"key\\\":\\\"nTyfOIh0Rd\\\"},{\\\"attraction\\\":\\\"4. Paharpur\\\",\\\"key\\\":\\\"VwVdKXSdwb\\\"}]\"'),
 (46, 'Yousuf Shakib (admin)', 'Western Bangladesh Cultural and Wildlife Tour', 7, 'Cultural, Historical, Wildlife', 'Western Bangladesh Cultural and Wildlife Tour', '1729617531406-sylhet.jpg', 'A perfect mix of history and nature, this tour takes you from the ancient ruins of Mahasthangarh to the wildlife-filled Sundarbans. Visit historic sites, explore local cultures, and enjoy a boat safari.', '[{\"src\":\"1729617531406-sylhet.jpg\",\"key\":\"a0f30042d6016\"},{\"src\":\"1729617531407-sreemangal2.jpg\",\"key\":\"4034610688ed1\"},{\"src\":\"1729617531415-sreemangal1.jpg\",\"key\":\"8cdfe6d831efd\"}]', '\"[{\\\"highlight\\\":\\\"Day 1-2\\\",\\\"description\\\":\\\"Rajshahi city tour, with visits to Barendra Museum and Puthia Temple Complex.\\\",\\\"key\\\":\\\"CZn3a65Slp\\\"},{\\\"highlight\\\":\\\"Day 3\\\",\\\"description\\\":\\\"Mahasthangarh and Paharpur ancient city tour.\\\",\\\"key\\\":\\\"NCRzsqcDah\\\"},{\\\"highlight\\\":\\\"Day 4-6\\\",\\\"description\\\":\\\"Travel to the Sundarbans for a boat safari, wildlife viewing, and village visits.\\\",\\\"key\\\":\\\"PQhoPJt5sO\\\"},{\\\"highlight\\\":\\\"Day 7\\\",\\\"description\\\":\\\"Visit the Sixty Dome Mosque in Bagerhat before returning to Khulna.\\\",\\\"key\\\":\\\"vk6aub4DgT\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting price\\\",\\\"priceTaka\\\":35000,\\\"key\\\":\\\"z9brt8Zcuv\\\"}]\"', '2024-10-22 17:18:51', '2024-10-22 17:18:51', '\"[{\\\"attraction\\\":\\\"Rajshahi\\\",\\\"key\\\":\\\"gSToflldjA\\\"},{\\\"attraction\\\":\\\"Mahasthangarh\\\",\\\"key\\\":\\\"qseM7RfA96\\\"},{\\\"attraction\\\":\\\"Sundarbans\\\",\\\"key\\\":\\\"4QOlD35S0p\\\"},{\\\"attraction\\\":\\\"Bagerhat\\\",\\\"key\\\":\\\"g80wQUPuwh\\\"}]\"'),
-(47, 'Yousuf Shakib (admin)', 'Dhaka, Sundarbans, Cox’s Bazar, Bandarban, Sylhet', 12, ' Adventure, Nature, Cultural, Country', 'Ultimate Bangladesh Explorer', '1729617641312-sylhet.jpg', 'This comprehensive tour package covers the best that Bangladesh has to offer. From the bustling capital of Dhaka to the wildlife-rich Sundarbans, the serene beaches of Cox’s Bazar, and the misty hills of Bandarban and Sylhet.', '[{\"src\":\"1729617641315-sylhet.jpg\",\"key\":\"57a22295f61c1\"},{\"src\":\"1729617641315-sreemangal2.jpg\",\"key\":\"f6884cd96f27d\"},{\"src\":\"1729617641327-sreemangal1.jpg\",\"key\":\"68c45393dcdae\"}]', '\"[{\\\"highlight\\\":\\\"Day 1-2\\\",\\\"description\\\":\\\"Dhaka city tour.\\\",\\\"key\\\":\\\"EJsYvfMVgH\\\"},{\\\"highlight\\\":\\\"Day 3-4\\\",\\\"description\\\":\\\"Sundarbans wildlife adventure.\\\",\\\"key\\\":\\\"seFpMmJTfm\\\"},{\\\"highlight\\\":\\\"Day 5-6\\\",\\\"description\\\":\\\"Relax on Cox’s Bazar Beach and explore Saint Martin’s Island.\\\",\\\"key\\\":\\\"vZXLAKRnhW\\\"},{\\\"highlight\\\":\\\"Day 7-8\\\",\\\"description\\\":\\\"Bandarban trekking (Nilgiri Hill, Boga Lake).\\\",\\\"key\\\":\\\"2tIHLz98nw\\\"},{\\\"highlight\\\":\\\"Day 9-10\\\",\\\"description\\\":\\\"Sylhet tea gardens and Ratargul Swamp Forest tour.\\\",\\\"key\\\":\\\"xSz6szFka1\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting price\\\",\\\"priceTaka\\\":60000,\\\"key\\\":\\\"jriXcmbIN1\\\"}]\"', '2024-10-22 17:20:41', '2024-10-23 03:22:24', '\"[{\\\"attraction\\\":\\\"Dhaka\\\",\\\"key\\\":\\\"HsO7hAKVvt\\\"},{\\\"attraction\\\":\\\"Sundarbans\\\",\\\"key\\\":\\\"Cjxg7T0mC7\\\"},{\\\"attraction\\\":\\\"Cox’s Bazar\\\",\\\"key\\\":\\\"xWdJ23tCS4\\\"},{\\\"attraction\\\":\\\"Bandarban\\\",\\\"key\\\":\\\"eBBpVh7l06\\\"},{\\\"attraction\\\":\\\"Sylhet\\\",\\\"key\\\":\\\"ptQgoIubdM\\\"}]\"');
+(47, 'Yousuf Shakib (admin)', 'Dhaka, Sundarbans, Cox’s Bazar, Bandarban, Sylhet', 12, ' Adventure, Nature, Cultural, Country', 'Ultimate Bangladesh Explorer', '1729617641312-sylhet.jpg', 'This comprehensive tour package covers the best that Bangladesh has to offer. From the bustling capital of Dhaka to the wildlife-rich Sundarbans, the serene beaches of Cox’s Bazar, and the misty hills of Bandarban and Sylhet.', '[{\"src\":\"1729617641315-sylhet.jpg\",\"key\":\"d2eda913f38d1\"},{\"src\":\"1729617641315-sreemangal2.jpg\",\"key\":\"d872618e42487\"},{\"src\":\"1729617641327-sreemangal1.jpg\",\"key\":\"30c29a74baaf2\"}]', '\"[{\\\"highlight\\\":\\\"Day 1-2\\\",\\\"description\\\":\\\"Dhaka city tour.\\\",\\\"key\\\":\\\"EJsYvfMVgH\\\"},{\\\"highlight\\\":\\\"Day 3-4\\\",\\\"description\\\":\\\"Sundarbans wildlife adventure.\\\",\\\"key\\\":\\\"seFpMmJTfm\\\"},{\\\"highlight\\\":\\\"Day 5-6\\\",\\\"description\\\":\\\"Relax on Cox’s Bazar Beach and explore Saint Martin’s Island.\\\",\\\"key\\\":\\\"vZXLAKRnhW\\\"},{\\\"highlight\\\":\\\"Day 7-8\\\",\\\"description\\\":\\\"Bandarban trekking (Nilgiri Hill, Boga Lake).\\\",\\\"key\\\":\\\"2tIHLz98nw\\\"},{\\\"highlight\\\":\\\"Day 9-12\\\",\\\"description\\\":\\\"Sylhet tea gardens and Ratargul Swamp Forest tour.\\\",\\\"key\\\":\\\"xSz6szFka1\\\"}]\"', '\"[{\\\"priceType\\\":\\\"Starting price\\\",\\\"priceTaka\\\":60000,\\\"key\\\":\\\"jriXcmbIN1\\\"}]\"', '2024-10-22 17:20:41', '2024-10-25 12:15:15', '\"[{\\\"attraction\\\":\\\"Dhaka\\\",\\\"key\\\":\\\"HsO7hAKVvt\\\"},{\\\"attraction\\\":\\\"Sundarbans\\\",\\\"key\\\":\\\"Cjxg7T0mC7\\\"},{\\\"attraction\\\":\\\"Cox’s Bazar\\\",\\\"key\\\":\\\"xWdJ23tCS4\\\"},{\\\"attraction\\\":\\\"Bandarban\\\",\\\"key\\\":\\\"eBBpVh7l06\\\"},{\\\"attraction\\\":\\\"Sylhet\\\",\\\"key\\\":\\\"ptQgoIubdM\\\"}]\"');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `companies`
+-- Indexes for table `CompanyInfos`
 --
-ALTER TABLE `companies`
+ALTER TABLE `CompanyInfos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `contacts`
+-- Indexes for table `Contacts`
 --
-ALTER TABLE `contacts`
+ALTER TABLE `Contacts`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `images`
+-- Indexes for table `Images`
 --
-ALTER TABLE `images`
+ALTER TABLE `Images`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `packages`
+-- Indexes for table `Packages`
 --
-ALTER TABLE `packages`
+ALTER TABLE `Packages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -179,27 +184,27 @@ ALTER TABLE `packages`
 --
 
 --
--- AUTO_INCREMENT for table `companies`
+-- AUTO_INCREMENT for table `CompanyInfos`
 --
-ALTER TABLE `companies`
+ALTER TABLE `CompanyInfos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `contacts`
+-- AUTO_INCREMENT for table `Contacts`
 --
-ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `Contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `images`
+-- AUTO_INCREMENT for table `Images`
 --
-ALTER TABLE `images`
+ALTER TABLE `Images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `packages`
+-- AUTO_INCREMENT for table `Packages`
 --
-ALTER TABLE `packages`
+ALTER TABLE `Packages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 COMMIT;
 

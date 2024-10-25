@@ -1,0 +1,12 @@
+@import "../../responsive.scss";
+
+.pagination {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  span {
+    margin: 0 10px 0 10px;
+  }
+  button {
+  }
+}

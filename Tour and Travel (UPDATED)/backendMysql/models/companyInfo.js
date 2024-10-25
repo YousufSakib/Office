@@ -1,52 +1,51 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const CompanyInfo = sequelize.define(
-  "CompanyInfo",
-  {
-    companyName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    companyEmail: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    companyPhoneNo: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    receptionOffice: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    receptionHours: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    latitude: {
-      type: DataTypes.STRING,
-    },
-    longitude: {
-      type: DataTypes.STRING,
-    },
-    facebookLink: {
-      type: DataTypes.STRING,
-    },
-    instagramLink: {
-      type: DataTypes.STRING,
-    },
-    tweeterLink: {
-      type: DataTypes.STRING,
-    },
-    aboutUs: {
-      type: DataTypes.TEXT,
-    },
+const CompanyInfo = sequelize.define("CompanyInfo", {
+  companyName: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-  {
-    tableName: "companies",
-    timestamps: false,
+  companyEmail: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-);
+  companyPhoneNo: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  receptionOffice: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  receptionHours: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  latitude: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  facebookLink: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  instagramLink: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  tweeterLink: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  aboutUs: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+});
 
 module.exports = CompanyInfo;

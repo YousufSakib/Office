@@ -109,6 +109,7 @@
     position: absolute;
     transition: all 0.3s linear;
     width: calc(100% - $adminSidebarBaseWidth);
+    max-width: $maxWidth;
     left: $adminSidebarBaseWidth;
     min-height: 100vh;
     right: 0;
@@ -116,7 +117,8 @@
     padding-left: 30px;
     padding-bottom: 20px;
     box-sizing: border-box;
-    // background-color: #2E4C6D;
+    background-color: #10a37f;
+    margin: auto;
     @include md {
       top: $adminNavbarHeight;
     }

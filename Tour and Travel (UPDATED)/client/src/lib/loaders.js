@@ -1,6 +1,5 @@
 import axios from "axios";
 import { defer } from "react-router-dom";
-import parseJSONFields from "./parseJSONFields";
 import { BACKEND_URL } from "../../dynamicInfo";
 
 export const packagePageLoader = async ({ request, params }) => {
@@ -13,7 +12,7 @@ export const packagePageLoader = async ({ request, params }) => {
     const packagePromise = await axios.get(url, { headers });
 
     const images = JSON.parse(packagePromise.data.images);
-    const attractions = JSON.parse(JSON.parse(packagePromise.data.attractions));
+
     const pricePerPerson = JSON.parse(
       JSON.parse(packagePromise.data.pricePerPerson),
     );
@@ -24,7 +23,6 @@ export const packagePageLoader = async ({ request, params }) => {
     const newObj = {
       ...packagePromise.data,
       images,
-      attractions,
       pricePerPerson,
       tourHighLights,
     };
@@ -42,7 +40,7 @@ export const homePageLoader = async () => {
   const headers = {
     "Content-Type": "application/json",
   };
-  const url = `${BACKEND_URL}/api/v1/packages`;
+  const url = `${BACKEND_URL}/api/v1/popularPackages`;
 
   try {
     const packagePromise = await axios.get(url, { headers });
@@ -52,32 +50,7 @@ export const homePageLoader = async () => {
     console.log(packageData); // Log the data to verify
 
     return defer({
-      packageResponse: packageData, // Return the data
-    });
-  } catch (error) {
-    console.error("Error fetching package data:", error);
-    throw new Response("Error fetching package data", { status: 500 });
-  }
-};
-
-export const allPackagesPageLoader = async () => {
-  const headers = {
-    "Content-Type": "application/json",
-  };
-  const url = `${BACKEND_URL}/api/v1/packages`;
-
-  try {
-    const packagePromise = await axios.get(url, { headers });
-
-    const packageData = parseJSONFields(packagePromise.data, [
-      "attractions",
-      "images",
-      "pricePerPerson",
-      "tourHighLights",
-    ]);
-
-    return defer({
-      packageResponse: packageData, // Return the data
+      packageResponse: packageData.data, // Return the data
     });
   } catch (error) {
     console.error("Error fetching package data:", error);

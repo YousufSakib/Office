@@ -4,14 +4,13 @@ import PackageTable from "../../components/packageTable/PackageTable";
 import PackageInfo from "../../components/packageInfo/PackageInfo";
 import { Await, useLoaderData } from "react-router-dom";
 import { Suspense } from "react";
-import Loading from "../../components/fullScreenloading/FullScreenloading";
-
+import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 function Package() {
   const data = useLoaderData();
 
   return (
     <div>
-      <Suspense fallback={<p>Loading..</p>}>
+      <Suspense fallback={<FullScreenloading />}>
         <Await
           resolve={data.packageResponse}
           errorElement={<>Error loading packages info</>}
@@ -23,7 +22,7 @@ function Package() {
         </Await>
       </Suspense>
 
-      <Suspense fallback={<Loading />}>
+      <Suspense>
         <Await
           resolve={data.packageResponse}
           errorElement={<>Error loading packages table</>}

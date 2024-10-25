@@ -7,12 +7,8 @@ import ContactUs from "./routes/contactUs/ContactUs";
 import MeetBangladesh from "./routes/meetBangadesh/MeetBangladesh";
 import Package from "./routes/package/Package";
 import BookTour from "./routes/bookTour/BookTour";
-import {
-  packagePageLoader,
-  homePageLoader,
-  allPackagesPageLoader,
-} from "./lib/loaders";
-import Allpackages from "./routes/Allpackages";
+import { packagePageLoader, homePageLoader } from "./lib/loaders";
+import Allpackages from "./routes/allPackages/Allpackages";
 import AdminLayout from "./routes/adminLayout/AdminLayout";
 import AdminPackageAdd from "./routes/adminPackageAdd/AdminPackageAdd";
 import AdminHome from "./routes/adminHome/AdminHome";
@@ -65,7 +61,6 @@ function App() {
         {
           path: "packages",
           element: <Allpackages />,
-          loader: allPackagesPageLoader,
         },
         {
           path: "packages/:id",

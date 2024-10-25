@@ -58,7 +58,7 @@ function CompanyInfoSetUp() {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       // Axios automatically resolves the promise for successful responses
       console.log("Company Info created/updated:", response.data);
@@ -91,8 +91,8 @@ function CompanyInfoSetUp() {
                 id="companyName"
                 onChange={handleChange}
                 value={obj.companyName}
-                required
                 disabled={isInfoDisabled}
+                required
               />
             </div>
             <div className="row">
@@ -103,7 +103,6 @@ function CompanyInfoSetUp() {
                 id="companyEmail"
                 onChange={handleChange}
                 value={obj.companyEmail}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -115,8 +114,8 @@ function CompanyInfoSetUp() {
                 id="companyPhoneNo"
                 onChange={handleChange}
                 value={obj.companyPhoneNo}
-                required
                 disabled={isInfoDisabled}
+                required
               />
             </div>
             <div className="row">
@@ -128,7 +127,6 @@ function CompanyInfoSetUp() {
                 placeholder=""
                 onChange={handleChange}
                 value={obj.receptionOffice}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -140,7 +138,6 @@ function CompanyInfoSetUp() {
                 id="receptionHours"
                 onChange={handleChange}
                 value={obj.receptionHours}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -153,7 +150,6 @@ function CompanyInfoSetUp() {
                 placeholder=""
                 onChange={handleChange}
                 value={obj.latitude}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -166,7 +162,6 @@ function CompanyInfoSetUp() {
                 placeholder=""
                 onChange={handleChange}
                 value={obj.longitude}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -178,7 +173,6 @@ function CompanyInfoSetUp() {
                 id="facebookLink"
                 onChange={handleChange}
                 value={obj.facebookLink}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -190,7 +184,6 @@ function CompanyInfoSetUp() {
                 id="instagramLink"
                 onChange={handleChange}
                 value={obj.instagramLink}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -202,7 +195,6 @@ function CompanyInfoSetUp() {
                 id="tweeterLink"
                 onChange={handleChange}
                 value={obj.tweeterLink}
-                required
                 disabled={isInfoDisabled}
               />
             </div>
@@ -213,8 +205,8 @@ function CompanyInfoSetUp() {
                 id="aboutUs"
                 onChange={handleChange}
                 value={obj.aboutUs}
-                required
                 disabled={isInfoDisabled}
+                required
               />
             </div>
             <div

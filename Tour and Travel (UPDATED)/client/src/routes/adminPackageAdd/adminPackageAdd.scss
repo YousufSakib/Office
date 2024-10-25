@@ -17,7 +17,7 @@
     margin: auto;
     box-sizing: border-box;
     .row {
-      h3{
+      h3 {
         color: white;
       }
       align-items: start;
@@ -30,12 +30,19 @@
         display: flex;
         gap: 10px;
         align-items: center;
-        .delete{
+        .add,
+        .delete {
           background-color: rgb(122, 1, 1);
-          padding: 10px;
+          height: 30px;
+          width: 30px;
           color: white;
           box-sizing: border-box;
           cursor: pointer;
+          border: none;
+          outline: none;
+        }
+        .add {
+          background-color: rgb(1, 122, 17);
         }
       }
       .showSelectedImages {
@@ -94,7 +101,7 @@
         max-width: 300px;
       }
     }
-    .buttonRow{
+    .buttonRow {
       display: flex;
       width: 100%;
       justify-content: space-around;

@@ -63,7 +63,7 @@ function Navbar() {
       {console.log("location: ", location)}
       <div className="heroBanner">
         <img
-          src={`${BACKEND_URL}/uploads/${getheroImg()}`}
+          src={`${BACKEND_URL}/uploads/${getheroImg() || "noImg"}`}
           className="heroBannerImg"
           alt=""
         />
@@ -73,7 +73,7 @@ function Navbar() {
           <div className="logoWrapper">
             <div className="navIcon">
               <Link to="/">
-                <img src={`${BACKEND_URL}/uploads/${logo}`} alt="" />
+                <img src={`${BACKEND_URL}/uploads/${logo || "noImg"}`} alt="" />
               </Link>
             </div>
             <div className="navCompanyName">
