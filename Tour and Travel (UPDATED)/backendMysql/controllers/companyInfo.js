@@ -3,6 +3,7 @@ const CompanyInfo = require("../models/companyInfo");
 // Read (GET)
 const readInfo = async (req, res) => {
   try {
+    
     const companyInfo = await CompanyInfo.findOne();
     if (companyInfo) {
       res.status(200).json(companyInfo);
@@ -23,7 +24,9 @@ const createOrUpdateInfo = async (req, res) => {
     const company = await CompanyInfo.findOne();
     if (company) {
       // If it exists, update it
-      await CompanyInfo.update(req.body); // No need for a condition since there's only one row
+      await CompanyInfo.update(req.body, {
+        where: { id: company.id }, // Add a condition to specify which row to update
+      });
       res.status(200).json({ message: "Company info updated successfully." });
     } else {
       // If it doesn't exist, create it
@@ -31,8 +34,8 @@ const createOrUpdateInfo = async (req, res) => {
       res.status(201).json({ message: "Company info created successfully." });
     }
   } catch (error) {
-    console.error("Error updating company info", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error updating company info:", error);
+    res.status(500).json({ error: "Internal server error. " + error.message });
   }
 };
 

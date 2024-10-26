@@ -3,9 +3,11 @@ import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
 
 import "./basicImgSetup.scss";
+import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 
 function BasicImgSetup() {
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingError, setLoadingError] = useState("");
 
   const [images, setImages] = useState({
     logo: null,
@@ -28,12 +30,14 @@ function BasicImgSetup() {
 
   const fetchImages = async () => {
     setIsLoading(true);
+    setLoadingError("");
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/site-images`);
       setExistingImages(response.data); // Adjust based on your response structure
       console.log("from admin basic images");
       console.log(response.data);
     } catch (error) {
+      setLoadingError("Error fetching images.");
       console.error("Error fetching images:", error);
     } finally {
       setIsLoading(false);
@@ -82,77 +86,86 @@ function BasicImgSetup() {
   };
 
   return (
-    <div className="ImgInfoWrapper">
-      <div className="basicImgs">
-        <h2>Images</h2>
-        {[
-          "logo",
-          "homeHeroImg",
-          "packageHeroImg",
-          "aboutHeroImg",
-          "placesToVistHeroImg",
-          "meetBangladeshHeroImg",
-          "contactUsHeroImg",
-        ].map((item) => (
-          <div key={item} className="row">
-            <label htmlFor={item}>{item}</label>
-            <input
-              type="file"
-              accept="image/*"
-              id={item}
-              name={item}
-              onChange={handleImageChange}
-            />
+    <>
+      {isLoading && <FullScreenloading />}
+      {loadingError && !isLoading(<p>{loadingError}</p>)}
+      {loadingError || (
+        <div className="ImgInfoWrapper">
+          <div className="basicImgs">
+            <h2>Images</h2>
+            {[
+              "logo",
+              "homeHeroImg",
+              "packageHeroImg",
+              "aboutHeroImg",
+              "placesToVistHeroImg",
+              "meetBangladeshHeroImg",
+              "contactUsHeroImg",
+            ].map((item) => (
+              <div key={item} className="row">
+                <label htmlFor={item}>{item}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id={item}
+                  name={item}
+                  onChange={handleImageChange}
+                />
 
-            <div className="row">
-              {images[item] && typeof images[item] === "object" && (
-                <div className="showSelectedImages">
-                  <div className="image">
-                    <img
-                      src={URL.createObjectURL(images[item])}
-                      alt="New upload preview"
-                    />
-                    <span
-                      onClick={() =>
-                        setImages((prev) => ({ ...prev, [item]: null }))
-                      }
-                    >
-                      x
-                    </span>
-                  </div>
+                <div className="row">
+                  {images[item] && typeof images[item] === "object" && (
+                    <div className="showSelectedImages">
+                      <div className="image">
+                        <img
+                          src={URL.createObjectURL(images[item])}
+                          alt="New upload preview"
+                        />
+                        <span
+                          onClick={() =>
+                            setImages((prev) => ({ ...prev, [item]: null }))
+                          }
+                        >
+                          x
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {existingImages[item] && !images[item] && (
+                    <div className="showSelectedImages">
+                      <div className="image">
+                        <img
+                          src={`${BACKEND_URL}/uploads/${existingImages[item]}`}
+                          alt="Existing image"
+                        />
+                        <span
+                          onClick={() =>
+                            setExistingImages((prev) => ({
+                              ...prev,
+                              [item]: "",
+                            }))
+                          }
+                        >
+                          x
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-              {existingImages[item] && !images[item] && (
-                <div className="showSelectedImages">
-                  <div className="image">
-                    <img
-                      src={`${BACKEND_URL}/uploads/${existingImages[item]}`}
-                      alt="Existing image"
-                    />
-                    <span
-                      onClick={() =>
-                        setExistingImages((prev) => ({ ...prev, [item]: "" }))
-                      }
-                    >
-                      x
-                    </span>
-                  </div>
-                </div>
-              )}
+              </div>
+            ))}
+
+            <div
+              className="row"
+              style={{ display: "flex", justifyContent: "space-around" }}
+            >
+              <button onClick={handleImgSubmit} className="button">
+                Save
+              </button>
             </div>
           </div>
-        ))}
-
-        <div
-          className="row"
-          style={{ display: "flex", justifyContent: "space-around" }}
-        >
-          <button onClick={handleImgSubmit} className="button">
-            Save
-          </button>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

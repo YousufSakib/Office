@@ -18,8 +18,8 @@ function HomeBookCall() {
             budget.
           </p>
         </div>
-        <div className="down">
-          <p>Book Your Stay Now</p>
+        <div className="down shake-left">
+          <p>Book Your Tour Now</p>
           <div className="call">
             <img src="telephone.png" alt="" />
             <p>{`${companyPhoneNo}`}</p>

@@ -6,53 +6,97 @@
   width: 100%;
   color: white;
   justify-content: center;
-  background-color: black;
-  .up {
-    display: flex;
-    justify-content: center;
-    gap: 300px;
-    padding: 20px;
-    max-width: 100%;
-    .card {
+  background-color: rgb(16, 16, 27);
+  .footerWrapper {
+    width: 100%;
+    max-width: $maxWidth;
+    margin: auto;
+    // background-color: red;
+    .up {
+      width: 100%;
+      // max-width: 100%;
       display: flex;
-      flex-direction: column;
       align-items: start;
+      justify-content: space-between;
+      padding: 20px 0 20px 0;
+      // background-color: wheat;
+      .line1,
+      .line2,
+      .line3,
+      .line4 {
+        // background-color: rgb(13, 102, 72);
+        .footerCard {
+          // background-color: purple;
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          .footerItem {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-top: 7px;
+            img {
+              width: 15px;
+              height: 15px;
+            }
+            span {
+              color: white;
+              font-size: 15px;
+              transition: color 0.1s linear;
+              font-weight: 600;
+              sup {
+                font-size: 9px;
+              }
+            }
+            &:hover {
+              span {
+                color: goldenrod;
+              }
+            }
+          }
+          h2 {
+            width: 100%;
+            margin: 0 0 20px 0;
+            border-bottom: 2px solid white;
+          }
 
-      a {
-        color: white;
-        margin-bottom: 3px;
+          a.footerCard {
+            display: flex;
+            gap: 3px;
+            color: white;
+            margin-bottom: 3px;
+          }
+        }
       }
-      p {
-        max-width: 250px;
-        margin-top: 0;
+      @include sm {
+        flex-direction: column;
+        align-items: start;
+        gap: 20px;
+        padding-left: 20px;
+        box-sizing: border-box;
+        .line1,
+        .line2,
+        .line3,
+        .line4 {
+          width: 100%;
+        }
       }
+    }
+    .down {
+      width: 100%;
       .socialLinks {
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: white;
         img {
           margin-right: 20px;
           width: 20px;
         }
       }
-    }
-    // @include lg {
-    //   max-width: 70%;
-    // }
-    @include md {
-      gap: 200px;
-    }
-    @include sm {
-      gap: 30px;
-    }
-  }
-  p.copyright {
-    display: block;
-    text-align: center;
-    font-size: small;
-    margin-top: 90px;
-    @include sm {
-      margin-top: 50px;
-    }
-    @include md {
-      margin-top: 60px;
+      p.copyright {
+        display: block;
+        font-size: small;
+      }
     }
   }
 }

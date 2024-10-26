@@ -214,9 +214,6 @@ function Places_to_visit() {
           </div>
         </div>
       </p>
-      <div className="place_imgWrapper" style={{ marginTop: "25px" }}>
-        <SingleClickableImg src="Tea-Estate-Bangladesh.jpg" />
-      </div>
       <h2>Khulna</h2>
       <p>
         Khulna is the gateway to the Sundarbans and is rich in cultural

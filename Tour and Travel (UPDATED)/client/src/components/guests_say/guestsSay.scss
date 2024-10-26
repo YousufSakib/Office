@@ -7,6 +7,7 @@
     margin: 60px auto 0 auto;
     h1 {
       text-align: center;
+      color: black;
     }
     p {
       font-size: small;
@@ -15,8 +16,9 @@
   .guestsSays {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px 150px;
+    justify-content: space-around;
+    gap: 50px 20px;
+    
 
     .guestSay {
       display: flex;
@@ -45,9 +47,6 @@
     }
     @include md {
       gap: 10px 30px;
-    }
-    @include lg {
-      gap: 30px 60px;
     }
     @include sm {
       gap: 10px 15px;

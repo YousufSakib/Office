@@ -137,3 +137,39 @@ $adminNavbarHeight: 70px;
     transform: scale3d(1, 1, 1);
   }
 }
+
+
+.shake-left{
+animation: customAni 2s linear 0s infinite normal none;
+}
+@keyframes customAni {
+  0%,
+  100% {
+	transform: rotate(0deg);
+	transform-origin: 0 50%;
+  }
+
+  10% {
+	transform: rotate(1deg);
+  }
+
+  20%,
+  40%,
+  60% {
+	transform: rotate(-2deg);
+  }
+
+  30%,
+  50%,
+  70% {
+	transform: rotate(2deg);
+  }
+
+  80% {
+	transform: rotate(-1deg);
+  }
+
+  90% {
+	transform: rotate(1deg);
+  }
+}

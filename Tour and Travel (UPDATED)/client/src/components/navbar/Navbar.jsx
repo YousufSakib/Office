@@ -43,7 +43,7 @@ function Navbar() {
     contactUsHeroImg,
   } = useImages();
 
-  const { companyName } = useInfo();
+  const { companyName, companyPhoneNo } = useInfo();
 
   const getheroImg = () => {
     if (location.pathname === "/packages") return packageHeroImg;
@@ -69,6 +69,10 @@ function Navbar() {
         />
       </div>
       <nav className={navShow ? "show" : "hide"}>
+        <div className="nav1stRow">
+          <img src="call-red.png" alt="tel"></img>
+          <span> HelpLine : </span>{companyPhoneNo}
+        </div>
         <div className="logoAndMenues">
           <div className="logoWrapper">
             <div className="navIcon">

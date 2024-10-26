@@ -2,9 +2,12 @@
 
 .map {
   width: 100%;
+  max-width: $maxWidth;
+  margin: auto;
   height: 500px;
   border-radius: 20px;
   margin-top: 80px;
+  z-index: 1;
   .leaflet-popup-content {
     width: 50vw;
     height: 300px;

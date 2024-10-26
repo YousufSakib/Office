@@ -11,7 +11,7 @@ const CompanyInfoProvider = ({ children }) => {
   const fetchdata = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/companyInfo`);
-      setData(response.data); // Adjust based on your response structure
+      setData(response.data); 
       console.log("from data context");
       console.log(response.data);
     } catch (error) {

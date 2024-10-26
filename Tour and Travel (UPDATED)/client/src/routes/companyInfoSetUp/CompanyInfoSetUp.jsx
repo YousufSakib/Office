@@ -3,39 +3,42 @@ import "./companyInfoSetUp.scss";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
-import { useInfo } from "../../components/CompanyInfoContext";
 
 function CompanyInfoSetUp() {
-  const {
-    companyName,
-    companyEmail,
-    companyPhoneNo,
-    receptionOffice,
-    receptionHours,
-    latitude,
-    longitude,
-    facebookLink,
-    instagramLink,
-    tweeterLink,
-    aboutUs,
-  } = useInfo();
 
   const [isInfoDisabled, setIsInfoDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [loadingError, setLoadingError] = useState("");
 
   const [obj, setObj] = useState({
-    companyName: companyName || "",
-    companyEmail: companyEmail || "",
-    companyPhoneNo: companyPhoneNo || "",
-    receptionOffice: receptionOffice || "",
-    receptionHours: receptionHours || "",
-    latitude: latitude || "",
-    longitude: longitude || "",
-    facebookLink: facebookLink || "",
-    instagramLink: instagramLink || "",
-    tweeterLink: tweeterLink || "",
-    aboutUs: aboutUs || "",
+    companyName: "",
+    companyEmail: "",
+    companyPhoneNo: "",
+    receptionOffice: "",
+    receptionHours: "",
+    latitude:  "",
+    longitude: "",
+    facebookLink:  "",
+    instagramLink:  "",
+    tweeterLink: "",
+    aboutUs: "",
   });
+
+  const fetchdata = async () => {
+    setLoading(true);
+    setLoadingError("");
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/companyInfo`);
+      setObj(response.data);
+    } catch (error) {
+      setLoadingError("Error fetching Company information");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useState(() => {
+    fetchdata();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -58,7 +61,7 @@ function CompanyInfoSetUp() {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       // Axios automatically resolves the promise for successful responses
       console.log("Company Info created/updated:", response.data);
@@ -79,6 +82,7 @@ function CompanyInfoSetUp() {
   return (
     <>
       {loading && <FullScreenloading />}
+      {loadingError && !loading(<p>{loadingError}</p>)}
       {loading || (
         <div className="basicSetup">
           <div className="basicInfo">

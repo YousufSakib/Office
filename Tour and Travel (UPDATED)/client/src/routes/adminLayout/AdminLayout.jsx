@@ -63,10 +63,7 @@ function AdminLayout() {
               <img src="../../../../public/homePage.png" alt="Admin" />
               <Link to="/admin">AdminHome</Link>
             </div>
-            {/* <div className="row">
-              <img src="../../../../public/adminPage.png" alt="adminPage" />
-              <Link to="/admin">AdminPage</Link>
-            </div> */}
+
             <div className="row">
               <img src="../../../../public/allPackages.png" alt="allPackages" />
               <Link to="/admin/packages">All Packages</Link>
@@ -76,8 +73,11 @@ function AdminLayout() {
               <Link to="/admin/packageAdd">Add new Package</Link>
             </div>
             <div className="row">
+              <img src="../../../../public/pages.png" alt="Pages Edit" />
+              <Link to="">Pages</Link>
+            </div>
+            <div className="row">
               <img src="../../../../public/infoSetup.png" alt="infoSetup" />
-
               <Link to="/admin/companyInfoSetUp">Info Setup</Link>
             </div>
             <div className="row">

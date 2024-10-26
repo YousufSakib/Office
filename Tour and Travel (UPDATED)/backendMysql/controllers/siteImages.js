@@ -28,15 +28,17 @@ const read = async (req, res) => {
 
 // Create or update image entries (PUT)
 const createOrUpdate = async (req, res) => {
+  console.log("yyyyyyyyyyyyy");
   try {
     // Ensure only one entry persists in the database
     const imageEntry = await Image.findOne();
+    console.log(imageEntry);
 
     const fieldsToUpdate = {
       packageHeroImg: getImagePath(
         req,
         "packageHeroImg",
-        imageEntry?.packageHeroImg,
+        imageEntry?.packageHeroImg
       ),
       aboutHeroImg: getImagePath(req, "aboutHeroImg", imageEntry?.aboutHeroImg),
       homeHeroImg: getImagePath(req, "homeHeroImg", imageEntry?.homeHeroImg),
@@ -44,22 +46,24 @@ const createOrUpdate = async (req, res) => {
       placesToVistHeroImg: getImagePath(
         req,
         "placesToVistHeroImg",
-        imageEntry?.placesToVistHeroImg,
+        imageEntry?.placesToVistHeroImg
       ),
       meetBangladeshHeroImg: getImagePath(
         req,
         "meetBangladeshHeroImg",
-        imageEntry?.meetBangladeshHeroImg,
+        imageEntry?.meetBangladeshHeroImg
       ),
       contactUsHeroImg: getImagePath(
         req,
         "contactUsHeroImg",
-        imageEntry?.contactUsHeroImg,
+        imageEntry?.contactUsHeroImg
       ),
     };
-
+    console.log("xxxxxx", imageEntry);
     if (imageEntry) {
-      await imageEntry.update(fieldsToUpdate);
+      await imageEntry.update(fieldsToUpdate, {
+        where: { id: imageEntry.id }, // Add a condition to specify which row to update
+      });
       res.status(200).json({ message: "Images updated successfully" });
     } else {
       const newImageEntry = await Image.create(fieldsToUpdate);

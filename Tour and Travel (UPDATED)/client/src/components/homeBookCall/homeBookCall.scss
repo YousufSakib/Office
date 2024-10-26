@@ -6,6 +6,8 @@
   position: relative;
   .container {
     width: 100%;
+    max-width: $maxWidth;
+    margin: auto;
     scrollbar-width: 0;
     img {
       width: 100%;
@@ -37,19 +39,27 @@
         }
       }
       p {
-        font-size: small;
+        background-color: rgb(41, 136, 199);
         display: block;
         text-align: center;
       }
     }
     .down {
       margin-top: 50px;
+      background-color: rgb(163, 3, 3);
+
+      font-family: "Lora", serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-style: normal;
       p {
         text-transform: uppercase;
         letter-spacing: 2px;
         display: block;
         text-align: center;
         margin: 10px;
+        font-weight: 700;
+        font-size: large;
       }
       .call {
         display: flex;
