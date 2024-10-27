@@ -59,29 +59,68 @@ function AdminLayout() {
         >
           {/* <AdminSidebar /> */}
           <div className="sidebarwrapper">
-            <div className="row">
-              <img src="../../../../public/homePage.png" alt="Admin" />
+            <div className="sidebarMenuItem">
+              <img
+                className="icon"
+                src="../../../../public/homePage.png"
+                alt="Admin"
+              />
               <Link to="/admin">AdminHome</Link>
             </div>
 
-            <div className="row">
-              <img src="../../../../public/allPackages.png" alt="allPackages" />
+            <div className="sidebarMenuItem">
+              <img
+                className="icon"
+                src="../../../../public/allPackages.png"
+                alt="allPackages"
+              />
               <Link to="/admin/packages">All Packages</Link>
             </div>
-            <div className="row">
-              <img src="../../../../public/packageAdd.png" alt="packageAdd" />
+            <div className="sidebarMenuItem">
+              <img
+                className="icon"
+                src="../../../../public/packageAdd.png"
+                alt="packageAdd"
+              />
               <Link to="/admin/packageAdd">Add new Package</Link>
             </div>
-            <div className="row">
-              <img src="../../../../public/pages.png" alt="Pages Edit" />
+            <div className="sidebarMenuItem">
+              <img
+                className="icon"
+                src="../../../../public/pages.png"
+                alt="Pages Edit"
+              />
               <Link to="">Pages</Link>
             </div>
-            <div className="row">
-              <img src="../../../../public/infoSetup.png" alt="infoSetup" />
-              <Link to="/admin/companyInfoSetUp">Info Setup</Link>
+            <div className="sidebarMenuItem">
+              <div className="item-mainWrapper">
+                <div className="item-main">
+                  <img
+                    className="icon"
+                    src="../../../../public/infoSetup.png"
+                    alt="infoSetup"
+                  />
+                  <Link to="">Setup Details</Link>
+                  <img
+                    src="../../../../rightArrowAdmin.png"
+                    alt=""
+                    className="arrow"
+                  />
+                </div>
+                <div className="sub-items">
+                  <div className="item">
+                    <Link to="/admin/companyInfoSetUp">Info Setup</Link>
+                    <Link to="/admin/companyInfoSetUp">Package info</Link>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="row">
-              <img src="../../../../public/basicImages.png" alt="basicImages" />
+            <div className="sidebarMenuItem">
+              <img
+                className="icon"
+                src="../../../../public/basicImages.png"
+                alt="basicImages"
+              />
               <Link to="/admin/basic-images">Basic Images</Link>
             </div>
           </div>

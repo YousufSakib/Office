@@ -68,7 +68,7 @@
     transition: all 0.3s linear;
     padding-top: 20px;
     .sidebarwrapper {
-      // background-color: blueviolet;
+      background-color: blueviolet;
       width: 100%;
       padding-left: 20px;
       box-sizing: border-box;
@@ -76,11 +76,12 @@
       align-items: start;
       flex-direction: column;
       gap: 15px;
-      .row {
+      .sidebarMenuItem {
         display: flex;
         align-items: center;
-        // background-color: purple;
+        background-color: purple;
         gap: 10px;
+        width: 100%;
         img {
           width: 20px;
           height: 20px;
@@ -92,8 +93,56 @@
           font-size: 15px;
           color: #bcc5d6;
         }
+
+        //*************upadated for submenu***********
+        .item-mainWrapper {
+          display: flex;
+          flex-direction: column;
+          background-color: rgb(51, 128, 0);
+          width: 100%;
+          gap: 10px;
+          .item-main {
+            width: 100%;
+            background-color: rgb(112, 107, 99);
+            display: flex;
+            gap: 10px;
+            img {
+              width: 20px;
+              height: 20px;
+              box-sizing: border-box;
+              &.arrow {
+                position: absolute;
+                right: 0;
+              }
+            }
+            a {
+              display: none;
+              transition: all 0.3s linear;
+              font-size: 15px;
+              color: #bcc5d6;
+            }
+          }
+
+          .sub-items {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            .item {
+              background-color: red;
+            }
+          }
+          &:hover {
+            img.arrow {
+              transform: rotate(90deg);
+            }
+            .sub-items {
+              display: flex;
+            }
+          }
+        }
         &:hover {
-          img {
+          img.icon {
             padding: 2px;
             border-radius: 50%;
             border: 1px solid #00c8ff;
@@ -143,9 +192,33 @@
         transform: translateX(0);
       }
       .sidebarwrapper {
-        .row {
+        background-color: red;
+        .sidebarMenuItem {
           a {
             display: initial;
+          }
+
+          //*************upadated for submenu***********
+          .item-mainWrapper {
+            .item-main {
+              a {
+                display: initial;
+              }
+            }
+            .sub-items {
+              display: none;
+              width: 100%;
+              .item {
+                position: relative;
+                width: calc(100% - 20px);
+                right: 20px;
+              }
+            }
+            &:hover {
+              img.arrow {
+                transform: rotate(90deg);
+              }
+            }
           }
         }
       }
@@ -181,9 +254,29 @@
       .adminSidebar {
         width: $adminSidebarFinalWidth;
         .sidebarwrapper {
-          .row {
+          .sidebarMenuItem {
             a {
               display: initial;
+            }
+
+            //*************upadated for submenu***********
+            .item-mainWrapper {
+              .item-main {
+                a {
+                  display: initial;
+                }
+              }
+              &:hover {
+                img.arrow {
+                  transform: rotate(90deg);
+                }
+                .sub-items {
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: end;
+                }
+              }
             }
           }
         }
@@ -211,9 +304,28 @@
         width: calc(100% - $adminSidebarFinalWidth);
       }
       .sidebarwrapper {
-        .row {
+        .sidebarMenuItem {
           a {
             display: initial;
+          }
+          //*************upadated for submenu***********
+          .item-mainWrapper {
+            .item-main {
+              a {
+                display: initial;
+              }
+            }
+            &:hover {
+              img.arrow {
+                transform: rotate(90deg);
+              }
+              .sub-items {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: end;
+              }
+            }
           }
         }
       }
