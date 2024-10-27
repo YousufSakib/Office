@@ -24,28 +24,33 @@ nav {
   // background-color: chocolate;
   background-color: black;
   transition: all 0.5s linear;
-  div.nav1stRow{
+  div.nav1stRow {
     width: 100%;
     display: flex;
     align-items: center;
-    background-color: black;
-    color: rgb(228, 219, 219);
+    justify-content: end;
+    // background-color: rgb(197, 156, 156);
+    color: white;
     max-width: $maxWidth;
     margin: auto;
-    height: $navBarHeight;
-    
+    height: $navBar1stRowHeight;
+
     font-family: "Lora", serif;
     font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
     font-size: 25px;
-    img{
-      width: 25px;
-      height: 25px;
-    }
-    span{
-      margin-right: 5px;
-      color: rgb(226, 0, 0);
+    div {
+      display: flex;
+      align-items: center;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+      span {
+        margin-right: 5px;
+        color: rgb(226, 0, 0);
+      }
     }
   }
   .logoAndMenues {
@@ -139,7 +144,7 @@ nav {
     }
   }
   &.hide {
-    transform: translate(0px, -$navBarHeight);
+    transform: translate(0px, -$navBar1stRowHeight);
   }
 }
 .heroTextWrapper {

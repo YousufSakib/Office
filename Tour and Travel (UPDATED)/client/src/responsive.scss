@@ -28,6 +28,7 @@ $grayTextColor: rgb(63, 63, 63);
 $maxWidth: 1280px;
 $loginColor: rgb(43, 165, 165);
 $navBarHeight: 60px;
+$navBar1stRowHeight: 30px;
 $adminSidebarBaseWidth: 80px;
 $adminSidebarFinalWidth: 280px;
 $adminSidebarBackGroundColor: #36445e;
@@ -138,38 +139,112 @@ $adminNavbarHeight: 70px;
   }
 }
 
-
-.shake-left{
-animation: customAni 2s linear 0s infinite normal none;
+.shake-left {
+  animation: shake-left 2s linear 0s infinite normal none;
 }
-@keyframes customAni {
+.entrance1s {
+  animation: entrance 1s ease 0s 1 normal forwards;
+}
+
+.rise-shake {
+  animation: rise-shake 3s ease infinite;
+}
+
+@keyframes entrance {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 0;
+    transform: translateY(-250px);
+  }
+
+  38% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  55% {
+    animation-timing-function: ease-in;
+    transform: translateY(-65px);
+  }
+
+  72% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+
+  81% {
+    animation-timing-function: ease-in;
+    transform: translateY(-28px);
+  }
+
+  90% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+
+  95% {
+    animation-timing-function: ease-in;
+    transform: translateY(-8px);
+  }
+
+  100% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+}
+@keyframes shake-left {
   0%,
   100% {
-	transform: rotate(0deg);
-	transform-origin: 0 50%;
+    transform: rotate(0deg);
+    transform-origin: 0 50%;
   }
 
   10% {
-	transform: rotate(1deg);
+    transform: rotate(1deg);
   }
 
   20%,
   40%,
   60% {
-	transform: rotate(-2deg);
+    transform: rotate(-2deg);
   }
 
   30%,
   50%,
   70% {
-	transform: rotate(2deg);
+    transform: rotate(2deg);
   }
 
   80% {
-	transform: rotate(-1deg);
+    transform: rotate(-1deg);
   }
 
   90% {
-	transform: rotate(1deg);
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes rise-shake {
+  0% {
+    transform: translateX(0) rotate(0);
+  }
+  35% {
+    transform: translateY(0) rotate(0);
+  }
+  85% {
+    transform: translateY(0) rotate(0);
+  }
+  89% {
+    transform: translateY(-2px) rotate(-17deg);
+  }
+  93% {
+    transform: translateY(-3px) rotate(17deg);
+  }
+  98% {
+    transform: translateY(-4px) rotate(-17deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
   }
 }

@@ -7,7 +7,7 @@ import Search from "../search/Search";
 import { useImages } from "../ImageContext";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import { useInfo } from "../CompanyInfoContext";
-
+import FlippingText from "../FlippingText";
 function Navbar() {
   const location = useLocation();
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -70,8 +70,11 @@ function Navbar() {
       </div>
       <nav className={navShow ? "show" : "hide"}>
         <div className="nav1stRow">
-          <img src="call-red.png" alt="tel"></img>
-          <span> HelpLine : </span>{companyPhoneNo}
+          <div className="">
+            <img src="call-red.png" alt="tel" />
+            <FlippingText text="Help line: " color="red" fontSize="25px" />
+          </div>
+          {companyPhoneNo}
         </div>
         <div className="logoAndMenues">
           <div className="logoWrapper">
@@ -110,7 +113,7 @@ function Navbar() {
             well-planned Bangladesh Itinerary
           </p>
           <Link to="/book-tour">
-            <button className="button">Book Your Tour Now</button>
+            <button className="button entrance1s">Book Your Tour Now</button>
           </Link>
         </div>
 

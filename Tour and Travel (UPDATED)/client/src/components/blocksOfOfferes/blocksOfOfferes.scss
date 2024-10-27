@@ -2,12 +2,16 @@
 
 .card {
   width: 100%;
-  margin: 80px auto 0 auto;
+  margin: 40px auto 0 auto;
   max-width: $maxWidth;
+  position: relative;
+  padding: 40px 0 40px 0;
   h2 {
     width: 100%;
     font-size: 35px;
     text-align: center;
+    z-index: 10;
+    position: relative;
   }
   .blockOfOffers {
     width: 100%;
@@ -15,7 +19,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 50px;
+    // background-color: red;
+    gap: 5px;
     a {
       color: black;
       .item {
@@ -51,14 +56,6 @@
         -webkit-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
         -moz-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
         box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
-
-        animation: myAnim 1.5s ease 0s 1 normal forwards;
-        &:hover {
-          border-radius: 0px 0px 50px 0px;
-          -moz-border-radius: 0px 0px 50px 0px;
-          -webkit-border-radius: 0px 0px 50px 0px;
-          border: 0px solid #000000;
-        }
       }
     }
   }
