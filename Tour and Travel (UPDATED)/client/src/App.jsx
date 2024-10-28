@@ -20,6 +20,7 @@ import BasicImgSetup from "./routes/basicImgSetup/basicImgSetup";
 import AboutUs from "./routes/aboutUs/AboutUs";
 import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
 import Test from "./routes/test/Test";
+import AdminPackageSetup from "./routes/adminPackageSetup/AdminPackageSetup";
 
 function App() {
   const router = createBrowserRouter([
@@ -104,6 +105,10 @@ function App() {
         {
           path: "/admin/basic-images",
           element: <BasicImgSetup />,
+        },
+        {
+          path: "/admin/packageSetup",
+          element: <AdminPackageSetup />,
         },
         {
           path: "/admin/test",

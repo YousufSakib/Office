@@ -24,7 +24,7 @@
     min-height: $adminNavbarHeight;
     width: $adminSidebarBaseWidth;
     background-color: $adminSidebarBackGroundColor;
-    transition: all 0.3s linear;
+    transition: all 0.2s linear;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,10 +65,10 @@
     top: $adminNavbarHeight;
     height: calc(100% - $adminNavbarHeight);
     position: fixed;
-    transition: all 0.3s linear;
+    transition: all 0.2s linear;
     padding-top: 20px;
     .sidebarwrapper {
-      background-color: blueviolet;
+      // background-color: blueviolet;
       width: 100%;
       padding-left: 20px;
       box-sizing: border-box;
@@ -79,17 +79,18 @@
       .sidebarMenuItem {
         display: flex;
         align-items: center;
-        background-color: purple;
+        // background-color: purple;
         gap: 10px;
         width: 100%;
         img {
           width: 20px;
           height: 20px;
           box-sizing: border-box;
+          transition: all 0.2s linear;
         }
         a {
           display: none;
-          transition: all 0.3s linear;
+          transition: all 0.2s linear;
           font-size: 15px;
           color: #bcc5d6;
         }
@@ -98,41 +99,57 @@
         .item-mainWrapper {
           display: flex;
           flex-direction: column;
-          background-color: rgb(51, 128, 0);
+          // background-color: rgb(100, 128, 0);
           width: 100%;
-          gap: 10px;
+          gap: 7px;
+
           .item-main {
             width: 100%;
-            background-color: rgb(112, 107, 99);
+            // background-color: rgb(112, 107, 99);
             display: flex;
             gap: 10px;
             img {
               width: 20px;
               height: 20px;
               box-sizing: border-box;
+              transition: all 0.2s linear;
               &.arrow {
                 position: absolute;
-                right: 0;
+                right: 5px;
               }
             }
             a {
               display: none;
-              transition: all 0.3s linear;
+              transition: all 0.2s linear;
               font-size: 15px;
               color: #bcc5d6;
+            }
+            &:hover {
+              a {
+                color: #00c8ff;
+              }
             }
           }
 
           .sub-items {
             display: none;
             flex-direction: column;
-            gap: 10px;
+            gap: 7px;
             width: 100%;
-            .item {
-              background-color: red;
+            a {
+              border-bottom: 1px solid #bcc5d63b;
+              box-sizing: border-box;
+              padding-left: 40px;
+              transition: all 0.2s linear;
+              // background-color: rgb(116, 95, 95);
+              &:hover {
+                color: #00c8ff;
+              }
             }
           }
           &:hover {
+            border-left: 1px solid #bcc5d63b;
+            box-sizing: border-box;
             img.arrow {
               transform: rotate(90deg);
             }
@@ -142,12 +159,13 @@
           }
         }
         &:hover {
+          cursor: pointer;
           img.icon {
             padding: 2px;
             border-radius: 50%;
             border: 1px solid #00c8ff;
           }
-          a {
+          & > a {
             color: #00c8ff;
           }
         }
@@ -156,7 +174,7 @@
   }
   .content {
     position: absolute;
-    transition: all 0.3s linear;
+    transition: all 0.2s linear;
     width: calc(100% - $adminSidebarBaseWidth);
     max-width: $maxWidth;
     left: $adminSidebarBaseWidth;
@@ -192,7 +210,7 @@
         transform: translateX(0);
       }
       .sidebarwrapper {
-        background-color: red;
+        // background-color: red;
         .sidebarMenuItem {
           a {
             display: initial;
@@ -203,20 +221,6 @@
             .item-main {
               a {
                 display: initial;
-              }
-            }
-            .sub-items {
-              display: none;
-              width: 100%;
-              .item {
-                position: relative;
-                width: calc(100% - 20px);
-                right: 20px;
-              }
-            }
-            &:hover {
-              img.arrow {
-                transform: rotate(90deg);
               }
             }
           }
@@ -266,17 +270,6 @@
                   display: initial;
                 }
               }
-              &:hover {
-                img.arrow {
-                  transform: rotate(90deg);
-                }
-                .sub-items {
-                  width: 100%;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: end;
-                }
-              }
             }
           }
         }
@@ -313,17 +306,6 @@
             .item-main {
               a {
                 display: initial;
-              }
-            }
-            &:hover {
-              img.arrow {
-                transform: rotate(90deg);
-              }
-              .sub-items {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: end;
               }
             }
           }

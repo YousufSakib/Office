@@ -32,14 +32,14 @@ nav {
     // background-color: rgb(197, 156, 156);
     color: white;
     max-width: $maxWidth;
-    margin: auto;
-    height: $navBar1stRowHeight;
+    margin: 0 auto 0 auto;
+    min-height: $navBar1stRowHeight;
 
     font-family: "Lora", serif;
     font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
-    font-size: 25px;
+    font-size: 22px;
     div {
       display: flex;
       align-items: center;
@@ -47,9 +47,26 @@ nav {
         width: 25px;
         height: 25px;
       }
-      span {
-        margin-right: 5px;
-        color: rgb(226, 0, 0);
+    }
+    @include md {
+      font-size: 20px;
+      div img {
+        width: 22px;
+        height: 22px;
+      }
+    }
+    @include sm {
+      font-size: 18px;
+      div img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    @include vsm {
+      font-size: 15px;
+      div img {
+        width: 15px;
+        height: 15px;
       }
     }
   }
@@ -62,6 +79,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: $navBarHeight;
     // background-color: blue;
     .logoWrapper {
       // background-color: red;
@@ -72,9 +90,20 @@ nav {
         // background-color: green;
         a {
           img {
-            height: 30px;
             width: 50px;
             height: 50px;
+            @include md {
+              width: 42px;
+              height: 42px;
+            }
+            @include sm {
+              width: 35px;
+              height: 35px;
+            }
+            @include vsm {
+              width: 30px;
+              height: 30px;
+            }
           }
         }
       }
@@ -82,8 +111,11 @@ nav {
         // background-color: purple;
         a {
           span {
-            font-size: 30px;
+            font-size: 26px;
             color: white;
+            @include md {
+              font-size: 20px;
+            }
           }
         }
       }
@@ -93,11 +125,12 @@ nav {
       display: flex;
       gap: 40px;
       // background-color: green;
-      transition: all 0.5s linear;
+      transition: all 0.2s linear;
       a {
         text-transform: uppercase;
         text-align: center;
         cursor: pointer;
+        font-size: 15px;
         color: rgb(255, 254, 254);
         &:hover {
           color: white;
@@ -115,7 +148,7 @@ nav {
           flex-direction: column;
           width: 100%;
           max-width: $maxWidth;
-          top: $navBarHeight;
+          top: calc($navBarHeight + $navBar1stRowHeight);
           left: 0;
           z-index: 9;
           background-color: black;
@@ -137,6 +170,14 @@ nav {
         height: 20px;
         width: 20px;
         cursor: pointer;
+        @include sm {
+          height: 17px;
+          width: 17px;
+        }
+        @include vsm {
+          height: 16px;
+          width: 16px;
+        }
       }
       @include md {
         display: initial;

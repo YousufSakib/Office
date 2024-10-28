@@ -257,6 +257,7 @@ function ContactUsForm() {
           <div className="row">
             <label htmlFor="destination">Choose a destination</label>
             <select
+              className="select"
               name="destination"
               id="destination"
               value={formData.destination}

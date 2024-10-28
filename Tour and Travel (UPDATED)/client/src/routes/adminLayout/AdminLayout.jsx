@@ -67,7 +67,6 @@ function AdminLayout() {
               />
               <Link to="/admin">AdminHome</Link>
             </div>
-
             <div className="sidebarMenuItem">
               <img
                 className="icon"
@@ -100,7 +99,9 @@ function AdminLayout() {
                     src="../../../../public/infoSetup.png"
                     alt="infoSetup"
                   />
-                  <Link to="">Setup Details</Link>
+                  {/* sub menu */}
+
+                  <Link to="/admin/companyInfoSetUp">Setup Details</Link>
                   <img
                     src="../../../../rightArrowAdmin.png"
                     alt=""
@@ -108,10 +109,8 @@ function AdminLayout() {
                   />
                 </div>
                 <div className="sub-items">
-                  <div className="item">
-                    <Link to="/admin/companyInfoSetUp">Info Setup</Link>
-                    <Link to="/admin/companyInfoSetUp">Package info</Link>
-                  </div>
+                  <Link to="/admin/companyInfoSetUp">Company</Link>
+                  <Link to="/admin/packageSetup">Package</Link>
                 </div>
               </div>
             </div>

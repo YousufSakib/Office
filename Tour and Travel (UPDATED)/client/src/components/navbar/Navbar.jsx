@@ -72,7 +72,7 @@ function Navbar() {
         <div className="nav1stRow">
           <div className="">
             <img src="call-red.png" alt="tel" />
-            <FlippingText text="Help line: " color="red" fontSize="25px" />
+            <FlippingText text="Help line: " color="red" fontSize="22px" />
           </div>
           {companyPhoneNo}
         </div>
