@@ -16,7 +16,7 @@ function AdminAllPackage() {
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
   const [packages, setPackages] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {

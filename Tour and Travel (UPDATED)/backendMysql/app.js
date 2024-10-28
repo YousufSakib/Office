@@ -7,6 +7,8 @@ const packageRoutes = require("./controllers/packageRoutes");
 const companyInfoRouter = require("./routes/companyInfo");
 const imagesRoute = require("./routes/siteImages");
 const contactRoute = require("./controllers/contactRoute");
+const packagePlaces = require('./routes/packagePlace');
+const packageTourCategory = require('./routes/PackageTourCategory');
 
 const cors = require("cors");
 
@@ -34,6 +36,9 @@ app.use("/api/v1", imagesRoute);
 app.use("/api/v1", packageRoutes);
 app.use("/api/v1", companyInfoRouter);
 app.use("/api/v1", contactRoute);
+app.use("/api/v1", packagePlaces);
+app.use("/api/v1", packageTourCategory)
+
 // Sync Sequelize with MySQL
 sequelize
   .sync({ alter: true }) // 'alter' ensures the table is updated with new changes

@@ -21,6 +21,7 @@ import AboutUs from "./routes/aboutUs/AboutUs";
 import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
 import Test from "./routes/test/Test";
 import AdminPackageSetup from "./routes/adminPackageSetup/AdminPackageSetup";
+import AdminPackageTourCategories from "./components/adminPackageTourCategories/AdminPackageTourCategories";
 
 function App() {
   const router = createBrowserRouter([
@@ -112,7 +113,7 @@ function App() {
         },
         {
           path: "/admin/test",
-          element: <Test />,
+          element: <AdminPackageTourCategories />,
         },
         {
           path: "/admin/loading",
