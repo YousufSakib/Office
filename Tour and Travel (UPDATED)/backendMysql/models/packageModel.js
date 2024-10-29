@@ -12,7 +12,7 @@ const Package = sequelize.define("Package", {
     allowNull: false,
   },
   destination: {
-    type: DataTypes.JSON,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   duration: {

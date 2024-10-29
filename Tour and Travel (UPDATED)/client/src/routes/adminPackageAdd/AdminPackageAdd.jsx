@@ -13,7 +13,7 @@ function AdminPackageAdd() {
     createdBy: "",
     destination: [],
     duration: "",
-    category: "",
+    category: [],
     name: "",
     description: "",
     tourHighLights: [
@@ -33,7 +33,7 @@ function AdminPackageAdd() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [allPlaces, setAllPlaces] = useState([]);
-  const [selectedPlace, setSelectedPlace] = useState("");
+  const [allCategories, setAllCategories] = useState([]);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -59,7 +59,7 @@ function AdminPackageAdd() {
   const handleCancel = (event) => {
     event.preventDefault();
     const confirmation = confirm(
-      "Are you sure you want to cancel creating new package?",
+      "Are you sure you want to cancel creating new package?"
     );
     if (confirmation) {
       navigate(-1);
@@ -106,7 +106,7 @@ function AdminPackageAdd() {
       ...prev,
       tourHighLights: prev.tourHighLights.filter(
         (_, index) =>
-          prev.tourHighLights.length === 1 || index !== deletingIndex,
+          prev.tourHighLights.length === 1 || index !== deletingIndex
       ),
     }));
   };
@@ -145,46 +145,84 @@ function AdminPackageAdd() {
       ...prev,
       pricePerPerson: prev.pricePerPerson.filter(
         (_, index) =>
-          prev.pricePerPerson.length === 1 || index !== deletingIndex,
+          prev.pricePerPerson.length === 1 || index !== deletingIndex
       ),
     }));
   };
 
-  /*All Places for dropdown items*/
+  /*All Places and Categories for dropdown items*/
   useEffect(() => {
-    const fetchPlaces = async () => {
+    const fetchPlacesAndCategory = async () => {
       setIsLoading(true);
       const headers = {
         "Content-Type": "application/json",
       };
-      const url = `${BACKEND_URL}/api/v1/packagePlaces`;
       try {
-        const response = await axios.get(url, { headers });
-        setAllPlaces(response.data);
-        setSelectedPlace(response.data[0]);
+        let url = `${BACKEND_URL}/api/v1/packagePlaces`;
+        const places = await axios.get(url, { headers });
+
+        url = `${BACKEND_URL}/api/v1/package-tour-category`;
+        const categories = await axios.get(url, { headers });
+
+        setAllPlaces(places.data);
+        console.log("ttttttttttttttttttttt");
+        console.log(places.data);
+        console.log(typeof places.data[0]);
+
+        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        setAllCategories(JSON.parse(categories.data));
+        console.log(JSON.parse(categories.data));
       } catch (error) {
         console.error("Error fetching package places", error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchPlaces();
+    fetchPlacesAndCategory();
   }, []);
 
   const handlePlaceRemove = (removingIndex) => {
     setFormData({
       ...formData,
       destination: formData.destination.filter(
-        (places, i) => i !== removingIndex,
+        (places, i) => formData.destination.length === 1 || i !== removingIndex
       ),
     });
   };
-  const handlePlaceAdd = (event) => {
+  const handlePlaceAdd = (event, index) => {
+    const isAlreadyExisted = formData.destination.some(
+      (obj) => obj.place === event.target.value
+    );
+    if (isAlreadyExisted) return;
     setFormData({
       ...formData,
-      destination: [...formData.destination, event.target.value],
+      destination: [
+        ...formData.destination,
+        { key: randomChar(5), place: event.target.value },
+      ],
     });
-    setSelectedPlace(event.target.value);
+  };
+
+  const handleCategoryRemove = (removingIndex) => {
+    setFormData({
+      ...formData,
+      destination: formData.destination.filter(
+        (places, i) => formData.destination.length === 1 || i !== removingIndex
+      ),
+    });
+  };
+  const handleCategoryAdd = (event, index) => {
+    const isAlreadyExisted = formData.destination.some(
+      (obj) => obj.place === event.target.value
+    );
+    if (isAlreadyExisted) return;
+    setFormData({
+      ...formData,
+      destination: [
+        ...formData.destination,
+        { key: randomChar(5), place: event.target.value },
+      ],
+    });
   };
 
   /*Handle form submit funtion */
@@ -216,13 +254,15 @@ function AdminPackageAdd() {
           data.append(key, JSON.stringify(value));
         } else if (key === "tourHighLights") {
           data.append(key, JSON.stringify(value));
+        } else if (key === "destination") {
+          data.append(key, JSON.stringify(value));
         } else {
           data.append(key, value);
         }
       }
     });
 
-    console.log("from Admin package add page");
+    console.log("from Admin package-add page");
     console.log("the following data is going to submitted to the server");
 
     for (const [key, value] of data.entries()) {
@@ -236,7 +276,7 @@ function AdminPackageAdd() {
         data,
         {
           "Content-Type": "multipart/form-data",
-        },
+        }
       );
       alert("Package created successfully!");
       // navigate("/admin/packages");
@@ -246,7 +286,7 @@ function AdminPackageAdd() {
         alert(
           `Failed to create package: ${
             error.response.data.message || error.message
-          }`,
+          }`
         );
       } else {
         alert("An unexpected error occurred.");
@@ -254,8 +294,6 @@ function AdminPackageAdd() {
     }
   };
 
-  console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-  console.log(allPlaces);
   return (
     <>
       {isLoading && <FullScreenloading />}
@@ -263,7 +301,6 @@ function AdminPackageAdd() {
         <div className="adminPackageAdd">
           <form onSubmit={handleSubmit}>
             <h2>Fill all the below fields to create a new package</h2>
-
             <div className="row full">
               <label htmlFor="profileImg">Choose a profile image:</label>
               <input
@@ -274,7 +311,6 @@ function AdminPackageAdd() {
                 required
               />
             </div>
-
             <div className="row full">
               <label htmlFor="multiPleTourimages">Choose gallery images:</label>
               <input
@@ -286,7 +322,6 @@ function AdminPackageAdd() {
                 required
               />
             </div>
-
             <div className="row">
               <div className="showSelectedImages">
                 {Array.isArray(formData.images) &&
@@ -306,51 +341,77 @@ function AdminPackageAdd() {
                 {`${formData.images.length} images have been selected`}
               </p>
             </div>
-
-            {["name", "createdBy", "duration", "category", "description"].map(
-              (field) => (
-                <div className="row" key={field}>
-                  <label htmlFor={field}>
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                  </label>
-                  {field === "description" ? (
-                    <textarea
-                      name={field}
-                      id={field}
-                      onChange={handleChange}
-                      value={formData[field]}
-                    />
-                  ) : (
-                    <input
-                      type={field === "duration" ? "number" : "text"}
-                      name={field}
-                      id={field}
-                      onChange={handleChange}
-                      value={formData[field]}
-                    />
-                  )}
-                </div>
-              ),
-            )}
+            {["name", "createdBy", "duration", "description"].map((field) => (
+              <div className="row" key={field}>
+                <label htmlFor={field}>
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+                {field === "description" ? (
+                  <textarea
+                    name={field}
+                    id={field}
+                    onChange={handleChange}
+                    value={formData[field]}
+                  />
+                ) : (
+                  <input
+                    type={field === "duration" ? "number" : "text"}
+                    name={field}
+                    id={field}
+                    onChange={handleChange}
+                    value={formData[field]}
+                  />
+                )}
+              </div>
+            ))}
+            //places
             <div className="row">
               <div className="placesContainer">
-                {formData.destination.map((name, index) => (
-                  <p>
-                    {name}{" "}
-                    <span onClick={(index) => handlePlaceRemove(index)}>X</span>
+                {formData.destination.map((obj, index) => (
+                  <p key={obj.key}>
+                    {obj.place}
+                    <span onClick={(event) => handlePlaceRemove(index)}>X</span>
                   </p>
                 ))}
               </div>
               <label htmlFor="adminPackageAddPlace">Select tour places</label>
               <div className="select">
-                <select
-                  id="adminPackageAddPlace"
-                  value={selectedPlace}
-                  onChange={handlePlaceAdd}
-                >
+                <select id="adminPackageAddPlace" onChange={handlePlaceAdd}>
                   {allPlaces.map((place) => (
-                    <option key={place} value={place}>
-                      {place}
+                    <option
+                      key={`${place.placeName}`}
+                      value={`${place.placeName}`}
+                    >
+                      {`${place.placeName}, ${place.district}`}
+                    </option>
+                  ))}
+                </select>
+                <span className="focus"></span>
+              </div>
+            </div>
+            //categories
+            <div className="row">
+              <div className="placesContainer">
+                {formData.category.map((obj, index) => (
+                  <p key={obj.key}>
+                    {obj.category}
+                    <span onClick={(event) => handleCategoryRemove(index)}>
+                      X
+                    </span>
+                  </p>
+                ))}
+              </div>
+              <label htmlFor="adminPackageAddTourCategory">
+                Select tour categories
+              </label>
+              <div className="select">
+                <select
+                  id="adminPackageAddTourCategory"
+                  onChange={handleCategoryAdd}
+                >
+                  {allCategories.map((obj) => (
+                    <option key={`${obj.key}`} value={`${obj.category}`}>
+                      {`${obj.category}`}
                     </option>
                   ))}
                 </select>
@@ -395,7 +456,6 @@ function AdminPackageAdd() {
                 +
               </button>
             </div>
-
             <div className="row">
               <h3>Package prices (Per person)</h3>
               {formData.pricePerPerson.map((item, index) => {
