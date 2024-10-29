@@ -4,13 +4,14 @@ import axios from "axios";
 import randomChar from "../../lib/randomChar";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import { useNavigate } from "react-router-dom";
+import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 
 function AdminPackageAdd() {
   const [formData, setFormData] = useState({
     profileImg: null,
     images: [],
     createdBy: "",
-    destination: "",
+    destination: [],
     duration: "",
     category: "",
     name: "",
@@ -30,7 +31,9 @@ function AdminPackageAdd() {
       },
     ],
   });
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [allPlaces, setAllPlaces] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -147,6 +150,43 @@ function AdminPackageAdd() {
     }));
   };
 
+  /*All Places for dropdown items*/
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      setIsLoading(true);
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const url = `${BACKEND_URL}/api/v1/packagePlaces`;
+      try {
+        const response = await axios.get(url, { headers });
+        setAllPlaces(response.data);
+        setSelectedPlace(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching package places", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPlaces();
+  }, []);
+
+  const handlePlaceRemove = (removingIndex) => {
+    setFormData({
+      ...formData,
+      destination: formData.destination.filter(
+        (places, i) => i !== removingIndex,
+      ),
+    });
+  };
+  const handlePlaceAdd = (event) => {
+    setFormData({
+      ...formData,
+      destination: [...formData.destination, event.target.value],
+    });
+    setSelectedPlace(event.target.value);
+  };
+
   /*Handle form submit funtion */
 
   const handleSubmit = async (event) => {
@@ -214,161 +254,193 @@ function AdminPackageAdd() {
     }
   };
 
+  console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+  console.log(allPlaces);
   return (
-    <div className="adminPackageAdd">
-      <form onSubmit={handleSubmit}>
-        <h2>Fill all the below fields to create a new package</h2>
+    <>
+      {isLoading && <FullScreenloading />}
+      {isLoading || (
+        <div className="adminPackageAdd">
+          <form onSubmit={handleSubmit}>
+            <h2>Fill all the below fields to create a new package</h2>
 
-        <div className="row full">
-          <label htmlFor="profileImg">Choose a profile image:</label>
-          <input
-            type="file"
-            id="profileImg"
-            accept="image/*"
-            onChange={handleProfileImgChange}
-            required
-          />
-        </div>
-
-        <div className="row full">
-          <label htmlFor="multiPleTourimages">Choose gallery images:</label>
-          <input
-            type="file"
-            id="multiPleTourimages"
-            accept="image/*"
-            multiple
-            onChange={handleImagesChange}
-            required
-          />
-        </div>
-
-        <div className="row">
-          <div className="showSelectedImages">
-            {Array.isArray(formData.images) &&
-              formData.images.map((file) => (
-                <div key={file.name} className="image">
-                  <img src={URL.createObjectURL(file)} alt={file.name} />
-                  <span onClick={() => handleFileRemove(file)}>x</span>
-                </div>
-              ))}
-          </div>
-          {formData.images.length < 2 || formData.images.length > 4 ? (
-            <p style={{ color: "red", padding: "10px", margin: "0" }}>
-              You must select between 2 to 4 images
-            </p>
-          ) : null}
-          <p style={{ color: "yellow", padding: "10px", margin: "0" }}>
-            {`${formData.images.length} images have been selected`}
-          </p>
-        </div>
-
-        {[
-          "createdBy",
-          "destination",
-          "duration",
-          "category",
-          "name",
-          "description",
-        ].map((field) => (
-          <div className="row" key={field}>
-            <label htmlFor={field}>
-              {field.charAt(0).toUpperCase() + field.slice(1)}
-            </label>
-            {field === "description" ? (
-              <textarea
-                name={field}
-                id={field}
-                onChange={handleChange}
-                value={formData[field]}
-              />
-            ) : (
+            <div className="row full">
+              <label htmlFor="profileImg">Choose a profile image:</label>
               <input
-                type={field === "duration" ? "number" : "text"}
-                name={field}
-                id={field}
-                onChange={handleChange}
-                value={formData[field]}
+                type="file"
+                id="profileImg"
+                accept="image/*"
+                onChange={handleProfileImgChange}
+                required
               />
-            )}
-          </div>
-        ))}
-        <div className="row">
-          <h3>Package HighLights</h3>
-          {formData.tourHighLights.map((item, index) => {
-            return (
-              <div className="line" key={item.key}>
-                <input
-                  onChange={(event) =>
-                    handleTourHightLightChange(event, index, "highlight")
-                  }
-                  value={item.highlight}
-                  type="text"
-                />
-                {" : "}
-                <input
-                  onChange={(event) =>
-                    handleTourHightLightChange(event, index, "description")
-                  }
-                  value={item.description}
-                  type="text"
-                />
-                <button
-                  onClick={(event) => handleTourHightLightDelete(event, index)}
-                  className="delete"
-                >
-                  -
-                </button>
-              </div>
-            );
-          })}
-          <button onClick={handleTourHightLightAdd} className="button safe-btn">
-            +
-          </button>
-        </div>
+            </div>
 
-        <div className="row">
-          <h3>Package prices (Per person)</h3>
-          {formData.pricePerPerson.map((item, index) => {
-            return (
-              <div className="line" key={item.key}>
-                <input
-                  onChange={(event) =>
-                    handlePriceChange(event, index, "priceType")
-                  }
-                  value={item.priceType}
-                  type="text"
-                />
-                {" : "}
-                <input
-                  onChange={(event) =>
-                    handlePriceChange(event, index, "priceTaka")
-                  }
-                  value={item.priceTaka}
-                  type="text"
-                />
-                <button
-                  onClick={(event) => handlePriceDelete(event, index)}
-                  className="delete"
-                >
-                  -
-                </button>
+            <div className="row full">
+              <label htmlFor="multiPleTourimages">Choose gallery images:</label>
+              <input
+                type="file"
+                id="multiPleTourimages"
+                accept="image/*"
+                multiple
+                onChange={handleImagesChange}
+                required
+              />
+            </div>
+
+            <div className="row">
+              <div className="showSelectedImages">
+                {Array.isArray(formData.images) &&
+                  formData.images.map((file) => (
+                    <div key={file.name} className="image">
+                      <img src={URL.createObjectURL(file)} alt={file.name} />
+                      <span onClick={() => handleFileRemove(file)}>x</span>
+                    </div>
+                  ))}
               </div>
-            );
-          })}
-          <button onClick={handlePriceAdd} className="button safe-btn">
-            +
-          </button>
+              {formData.images.length < 2 || formData.images.length > 4 ? (
+                <p style={{ color: "red", padding: "10px", margin: "0" }}>
+                  You must select between 2 to 4 images
+                </p>
+              ) : null}
+              <p style={{ color: "yellow", padding: "10px", margin: "0" }}>
+                {`${formData.images.length} images have been selected`}
+              </p>
+            </div>
+
+            {["name", "createdBy", "duration", "category", "description"].map(
+              (field) => (
+                <div className="row" key={field}>
+                  <label htmlFor={field}>
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  {field === "description" ? (
+                    <textarea
+                      name={field}
+                      id={field}
+                      onChange={handleChange}
+                      value={formData[field]}
+                    />
+                  ) : (
+                    <input
+                      type={field === "duration" ? "number" : "text"}
+                      name={field}
+                      id={field}
+                      onChange={handleChange}
+                      value={formData[field]}
+                    />
+                  )}
+                </div>
+              ),
+            )}
+            <div className="row">
+              <div className="placesContainer">
+                {formData.destination.map((name, index) => (
+                  <p>
+                    {name}{" "}
+                    <span onClick={(index) => handlePlaceRemove(index)}>X</span>
+                  </p>
+                ))}
+              </div>
+              <label htmlFor="adminPackageAddPlace">Select tour places</label>
+              <div className="select">
+                <select
+                  id="adminPackageAddPlace"
+                  value={selectedPlace}
+                  onChange={handlePlaceAdd}
+                >
+                  {allPlaces.map((place) => (
+                    <option key={place} value={place}>
+                      {place}
+                    </option>
+                  ))}
+                </select>
+                <span className="focus"></span>
+              </div>
+            </div>
+            <div className="row">
+              <h3>Package HighLights</h3>
+              {formData.tourHighLights.map((item, index) => {
+                return (
+                  <div className="line" key={item.key}>
+                    <input
+                      onChange={(event) =>
+                        handleTourHightLightChange(event, index, "highlight")
+                      }
+                      value={item.highlight}
+                      type="text"
+                    />
+                    {" : "}
+                    <input
+                      onChange={(event) =>
+                        handleTourHightLightChange(event, index, "description")
+                      }
+                      value={item.description}
+                      type="text"
+                    />
+                    <button
+                      onClick={(event) =>
+                        handleTourHightLightDelete(event, index)
+                      }
+                      className="delete"
+                    >
+                      -
+                    </button>
+                  </div>
+                );
+              })}
+              <button
+                onClick={handleTourHightLightAdd}
+                className="button safe-btn"
+              >
+                +
+              </button>
+            </div>
+
+            <div className="row">
+              <h3>Package prices (Per person)</h3>
+              {formData.pricePerPerson.map((item, index) => {
+                return (
+                  <div className="line" key={item.key}>
+                    <input
+                      onChange={(event) =>
+                        handlePriceChange(event, index, "priceType")
+                      }
+                      value={item.priceType}
+                      type="text"
+                    />
+                    {" : "}
+                    <input
+                      onChange={(event) =>
+                        handlePriceChange(event, index, "priceTaka")
+                      }
+                      value={item.priceTaka}
+                      type="text"
+                    />
+                    <button
+                      onClick={(event) => handlePriceDelete(event, index)}
+                      className="delete"
+                    >
+                      -
+                    </button>
+                  </div>
+                );
+              })}
+              <button onClick={handlePriceAdd} className="button safe-btn">
+                +
+              </button>
+            </div>
+            <div className="buttonRow">
+              <button type="submit" className="button adminpaneladdButton">
+                Save
+              </button>
+              <button onClick={handleCancel} className="button warning-btn">
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-        <div className="buttonRow">
-          <button type="submit" className="button adminpaneladdButton">
-            Save
-          </button>
-          <button onClick={handleCancel} className="button warning-btn">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 }
 

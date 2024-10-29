@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./adminPackageSetup.scss";
+import "./adminPackageTourPlaces.scss";
 import districtJson from "../../lib/districts";
 import { BACKEND_URL } from "../../../dynamicInfo";
 import axios from "axios";
 import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 import randomChar from "../../lib/randomChar";
 
-function AdminPackageSetup() {
+function AdminPackageTourPlaces() {
   const [divisions, setDivision] = useState(() => Object.keys(districtJson));
   const [districts, setDistricts] = useState(() =>
-    Object.values(districtJson).flat().sort()
+    Object.values(districtJson).flat().sort(),
   );
   const [selectedDivision, setSelectedDivision] = useState(divisions[0]);
   const [selectedDistrict, setSelectedDistrict] = useState(
-    districtJson[divisions[0]][0]
+    districtJson[divisions[0]][0],
   );
   const [placeName, setPlaceName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -99,94 +99,98 @@ function AdminPackageSetup() {
       {isLoading && <FullScreenloading />}
       {isLoading || (
         <>
-        <section className="adminPackageSetup">
-          <div className="allDestination">
-            <h3>All Destination/places</h3>
-            {allPlaces.length === 0 && <p>There is no places to show.</p>}
+          <section className="adminPackageSetup">
+            <div
+              className={`${
+                allPlaces.length === 0
+                  ? "allDestination no-destinations"
+                  : "allDestination"
+              }`}
+            >
+              <h3>All Destination/places</h3>
+              {allPlaces.length === 0 && <p>There is no places to show.</p>}
 
-            {allPlaces.length === 0 || (
-              <div className="places">
-                {allPlaces.map((place) => (
-                  <div className="item" key={place.key}>
-                    <span>{`${place.placeName} ,`}</span>
-                    <span>{` ${place.district}`}</span>
+              {allPlaces.length === 0 || (
+                <div className="places">
+                  {allPlaces.map((place) => (
+                    <div className="item" key={place.key}>
+                      <span>{`${place.placeName} ,`}</span>
+                      <span>{` ${place.district}`}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div
+              className={`${isHidden ? "adminPackage" : "adminPackage open"}`}
+            >
+              <div onClick={handleHider} className="hider">
+                <h3>Add a new location/spot/destination</h3>
+                <img src="../../../../rightArrowAdmin.png" alt="" />
+              </div>
+              <div className="collapse">
+                <div className="row">
+                  <label htmlFor="divisionsAdminPackage">
+                    Select a Division
+                  </label>
+                  <div className="select">
+                    <select
+                      id="divisionsAdminPackage"
+                      value={selectedDivision}
+                      onChange={handleDivision}
+                    >
+                      {divisions.map((name) => (
+                        <option key={name} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="focus"></span>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div
-            className={`${
-              isHidden ? "adminPackage" : "adminPackage open"
-            }`}
-          >
-            <div onClick={handleHider} className="hider">
-              <h3>Add a new location/spot/destination</h3>
-              <img src="../../../../rightArrowAdmin.png" alt="" />
-            </div>
-            <div className="collapse">
-              <div className="row">
-                <label htmlFor="divisionsAdminPackage">Select a Division</label>
-                <div className="select">
-                  <select
-                    id="divisionsAdminPackage"
-                    value={selectedDivision}
-                    onChange={handleDivision}
-                  >
-                    {divisions.map((name) => (
-                      <option key={name} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="focus"></span>
                 </div>
-              </div>
 
-              <div className="row">
-                <label htmlFor="districtsAdminPackage">Select a District</label>
-                <div className="select">
-                  <select
-                    id="districtsAdminPackage"
-                    value={selectedDistrict}
-                    onChange={handleDistrict}
-                  >
-                    {districts.map((name) => (
-                      <option key={name} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="focus"></span>
+                <div className="row">
+                  <label htmlFor="districtsAdminPackage">
+                    Select a District
+                  </label>
+                  <div className="select">
+                    <select
+                      id="districtsAdminPackage"
+                      value={selectedDistrict}
+                      onChange={handleDistrict}
+                    >
+                      {districts.map((name) => (
+                        <option key={name} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="focus"></span>
+                  </div>
                 </div>
+                <div className="row">
+                  <label htmlFor="adminPackagePlace">Enter a place name</label>
+                  <input
+                    name="placeName"
+                    value={placeName}
+                    id="adminPackagePlace"
+                    onChange={handlePlace}
+                    type="text"
+                  />
+                  <span style={{ color: "red", fontSize: "12px" }}>
+                    {inputError}
+                  </span>
+                </div>
+                <button className="button" onClick={handleAdd}>
+                  Add
+                </button>
               </div>
-              <div className="row">
-                <label htmlFor="adminPackagePlace">Enter a place name</label>
-                <input
-                  name="placeName"
-                  value={placeName}
-                  id="adminPackagePlace"
-                  onChange={handlePlace}
-                  type="text"
-                />
-                <span style={{ color: "red", fontSize: "12px" }}>
-                  {inputError}
-                </span>
-              </div>
-              <button className="button" onClick={handleAdd}>
-                Add
-              </button>
             </div>
-          </div>
-        </section>
-
-
-        
+          </section>
         </>
-
       )}
     </>
   );
 }
 
-export default AdminPackageSetup;
+export default AdminPackageTourPlaces;

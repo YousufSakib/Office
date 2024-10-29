@@ -4,6 +4,8 @@ const PackageTourCategory = require("../models/PackageTourCategory");
 exports.addCategory = async (req, res) => {
   const { category, key } = req.body; // Expecting category to be a string
 
+  // console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+  // console.log({ category, key });
   try {
     // Check if a record already exists
     let categoryRecord = await PackageTourCategory.findOne();
@@ -21,7 +23,10 @@ exports.addCategory = async (req, res) => {
 
     // If a record exists, append the new category
 
-    const updatedCategories = [...categoryRecord.categories, { category, key }];
+    const updatedCategories = [
+      ...JSON.parse(categoryRecord.categories),
+      { category, key },
+    ];
     categoryRecord.categories = updatedCategories;
 
     await categoryRecord.save();
@@ -40,8 +45,7 @@ exports.addCategory = async (req, res) => {
 exports.getCategories = async (req, res) => {
   try {
     const categoryRecord = await PackageTourCategory.findOne();
-    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-    console.log(categoryRecord);
+
     if (!categoryRecord) {
       return res.status(404).json({ message: "No categories found" });
     }

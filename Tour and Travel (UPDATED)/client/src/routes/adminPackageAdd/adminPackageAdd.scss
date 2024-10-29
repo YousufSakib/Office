@@ -17,14 +17,27 @@
     margin: auto;
     box-sizing: border-box;
     .row {
-      h3 {
-        color: white;
-      }
       align-items: start;
       flex-direction: column;
       display: flex;
       width: 100%;
       gap: 12px;
+      .placesContainer {
+        display: flex;
+        gap: 20px;
+        p {
+          padding: 5px;
+          margin: 0;
+          border: 1px solid gray;
+
+          display: flex;
+          align-items: center;
+          gap: 1px;
+        }
+      }
+      h3 {
+        color: white;
+      }
       .line {
         width: 100%;
         display: flex;

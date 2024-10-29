@@ -42,7 +42,7 @@ function AdminPackageTourCategories() {
       console.log(data);
       try {
         const response = await axios.put(url, data, { headers });
-        alert("Successful added.");
+        alert("Successfully added.");
         navigate(0);
       } catch (error) {
         alert("Can not saved! Please try again");
@@ -62,8 +62,7 @@ function AdminPackageTourCategories() {
       const url = `${BACKEND_URL}/api/v1/package-tour-category`;
       try {
         const response = await axios.get(url, { headers });
-        console.log("1111111111111111111111111111111");
-        console.log(JSON.parse(response.data.categories));
+
         setAllCategories(JSON.parse(response.data.categories));
       } catch (error) {
         console.error("Error fetching Package tour categories", error);
@@ -79,7 +78,13 @@ function AdminPackageTourCategories() {
       {isLoading && <FullScreenloading />}
       {isLoading || (
         <section className="adminPackageSetup">
-          <div className="allCategories">
+          <div
+            className={`${
+              allCategories.length === 0
+                ? "allCategories no-categories"
+                : "allCategories"
+            }`}
+          >
             <h3>All Categories</h3>
             {allCategories.length === 0 && <p>There is no category to show.</p>}
 
@@ -87,7 +92,7 @@ function AdminPackageTourCategories() {
               <div className="category">
                 {allCategories.map((category) => (
                   <div className="item" key={category.key}>
-                    <span>{`${category.category} ,`}</span>
+                    <span>{category.category}</span>
                   </div>
                 ))}
               </div>
@@ -111,6 +116,11 @@ function AdminPackageTourCategories() {
                   type="text"
                   placeholder="Adventure"
                 />
+                {inputError && (
+                  <span style={{ color: "red", fontSize: "small" }}>
+                    {inputError}
+                  </span>
+                )}
               </div>
               <button className="button" onClick={handleAdd}>
                 Add

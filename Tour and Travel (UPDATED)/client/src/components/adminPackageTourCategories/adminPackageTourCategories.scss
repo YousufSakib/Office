@@ -1,13 +1,13 @@
 @import "../../responsive.scss";
 .adminPackageSetup {
-  .allDestination {
+  .allCategories {
     background-color: white;
     padding: 10px;
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     // background-color: rebeccapurple;
-    div.places {
+    div.category {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
@@ -21,6 +21,9 @@
         border-radius: 10px;
       }
       padding: 5px;
+    }
+    &.no-categories {
+      display: block;
     }
   }
   .adminPackage {
@@ -43,9 +46,6 @@
       .row {
         width: 100%;
         margin-bottom: 15px;
-        select {
-          font-size: 18px;
-        }
         input {
           height: 30px;
           width: 100%;
