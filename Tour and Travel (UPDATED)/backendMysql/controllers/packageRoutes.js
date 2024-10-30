@@ -38,23 +38,23 @@ router.post(
         images: imagePaths,
       };
 
-      console.log("The new package object is going to created");
-      console.log(doc);
+      //console.log("The new package object is going to created");
+      //console.log(doc);
       // return;
       const newPackage = await Package.create(doc);
       res.status(201).json(newPackage);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       res.status(400).json({ message: err.message });
     }
-  },
+  }
 );
 
 router.get("/popularPackages", async (req, res) => {
   try {
     const { rows } = await Package.findAndCountAll({ offset: 0, limit: 5 });
 
-    console.log(rows);
+    //console.log(rows);
 
     res.status(200).json({
       data: rows,
@@ -68,7 +68,8 @@ router.get("/popularPackages", async (req, res) => {
 router.get("/packages", async (req, res) => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 8;
-
+  const { duration, category, place } = req.query;
+  console.log(req.query);
   try {
     let page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
     let limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;
@@ -81,7 +82,7 @@ router.get("/packages", async (req, res) => {
 
     const { count, rows } = await Package.findAndCountAll({ offset, limit });
 
-    console.log(rows);
+    //console.log(rows);
 
     const totalPages = Math.ceil(count / limit);
 
@@ -126,9 +127,9 @@ router.put(
           }))
         : []; // Default to an empty array if no images were uploaded
 
-      console.log("uploaded images");
-      console.log(typeof uploadedImages);
-      console.log(uploadedImages);
+      //console.log("uploaded images");
+      //console.log(typeof uploadedImages);
+      //console.log(uploadedImages);
 
       const existingImageSrc = req.body["existingImages"]
         ? Array.isArray(req.body["existingImages"])
@@ -141,9 +142,9 @@ router.put(
         key: Math.random().toString(16).slice(2), // Generate a unique key
       }));
 
-      console.log("existing images");
-      console.log(typeof existingImages);
-      console.log(existingImages);
+      //console.log("existing images");
+      //console.log(typeof existingImages);
+      //console.log(existingImages);
 
       const allImages = uploadedImages.concat(existingImages); // Combine both arrays
 
@@ -154,7 +155,7 @@ router.put(
 
       if (packageEntry) {
         const prevGalleryImages = JSON.parse(packageEntry.images).map(
-          (obj) => obj.src,
+          (obj) => obj.src
         );
         const prevProfileImage = packageEntry.profileImg;
 
@@ -168,24 +169,24 @@ router.put(
         // return;
 
         const unnecessaryImages = prevGalleryImages.filter(
-          (src) => !existingImageSrc.includes(src),
+          (src) => !existingImageSrc.includes(src)
         );
         //if profile img changes, then delete previous profile img;
         req.files["profileImg"] && req.files["profileImg"].length > 0
           ? unnecessaryImages.push(prevProfileImage)
           : "";
-        console.log("unnecessaryImages");
-        console.log(unnecessaryImages);
+        //console.log("unnecessaryImages");
+        //console.log(unnecessaryImages);
         imagesToDelete.deleteSpecifiedImages(unnecessaryImages);
       } else {
         return res.status(404).json({ message: "Package not found" });
       }
       return res.status(200).json({ message: "Package updated successfully" });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       res.status(500).json({ message: err.message });
     }
-  },
+  }
 );
 
 // Delete a package
@@ -194,20 +195,20 @@ router.delete("/packages/:id", async (req, res) => {
     const packageEntry = await Package.findByPk(req.params.id);
     if (packageEntry) {
       const prevGalleryImages = JSON.parse(packageEntry.images).map(
-        (obj) => obj.src,
+        (obj) => obj.src
       );
       const prevProfileImage = packageEntry.profileImg;
-      console.log("prevProfileImage");
-      console.log(typeof prevProfileImage);
-      console.log(prevProfileImage);
+      //console.log("prevProfileImage");
+      //console.log(typeof prevProfileImage);
+      //console.log(prevProfileImage);
 
-      console.log("prevGalleryImages");
-      console.log(typeof prevGalleryImages);
-      console.log(prevGalleryImages);
+      //console.log("prevGalleryImages");
+      //console.log(typeof prevGalleryImages);
+      //console.log(prevGalleryImages);
 
       prevGalleryImages.push(prevProfileImage);
       const unnecessaryImages = prevGalleryImages;
-      console.log("hi", unnecessaryImages);
+      //console.log("hi", unnecessaryImages);
       // return;
       imagesToDelete.deleteSpecifiedImages(unnecessaryImages);
     } else {

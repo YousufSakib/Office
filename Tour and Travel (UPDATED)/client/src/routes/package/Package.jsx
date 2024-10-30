@@ -21,7 +21,6 @@ function Package() {
           }}
         </Await>
       </Suspense>
-
       <Suspense>
         <Await
           resolve={data.packageResponse}

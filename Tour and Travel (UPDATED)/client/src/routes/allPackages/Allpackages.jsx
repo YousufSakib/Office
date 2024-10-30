@@ -6,19 +6,27 @@ import { BACKEND_URL, PACKAGES_PER_PAGE } from "../../../dynamicInfo";
 import FullScreenloading from "../../components/fullScreenloading/FullScreenloading";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./allPackages.scss";
+import Search from "../../components/search/Search";
 
 function Allpackages() {
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
+
   const initialPage = parseInt(query.get("page")) || 1;
+  const destination = query.getAll("destination") || [];
+  const duration = query.getAll("duration") || [];
+  const category = query.getAll("category") || [];
+
+  console.log("666666666666666666666666");
+  console.log(destination, duration, category);
 
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
   const [packages, setPackages] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [url, setUrl] = useState(() => {});
   useEffect(() => {
     const targetElement = document.getElementById("alPackagePageSpan");
     slowScrollToTop(targetElement, 50, 1000);
@@ -31,7 +39,7 @@ function Allpackages() {
       const headers = {
         "Content-Type": "application/json",
       };
-      const url = `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}`;
+      // const url = `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}`;
 
       try {
         const response = await axios.get(url, { headers });
@@ -47,7 +55,7 @@ function Allpackages() {
     };
 
     fetchPackages();
-  }, [currentPage]);
+  }, [currentPage, url]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -68,16 +76,25 @@ function Allpackages() {
       <span id="alPackagePageSpan"></span>
       {isLoading && <FullScreenloading />}
       {error && <p>{error}</p>}
-      <BlocksOfOfferes obj={{ items: packages, title: "Packages" }} />
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>{`${currentPage} of ${totalPages}`}</span>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-          Next
-        </button>
-      </div>
+      {isLoading || (
+        <>
+          <Search />
+          <BlocksOfOfferes obj={{ items: packages, title: "Packages" }} />
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>{`${currentPage} of ${totalPages}`}</span>
+            <button
+              setUrl={setUrl}
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 }

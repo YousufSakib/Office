@@ -7,8 +7,8 @@ const packageRoutes = require("./controllers/packageRoutes");
 const companyInfoRouter = require("./routes/companyInfo");
 const imagesRoute = require("./routes/siteImages");
 const contactRoute = require("./controllers/contactRoute");
-const packagePlaces = require('./routes/packagePlace');
-const packageTourCategory = require('./routes/PackageTourCategory');
+const packagePlaces = require("./routes/packagePlace");
+const packageTourCategory = require("./routes/PackageTourCategory");
 
 const cors = require("cors");
 
@@ -18,8 +18,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  console.log(req.url);
-  console.log(req.method);
+  // console.log(req.url);
+  // console.log(req.method);
   next();
 });
 app.use("/uploads", express.static("uploads"));
@@ -37,7 +37,7 @@ app.use("/api/v1", packageRoutes);
 app.use("/api/v1", companyInfoRouter);
 app.use("/api/v1", contactRoute);
 app.use("/api/v1", packagePlaces);
-app.use("/api/v1", packageTourCategory)
+app.use("/api/v1", packageTourCategory);
 
 // Sync Sequelize with MySQL
 sequelize
@@ -45,7 +45,7 @@ sequelize
   .then(() => {
     console.log("Database synced");
     app.listen(3001, () =>
-      console.log("Server running on http://localhost:3001"),
+      console.log("Server running on http://localhost:3001")
     );
     // app.listen();
   })

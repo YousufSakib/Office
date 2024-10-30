@@ -395,7 +395,6 @@ function AdminPackageAdd() {
                 )}
               </div>
             ))}
-            //places
             <div className="row">
               <div className="placesContainer">
                 {formData.destination.map((obj, index) => (
@@ -420,7 +419,6 @@ function AdminPackageAdd() {
                 <span className="focus"></span>
               </div>
             </div>
-            //categories
             <div className="row">
               <div className="placesContainer">
                 {formData.category.map((obj, index) => (

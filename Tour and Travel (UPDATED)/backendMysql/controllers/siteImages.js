@@ -28,11 +28,11 @@ const read = async (req, res) => {
 
 // Create or update image entries (PUT)
 const createOrUpdate = async (req, res) => {
-  console.log("yyyyyyyyyyyyy");
+  //console.log("yyyyyyyyyyyyy");
   try {
     // Ensure only one entry persists in the database
     const imageEntry = await Image.findOne();
-    console.log(imageEntry);
+    //console.log(imageEntry);
 
     const fieldsToUpdate = {
       packageHeroImg: getImagePath(
@@ -59,7 +59,7 @@ const createOrUpdate = async (req, res) => {
         imageEntry?.contactUsHeroImg
       ),
     };
-    console.log("xxxxxx", imageEntry);
+    //console.log("xxxxxx", imageEntry);
     if (imageEntry) {
       await imageEntry.update(fieldsToUpdate, {
         where: { id: imageEntry.id }, // Add a condition to specify which row to update
@@ -67,7 +67,7 @@ const createOrUpdate = async (req, res) => {
       res.status(200).json({ message: "Images updated successfully" });
     } else {
       const newImageEntry = await Image.create(fieldsToUpdate);
-      console.log(newImageEntry);
+      //console.log(newImageEntry);
       res.status(201).json({ message: "Successfully created images" });
     }
   } catch (error) {

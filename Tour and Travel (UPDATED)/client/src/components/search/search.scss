@@ -1,68 +1,44 @@
 @import "../../responsive.scss";
 .searchPackages {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
   width: 100%;
+  max-width: $maxWidth;
   background-color: #cbc3e3;
+  margin: 30px auto 0 auto;
   padding: 5px;
   box-sizing: border-box;
   border-radius: 5px;
   div {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    color: black;
-    .col-left {
-      display: flex;
-      flex-direction: column;
+    .row {
       align-items: start;
-      justify-content: space-around;
-      // background-color: red;
-      label {
-        font-size: large;
-        margin: 0;
-        padding: 0;
-        // height: 40px;
-      }
-      label[for="destination"] {
-        height: 120px;
-      }
-    }
-    .col-right {
-      flex-grow: 2;
-      display: flex;
       flex-direction: column;
-      align-items: start;
-      gap: 10px;
-      .row {
-        align-items: start;
-        flex-direction: column;
+      display: flex;
+      width: 100%;
+      gap: 12px;
+      .placesContainer {
         display: flex;
-        width: 100%;
-        gap: 12px;
-        .placesContainer {
-          display: flex;
-          gap: 20px;
-          p {
-            padding: 5px;
-            margin: 0;
-            border: 1px solid gray;
-
-            display: flex;
-            align-items: center;
-            gap: 1px;
+        gap: 10px;
+        p {
+          padding: 5px;
+          margin: 10px 10px 0 0;
+          border: 1px solid gray;
+          span {
+            cursor: pointer;
+            margin-left: 10px;
           }
         }
       }
     }
   }
   button {
-    font-size: large;
-    cursor: pointer;
+    // font-size: large;
+    // cursor: pointer;
+    font-size: 25px;
     align-self: stretch;
     margin-top: 30px;
-    color: white;
+    // color: white;
     // padding: 6px 15px;
     // background: rgb(2, 0, 36);
   }

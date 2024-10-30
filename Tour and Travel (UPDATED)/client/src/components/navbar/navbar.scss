@@ -1,16 +1,22 @@
 @import "../../responsive.scss";
-
-.heroBanner {
+.heroBannerWrapper {
   width: 100%;
-  background-color: rgb(19, 101, 139);
-  position: relative;
-  .heroBannerImg {
-    height: 500px;
+
+  .heroBanner {
     width: 100%;
-    object-fit: cover;
-    // @include md {
-    //   height: 800px;
-    // }
+    max-width: $maxWidth;
+    margin: auto;
+    background-color: rgb(19, 101, 139);
+    position: relative;
+    .heroBannerImg {
+      height: 500px;
+      width: 100%;
+      margin: auto;
+      object-fit: cover;
+      // @include md {
+      //   height: 800px;
+      // }
+    }
   }
 }
 nav {
@@ -233,24 +239,6 @@ nav {
     }
     @include sm {
       display: none;
-    }
-  }
-
-  .search {
-    // background-color: cadetblue;
-    position: absolute;
-    top: 30px;
-    right: 0;
-    width: 35%;
-    max-width: 500px;
-    color: white;
-    @include sm {
-      width: 70%;
-      left: 10px;
-      right: 0;
-    }
-    @include lg {
-      right: 10px;
     }
   }
   @include lg {

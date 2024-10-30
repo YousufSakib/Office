@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./search.scss";
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { duration } from "../../lib/json";
 import axios from "axios";
 import { BACKEND_URL } from "../../../dynamicInfo";
+import randomChar from "../../lib/randomChar";
 
-function Search() {
+function Search({setUrl}) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     destination: [],
     category: [],
@@ -13,6 +15,26 @@ function Search() {
   });
   const [allPlaces, setAllPlaces] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+
+  const setSearchParams = () => {
+    const params = new URLSearchParams();
+    for (const key in formData) {
+      formData[key].forEach((value) => {
+        console.log("777777777777777777777777777");
+        console.log(key, value);
+        if (key === "destination") params.append(key, value.place);
+        else if (key === "category") params.append(key, value.category);
+        else if (key === "duration") params.append(key, value.duration);
+      });
+    }
+
+    navigate(`/packages?${params.toString()}`);
+  };
+
+  const handleClick = () => {
+    setSearchParams();
+  };
+
   /*All Places and Categories for dropdown items*/
   useEffect(() => {
     const fetchPlacesAndCategory = async () => {
@@ -27,7 +49,7 @@ function Search() {
         const { data: categoriesData } = await axios.get(url, { headers });
 
         const sortedPlaces = placesData.sort((a, b) =>
-          a.placeName.localeCompare(b.placeName),
+          a.placeName.localeCompare(b.placeName)
         );
         setAllPlaces(sortedPlaces);
         console.log("//////////////search ////////////////////////////");
@@ -41,7 +63,7 @@ function Search() {
         }
 
         const sortedCategories = unsortedCategories.sort((a, b) =>
-          a.category.localeCompare(b.category),
+          a.category.localeCompare(b.category)
         );
         setAllCategories(sortedCategories);
         console.log("Sorted categories:", sortedCategories);
@@ -57,13 +79,13 @@ function Search() {
     setFormData({
       ...formData,
       destination: formData.destination.filter(
-        (places, i) => formData.destination.length === 1 || i !== removingIndex,
+        (places, i) => i !== removingIndex
       ),
     });
   };
   const handlePlaceAdd = (event, index) => {
     const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value,
+      (obj) => obj.place === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -79,14 +101,12 @@ function Search() {
   const handleCategoryRemove = (removingIndex) => {
     setFormData({
       ...formData,
-      category: formData.category.filter(
-        (category, i) => formData.category.length === 1 || i !== removingIndex,
-      ),
+      category: formData.category.filter((category, i) => i !== removingIndex),
     });
   };
   const handleCategoryAdd = (event, index) => {
     const isAlreadyExisted = formData.category.some(
-      (obj) => obj.category === event.target.value,
+      (obj) => obj.category === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -102,14 +122,12 @@ function Search() {
   const handleDurationRemove = (removingIndex) => {
     setFormData({
       ...formData,
-      duration: formData.duration.filter(
-        (duration, i) => formData.duration.length === 1 || i !== removingIndex,
-      ),
+      duration: formData.duration.filter((duration, i) => i !== removingIndex),
     });
   };
   const handleDurationAdd = (event, index) => {
     const isAlreadyExisted = formData.duration.some(
-      (obj) => obj.duration === event.target.value,
+      (obj) => obj.duration === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -122,14 +140,13 @@ function Search() {
   };
 
   return (
-    <Form className="searchPackages">
+    <div className="searchPackages">
       <div>
-        <div className="col-left">
+        {/* <div className="col-left">
           <label htmlFor="destination">Choose one or more destinations</label>
           <label htmlFor="duration">Choose a duration</label>
           <label htmlFor="category">Choose a category</label>
-        </div>
-        <div className="col-right">
+        </div> */}
           <div className="row">
             <div className="placesContainer">
               {formData.destination.map((obj, index) => (
@@ -188,7 +205,7 @@ function Search() {
           <div className="row">
             <div className="placesContainer">
               {formData.duration.map((obj, index) => (
-                <p key={obj.key}>
+                <p className="number" key={obj.key}>
                   {obj.duration}
                   <span onClick={(event) => handleDurationRemove(index)}>
                     X
@@ -212,13 +229,12 @@ function Search() {
               <span className="focus"></span>
             </div>
           </div>
-        </div>
       </div>
 
-      <button className="button" type="submit">
+      <button onClick={handleClick} className="button" type="submit">
         Search
       </button>
-    </Form>
+    </div>
   );
 }
 

@@ -61,12 +61,15 @@ function Navbar() {
       {console.log("navbar is rendering")}
       {console.log("hero img: ", getheroImg())}
       {console.log("location: ", location)}
-      <div className="heroBanner">
-        <img
-          src={`${BACKEND_URL}/uploads/${getheroImg() || "noImg"}`}
-          className="heroBannerImg"
-          alt=""
-        />
+
+      <div className="heroBannerWrapper">
+        <div className="heroBanner">
+          <img
+            src={`${BACKEND_URL}/uploads/${getheroImg() || "noImg"}`}
+            className="heroBannerImg"
+            alt=""
+          />
+        </div>
       </div>
       <nav className={navShow ? "show" : "hide"}>
         <div className="nav1stRow">
@@ -116,11 +119,8 @@ function Navbar() {
             <button className="button entrance1s">Book Your Tour Now</button>
           </Link>
         </div>
-
-        <div className="search">
-          <Search />
-        </div>
       </div>
+      {location.pathname === "/" && <Search />}
     </>
   );
 }

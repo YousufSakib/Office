@@ -16,7 +16,11 @@ body {
   background-image: linear-gradient(90deg, #000046 0%, #1cb5e0 100%);
 }
 /** Button **/
-
+.number {
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 .button {
   align-items: center;
   appearance: none;
