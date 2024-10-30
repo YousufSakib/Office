@@ -59,7 +59,7 @@ function AdminPackageAdd() {
   const handleCancel = (event) => {
     event.preventDefault();
     const confirmation = confirm(
-      "Are you sure you want to cancel creating new package?"
+      "Are you sure you want to cancel creating new package?",
     );
     if (confirmation) {
       navigate(-1);
@@ -106,7 +106,7 @@ function AdminPackageAdd() {
       ...prev,
       tourHighLights: prev.tourHighLights.filter(
         (_, index) =>
-          prev.tourHighLights.length === 1 || index !== deletingIndex
+          prev.tourHighLights.length === 1 || index !== deletingIndex,
       ),
     }));
   };
@@ -145,7 +145,7 @@ function AdminPackageAdd() {
       ...prev,
       pricePerPerson: prev.pricePerPerson.filter(
         (_, index) =>
-          prev.pricePerPerson.length === 1 || index !== deletingIndex
+          prev.pricePerPerson.length === 1 || index !== deletingIndex,
       ),
     }));
   };
@@ -159,39 +159,67 @@ function AdminPackageAdd() {
       };
       try {
         let url = `${BACKEND_URL}/api/v1/packagePlaces`;
-        const places = await axios.get(url, { headers });
+        const { data: placesData } = await axios.get(url, { headers });
 
         url = `${BACKEND_URL}/api/v1/package-tour-category`;
-        const categories = await axios.get(url, { headers });
+        const { data: categoriesData } = await axios.get(url, { headers });
 
-        setAllPlaces(places.data);
-        console.log("ttttttttttttttttttttt");
-        console.log(places.data);
-        console.log(typeof places.data[0]);
+        const sortedPlaces = placesData.sort((a, b) =>
+          a.placeName.localeCompare(b.placeName),
+        );
+        setAllPlaces(sortedPlaces);
+        console.log("sorted places:", sortedPlaces);
+        //sort and update state for category
+        let unsortedCategories = [];
+        try {
+          unsortedCategories = JSON.parse(categoriesData.categories);
+        } catch (error) {
+          console.error("Error parsing categories data", error);
+        }
 
-        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        setAllCategories(JSON.parse(categories.data));
-        console.log(JSON.parse(categories.data));
+        const sortedCategories = unsortedCategories.sort((a, b) =>
+          a.category.localeCompare(b.category),
+        );
+        setAllCategories(sortedCategories);
+        console.log("Sorted categories:", sortedCategories);
+
+        //setting the first item of allplaces as selected place
+        setFormData({
+          ...formData,
+          destination:
+            sortedPlaces.length > 0
+              ? [{ place: sortedPlaces[0].placeName, key: randomChar(5) }]
+              : [],
+
+          //setting the first item of allCategory as selected category
+          category:
+            sortedCategories.length > 0
+              ? [{ category: sortedCategories[0].category, key: randomChar(5) }]
+              : [],
+        });
       } catch (error) {
         console.error("Error fetching package places", error);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchPlacesAndCategory();
   }, []);
-
+  console.log("form data jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+  console.log(formData);
+  //Places
   const handlePlaceRemove = (removingIndex) => {
     setFormData({
       ...formData,
       destination: formData.destination.filter(
-        (places, i) => formData.destination.length === 1 || i !== removingIndex
+        (places, i) => formData.destination.length === 1 || i !== removingIndex,
       ),
     });
   };
   const handlePlaceAdd = (event, index) => {
     const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value
+      (obj) => obj.place === event.target.value,
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -203,24 +231,25 @@ function AdminPackageAdd() {
     });
   };
 
+  //Categories
   const handleCategoryRemove = (removingIndex) => {
     setFormData({
       ...formData,
-      destination: formData.destination.filter(
-        (places, i) => formData.destination.length === 1 || i !== removingIndex
+      category: formData.category.filter(
+        (category, i) => formData.category.length === 1 || i !== removingIndex,
       ),
     });
   };
   const handleCategoryAdd = (event, index) => {
-    const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value
+    const isAlreadyExisted = formData.category.some(
+      (obj) => obj.category === event.target.value,
     );
     if (isAlreadyExisted) return;
     setFormData({
       ...formData,
-      destination: [
-        ...formData.destination,
-        { key: randomChar(5), place: event.target.value },
+      category: [
+        ...formData.category,
+        { key: randomChar(5), category: event.target.value },
       ],
     });
   };
@@ -256,6 +285,8 @@ function AdminPackageAdd() {
           data.append(key, JSON.stringify(value));
         } else if (key === "destination") {
           data.append(key, JSON.stringify(value));
+        } else if (key === "category") {
+          data.append(key, JSON.stringify(value));
         } else {
           data.append(key, value);
         }
@@ -276,7 +307,7 @@ function AdminPackageAdd() {
         data,
         {
           "Content-Type": "multipart/form-data",
-        }
+        },
       );
       alert("Package created successfully!");
       // navigate("/admin/packages");
@@ -286,7 +317,7 @@ function AdminPackageAdd() {
         alert(
           `Failed to create package: ${
             error.response.data.message || error.message
-          }`
+          }`,
         );
       } else {
         alert("An unexpected error occurred.");

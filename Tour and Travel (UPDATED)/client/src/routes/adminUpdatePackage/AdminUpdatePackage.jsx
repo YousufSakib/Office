@@ -16,9 +16,9 @@ function AdminUpdatePackage() {
     profileImg: [],
     images: [],
     createdBy: "",
-    destination: "",
+    destination: [],
+    category: [],
     duration: "",
-    category: "",
     name: "",
     description: "",
     tourHighLights: [],
@@ -26,6 +26,8 @@ function AdminUpdatePackage() {
   });
   const [existingImages, setExistingImages] = useState([]);
   const [existingProfileImg, setExistingProfileImg] = useState(null);
+  const [allPlaces, setAllPlaces] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
 
   console.log("formData");
   console.log(formData);
@@ -33,11 +35,13 @@ function AdminUpdatePackage() {
   console.log(existingImages);
   console.log("Existing profile image");
   console.log(existingProfileImg);
+
+  //Fetch package data
   useEffect(() => {
     const fetchPackageData = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/api/v1/packages/${id}`
+          `${BACKEND_URL}/api/v1/packages/${id}`,
         );
         const packageData = response.data;
 
@@ -49,6 +53,8 @@ function AdminUpdatePackage() {
           ...packageData,
           tourHighLights: JSON.parse(JSON.parse(packageData.tourHighLights)),
           pricePerPerson: JSON.parse(JSON.parse(packageData.pricePerPerson)),
+          destination: JSON.parse(packageData.destination),
+          category: JSON.parse(packageData.category),
           images: [], // Start with empty new images
           profileImg: [],
         });
@@ -106,7 +112,7 @@ function AdminUpdatePackage() {
   const handleCancel = (event) => {
     event.preventDefault();
     const confirmation = confirm(
-      "Are you sure you want to cancel update package?"
+      "Are you sure you want to cancel update package?",
     );
     if (confirmation) {
       navigate(-1);
@@ -146,7 +152,7 @@ function AdminUpdatePackage() {
       ...prev,
       tourHighLights: prev.tourHighLights.filter(
         (_, index) =>
-          prev.tourHighLights.length === 1 || index !== deletingIndex
+          prev.tourHighLights.length === 1 || index !== deletingIndex,
       ),
     }));
   };
@@ -185,9 +191,93 @@ function AdminUpdatePackage() {
       ...prev,
       pricePerPerson: prev.pricePerPerson.filter(
         (_, index) =>
-          prev.pricePerPerson.length === 1 || index !== deletingIndex
+          prev.pricePerPerson.length === 1 || index !== deletingIndex,
       ),
     }));
+  };
+
+  /*All Places and Categories for dropdown items*/
+  useEffect(() => {
+    const fetchPlacesAndCategory = async () => {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      try {
+        let url = `${BACKEND_URL}/api/v1/packagePlaces`;
+        const { data: placesData } = await axios.get(url, { headers });
+
+        url = `${BACKEND_URL}/api/v1/package-tour-category`;
+        const { data: categoriesData } = await axios.get(url, { headers });
+
+        const sortedPlaces = placesData.sort((a, b) =>
+          a.placeName.localeCompare(b.placeName),
+        );
+        setAllPlaces(sortedPlaces);
+        console.log("sorted places:", sortedPlaces);
+        //sort and update state for category
+        let unsortedCategories = [];
+        try {
+          unsortedCategories = JSON.parse(categoriesData.categories);
+        } catch (error) {
+          console.error("Error parsing categories data", error);
+        }
+
+        const sortedCategories = unsortedCategories.sort((a, b) =>
+          a.category.localeCompare(b.category),
+        );
+        setAllCategories(sortedCategories);
+        console.log("Sorted categories:", sortedCategories);
+      } catch (error) {
+        console.error("Error fetching package places", error);
+      }
+    };
+
+    fetchPlacesAndCategory();
+  }, []);
+  //Places
+  const handlePlaceRemove = (removingIndex) => {
+    setFormData({
+      ...formData,
+      destination: formData.destination.filter(
+        (places, i) => formData.destination.length === 1 || i !== removingIndex,
+      ),
+    });
+  };
+  const handlePlaceAdd = (event, index) => {
+    const isAlreadyExisted = formData.destination.some(
+      (obj) => obj.place === event.target.value,
+    );
+    if (isAlreadyExisted) return;
+    setFormData({
+      ...formData,
+      destination: [
+        ...formData.destination,
+        { key: randomChar(5), place: event.target.value },
+      ],
+    });
+  };
+
+  //Categories
+  const handleCategoryRemove = (removingIndex) => {
+    setFormData({
+      ...formData,
+      category: formData.category.filter(
+        (category, i) => formData.category.length === 1 || i !== removingIndex,
+      ),
+    });
+  };
+  const handleCategoryAdd = (event, index) => {
+    const isAlreadyExisted = formData.category.some(
+      (obj) => obj.category === event.target.value,
+    );
+    if (isAlreadyExisted) return;
+    setFormData({
+      ...formData,
+      category: [
+        ...formData.category,
+        { key: randomChar(5), category: event.target.value },
+      ],
+    });
   };
 
   /*handle submit */
@@ -232,6 +322,10 @@ function AdminUpdatePackage() {
           data.append(key, JSON.stringify(value));
         } else if (key === "tourHighLights") {
           data.append(key, JSON.stringify(value));
+        } else if (key === "destination") {
+          data.append(key, JSON.stringify(value));
+        } else if (key === "category") {
+          data.append(key, JSON.stringify(value));
         } else {
           data.append(key, value);
         }
@@ -242,7 +336,7 @@ function AdminUpdatePackage() {
     data.forEach((value, key) => {
       if (value instanceof File) {
         console.log(
-          `${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`
+          `${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`,
         );
       } else {
         console.log(`${key} : ${value}`);
@@ -257,7 +351,7 @@ function AdminUpdatePackage() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       alert("Package updated successfully!");
       // navigate("/admin/packages");
@@ -278,7 +372,6 @@ function AdminUpdatePackage() {
         <div className="adminPackageAdd">
           <form onSubmit={handleSubmit}>
             <h2>Update the tour package</h2>
-
             <div className="row full">
               <label htmlFor="profileImg">Choose a profile image:</label>
               <input
@@ -330,7 +423,6 @@ function AdminUpdatePackage() {
                 onChange={handleImagesChange}
               />
             </div>
-
             <div className="row">
               <div className="showSelectedImages">
                 {existingImages.map((img) => (
@@ -362,15 +454,7 @@ function AdminUpdatePackage() {
                 } new images have been selected`}
               </p>
             </div>
-
-            {[
-              "createdBy",
-              "destination",
-              "duration",
-              "category",
-              "name",
-              "description",
-            ].map((field) => (
+            {["createdBy", "duration", "name", "description"].map((field) => (
               <div className="row" key={field}>
                 <label htmlFor={field}>
                   {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -394,6 +478,64 @@ function AdminUpdatePackage() {
               </div>
             ))}
 
+            <div className="row">
+              <div className="placesContainer">
+                {formData.destination.map((obj, index) => (
+                  <p key={obj.key}>
+                    {obj.place}
+                    <span onClick={(event) => handlePlaceRemove(index)}>X</span>
+                  </p>
+                ))}
+              </div>
+              <label htmlFor="adminPackageAddPlace">Select tour places</label>
+              <div className="select">
+                <select
+                  id="adminPackageAddPlace"
+                  onChange={handlePlaceAdd}
+                  value={"none"}
+                >
+                  {allPlaces.map((place) => (
+                    <option
+                      key={`${place.placeName}`}
+                      value={`${place.placeName}`}
+                    >
+                      {`${place.placeName}, ${place.district}`}
+                    </option>
+                  ))}
+                </select>
+                <span className="focus"></span>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="placesContainer">
+                {formData.category.map((obj, index) => (
+                  <p key={obj.key}>
+                    {obj.category}
+                    <span onClick={(event) => handleCategoryRemove(index)}>
+                      X
+                    </span>
+                  </p>
+                ))}
+              </div>
+              <label htmlFor="adminPackageAddTourCategory">
+                Select tour categories
+              </label>
+              <div className="select">
+                <select
+                  id="adminPackageAddTourCategory"
+                  onChange={handleCategoryAdd}
+                  value={"none"}
+                >
+                  {allCategories.map((obj) => (
+                    <option key={`${obj.key}`} value={`${obj.category}`}>
+                      {`${obj.category}`}
+                    </option>
+                  ))}
+                </select>
+                <span className="focus"></span>
+              </div>
+            </div>
             <div className="row">
               <h3>Package HighLights</h3>
               {formData.tourHighLights.map((item, index) => {
@@ -432,7 +574,6 @@ function AdminUpdatePackage() {
                 +
               </button>
             </div>
-
             <div className="row">
               <h3>Package prices (Per person)</h3>
               {formData.pricePerPerson.map((item, index) => {
@@ -466,7 +607,6 @@ function AdminUpdatePackage() {
                 +
               </button>
             </div>
-
             <div className="buttonRow">
               <button type="submit" className="button safe-btn">
                 Update

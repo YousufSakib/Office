@@ -8,7 +8,13 @@ function PackageTable({ packageResponse }) {
         <table>
           <tr>
             <td>Categories</td>
-            <td>{packageResponse.category}</td>
+            <td>
+              {packageResponse.category.map((obj, index) => (
+                <span key={obj.key}>{`${obj.category}${
+                  packageResponse.category.length !== index + 1 ? " , " : ""
+                }`}</span>
+              ))}
+            </td>
           </tr>
           <tr>
             <td>Duration : </td>
@@ -16,7 +22,18 @@ function PackageTable({ packageResponse }) {
           </tr>
           <tr>
             <td>Location : </td>
-            <td> {" " + packageResponse?.destination}</td>
+            <td>
+              {" "}
+              {packageResponse?.destination.map((obj, index) => (
+                <span key={obj.key}>
+                  {`${obj.place}${
+                    packageResponse.destination.length !== index + 1
+                      ? " , "
+                      : ""
+                  }`}
+                </span>
+              ))}
+            </td>
           </tr>
         </table>
       </div>
@@ -39,8 +56,8 @@ function PackageTable({ packageResponse }) {
         </tr>
         {packageResponse.pricePerPerson.map((i) => (
           <tr key={i.key}>
-            <td>{i.priceType}</td>
-            <td>{i.priceTaka + " TK only"}</td>
+            <td className="price">{i.priceType}</td>
+            <td className="price">{i.priceTaka + " TK only"}</td>
           </tr>
         ))}
       </table>

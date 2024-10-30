@@ -19,14 +19,18 @@ export const packagePageLoader = async ({ request, params }) => {
     const tourHighLights = JSON.parse(
       JSON.parse(packagePromise.data.tourHighLights),
     );
-
+    const category = JSON.parse(packagePromise.data.category);
+    const destination = JSON.parse(packagePromise.data.destination);
     const newObj = {
       ...packagePromise.data,
       images,
       pricePerPerson,
       tourHighLights,
+      category,
+      destination,
     };
-
+    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    console.log(newObj);
     return defer({
       packageResponse: newObj, // Return the data
     });

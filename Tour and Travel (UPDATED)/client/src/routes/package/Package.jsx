@@ -17,7 +17,7 @@ function Package() {
         >
           {(packageResponse) => {
             // console.log("log from parent component", packageResponse); // Here logging fine but
-            return <PackageInfo packageResponse={packageResponse} />; // in package info component the object got undefined
+            return <PackageInfo packageResponse={packageResponse} />;
           }}
         </Await>
       </Suspense>
@@ -28,7 +28,7 @@ function Package() {
           errorElement={<>Error loading packages table</>}
         >
           {(packageResponse) => (
-            <PackageTable packageResponse={packageResponse} /> // in package info component the object got undefined
+            <PackageTable packageResponse={packageResponse} />
           )}
         </Await>
       </Suspense>

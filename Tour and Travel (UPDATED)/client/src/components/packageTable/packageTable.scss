@@ -12,17 +12,23 @@
     width: 100%;
     th {
       padding: 5px;
+      font-size: large;
     }
     tr {
       td {
         text-align: left;
         padding: 8px;
+        font-weight: bold;
         ul {
           padding: 0 17px;
           margin: 0;
         }
+
         span {
           font-weight: bold;
+        }
+        &.price {
+          color: green;
         }
       }
       &:nth-child(even) {
