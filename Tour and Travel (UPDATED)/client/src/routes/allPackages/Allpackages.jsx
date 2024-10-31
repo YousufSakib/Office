@@ -11,26 +11,32 @@ import Search from "../../components/search/Search";
 function Allpackages() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const query = new URLSearchParams(location.search);
-
   const initialPage = parseInt(query.get("page")) || 1;
-  const destination = query.getAll("destination") || [];
-  const duration = query.getAll("duration") || [];
-  const category = query.getAll("category") || [];
-
-  console.log("666666666666666666666666");
-  console.log(destination, duration, category);
 
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
   const [packages, setPackages] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [url, setUrl] = useState(() => {});
+  const [url, setUrl] = useState(null);
   useEffect(() => {
     const targetElement = document.getElementById("alPackagePageSpan");
     slowScrollToTop(targetElement, 50, 1000);
   }, []);
+
+  const getSearchParams = () => {
+    const destination = query.getAll("destination") || [];
+    const duration = query.getAll("duration") || [];
+    const category = query.getAll("category") || [];
+
+    const QueParams = new URLSearchParams();
+    QueParams.append("destination", destination);
+    QueParams.append("category", category);
+    QueParams.append("duration", duration);
+    return QueParams.toString();
+  };
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -39,10 +45,12 @@ function Allpackages() {
       const headers = {
         "Content-Type": "application/json",
       };
-      // const url = `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}`;
+      const URL = url
+        ? url
+        : `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}&${getSearchParams()}`;
 
       try {
-        const response = await axios.get(url, { headers });
+        const response = await axios.get(URL, { headers });
         setPackages(response.data.data);
         setTotalPages(response.data.pagination.totalPages);
         setCurrentPage(response.data.pagination.currentPage);
@@ -60,7 +68,6 @@ function Allpackages() {
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      navigate(`?page=${currentPage + 1}&limit=${PACKAGES_PER_PAGE}`); //Update URL
     }
   };
 
@@ -70,7 +77,8 @@ function Allpackages() {
       navigate(`?page=${currentPage - 1}&limit=${PACKAGES_PER_PAGE}`);
     }
   };
-
+  console.log("77777777777777777777777&&&&&&&&&&&&&&&&&&&&&&&&");
+  console.log(url);
   return (
     <>
       <span id="alPackagePageSpan"></span>
@@ -78,7 +86,7 @@ function Allpackages() {
       {error && <p>{error}</p>}
       {isLoading || (
         <>
-          <Search />
+          <Search setUrl={setUrl} currentPage={currentPage} />
           <BlocksOfOfferes obj={{ items: packages, title: "Packages" }} />
           <div className="pagination">
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./search.scss";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { duration } from "../../lib/json";
 import axios from "axios";
-import { BACKEND_URL } from "../../../dynamicInfo";
+import { BACKEND_URL, PACKAGES_PER_PAGE } from "../../../dynamicInfo";
 import randomChar from "../../lib/randomChar";
 
-function Search({setUrl}) {
+const Search = React.memo(({ setUrl, currentPage }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     destination: [],
@@ -15,8 +15,8 @@ function Search({setUrl}) {
   });
   const [allPlaces, setAllPlaces] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
-
-  const setSearchParams = () => {
+  const location = useLocation();
+  const getSearchParams = () => {
     const params = new URLSearchParams();
     for (const key in formData) {
       formData[key].forEach((value) => {
@@ -27,12 +27,18 @@ function Search({setUrl}) {
         else if (key === "duration") params.append(key, value.duration);
       });
     }
-
-    navigate(`/packages?${params.toString()}`);
+    return params.toString();
   };
 
   const handleClick = () => {
-    setSearchParams();
+    const params = getSearchParams();
+    //if current page is === home page then navigate to allpackage page wit search query
+    if (location.pathname === "/") {
+      navigate(`/packages?${params}`);
+    } else {
+      const url = `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}&${params}`;
+      setUrl(url);
+    }
   };
 
   /*All Places and Categories for dropdown items*/
@@ -49,7 +55,7 @@ function Search({setUrl}) {
         const { data: categoriesData } = await axios.get(url, { headers });
 
         const sortedPlaces = placesData.sort((a, b) =>
-          a.placeName.localeCompare(b.placeName)
+          a.placeName.localeCompare(b.placeName),
         );
         setAllPlaces(sortedPlaces);
         console.log("//////////////search ////////////////////////////");
@@ -63,7 +69,7 @@ function Search({setUrl}) {
         }
 
         const sortedCategories = unsortedCategories.sort((a, b) =>
-          a.category.localeCompare(b.category)
+          a.category.localeCompare(b.category),
         );
         setAllCategories(sortedCategories);
         console.log("Sorted categories:", sortedCategories);
@@ -79,13 +85,13 @@ function Search({setUrl}) {
     setFormData({
       ...formData,
       destination: formData.destination.filter(
-        (places, i) => i !== removingIndex
+        (places, i) => i !== removingIndex,
       ),
     });
   };
   const handlePlaceAdd = (event, index) => {
     const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value
+      (obj) => obj.place === event.target.value,
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -106,7 +112,7 @@ function Search({setUrl}) {
   };
   const handleCategoryAdd = (event, index) => {
     const isAlreadyExisted = formData.category.some(
-      (obj) => obj.category === event.target.value
+      (obj) => obj.category === event.target.value,
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -127,7 +133,7 @@ function Search({setUrl}) {
   };
   const handleDurationAdd = (event, index) => {
     const isAlreadyExisted = formData.duration.some(
-      (obj) => obj.duration === event.target.value
+      (obj) => obj.duration === event.target.value,
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -147,88 +153,81 @@ function Search({setUrl}) {
           <label htmlFor="duration">Choose a duration</label>
           <label htmlFor="category">Choose a category</label>
         </div> */}
-          <div className="row">
-            <div className="placesContainer">
-              {formData.destination.map((obj, index) => (
-                <p key={obj.key}>
-                  {obj.place}
-                  <span onClick={(event) => handlePlaceRemove(index)}>X</span>
-                </p>
-              ))}
-            </div>
-            <label htmlFor="searchPlace">Select tour places</label>
-            <div className="select">
-              <select id="searchPlace" onChange={handlePlaceAdd} value={"none"}>
-                {allPlaces.map((place) => (
-                  <option
-                    key={`${place.placeName}`}
-                    value={`${place.placeName}`}
-                  >
-                    {`${place.placeName}, ${place.district}`}
-                  </option>
-                ))}
-              </select>
-              <span className="focus"></span>
-            </div>
+        <div className="row">
+          <div className="placesContainer">
+            {formData.destination.map((obj, index) => (
+              <p key={obj.key}>
+                {obj.place}
+                <span onClick={(event) => handlePlaceRemove(index)}>X</span>
+              </p>
+            ))}
           </div>
+          <label htmlFor="searchPlace">Select tour places</label>
+          <div className="select">
+            <select id="searchPlace" onChange={handlePlaceAdd} value={"none"}>
+              {allPlaces.map((place) => (
+                <option key={`${place.placeName}`} value={`${place.placeName}`}>
+                  {`${place.placeName}, ${place.district}`}
+                </option>
+              ))}
+            </select>
+            <span className="focus"></span>
+          </div>
+        </div>
 
-          <div className="row">
-            <div className="placesContainer">
-              {formData.category.map((obj, index) => (
-                <p key={obj.key}>
-                  {obj.category}
-                  <span onClick={(event) => handleCategoryRemove(index)}>
-                    X
-                  </span>
-                </p>
-              ))}
-            </div>
-            <label htmlFor="adminPackageAddTourCategory">
-              Select tour categories
-            </label>
-            <div className="select">
-              <select
-                id="adminPackageAddTourCategory"
-                onChange={handleCategoryAdd}
-                value={"none"}
-              >
-                {allCategories.map((obj) => (
-                  <option key={`${obj.key}`} value={`${obj.category}`}>
-                    {`${obj.category}`}
-                  </option>
-                ))}
-              </select>
-              <span className="focus"></span>
-            </div>
+        <div className="row">
+          <div className="placesContainer">
+            {formData.category.map((obj, index) => (
+              <p key={obj.key}>
+                {obj.category}
+                <span onClick={(event) => handleCategoryRemove(index)}>X</span>
+              </p>
+            ))}
           </div>
+          <label htmlFor="adminPackageAddTourCategory">
+            Select tour categories
+          </label>
+          <div className="select">
+            <select
+              id="adminPackageAddTourCategory"
+              onChange={handleCategoryAdd}
+              value={"none"}
+            >
+              {allCategories.map((obj) => (
+                <option key={`${obj.key}`} value={`${obj.category}`}>
+                  {`${obj.category}`}
+                </option>
+              ))}
+            </select>
+            <span className="focus"></span>
+          </div>
+        </div>
 
-          <div className="row">
-            <div className="placesContainer">
-              {formData.duration.map((obj, index) => (
-                <p className="number" key={obj.key}>
-                  {obj.duration}
-                  <span onClick={(event) => handleDurationRemove(index)}>
-                    X
-                  </span>
-                </p>
-              ))}
-            </div>
-            <label htmlFor="searchDuration">Select tour duration</label>
-            <div className="select">
-              <select
-                id="searchDuration"
-                onChange={handleDurationAdd}
-                value={"none"}
-              >
-                {duration.map((obj) => (
-                  <option key={`${obj.key}`} value={`${obj.value}`}>
-                    {`${obj.name}`}
-                  </option>
-                ))}
-              </select>
-              <span className="focus"></span>
-            </div>
+        <div className="row">
+          <div className="placesContainer">
+            {formData.duration.map((obj, index) => (
+              <p className="number" key={obj.key}>
+                {obj.duration}
+                <span onClick={(event) => handleDurationRemove(index)}>X</span>
+              </p>
+            ))}
           </div>
+          <label htmlFor="searchDuration">Select tour duration</label>
+          <div className="select">
+            <select
+              id="searchDuration"
+              onChange={handleDurationAdd}
+              value={"none"}
+            >
+              {duration.map((obj) => (
+                <option key={`${obj.key}`} value={`${obj.value}`}>
+                  {`${obj.name}`}
+                </option>
+              ))}
+            </select>
+            <span className="focus"></span>
+          </div>
+        </div>
       </div>
 
       <button onClick={handleClick} className="button" type="submit">
@@ -236,6 +235,6 @@ function Search({setUrl}) {
       </button>
     </div>
   );
-}
+});
 
 export default Search;
