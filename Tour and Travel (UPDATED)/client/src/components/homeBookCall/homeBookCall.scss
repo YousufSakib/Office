@@ -46,7 +46,9 @@
     }
     .down {
       margin-top: 50px;
-      background-color: rgb(163, 3, 3);
+      padding: 5px 25px;
+      box-sizing: border-box;
+      background-color: rgb(139, 0, 0);
 
       font-family: "Lora", serif;
       font-optical-sizing: auto;
@@ -66,11 +68,17 @@
         align-items: center;
         gap: 20px;
         img {
-          height: 50px;
-          width: 50px;
+          height: 30px;
+          width: 30px;
         }
         p {
           font-size: 30px;
+          @include md{
+            font-size: 22px;
+          }
+          @include sm{
+            font-size: 18px;
+          }
         }
       }
     }

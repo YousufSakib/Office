@@ -108,18 +108,20 @@ function Navbar() {
           </button>
         </div>
       </nav>
-      <div className="heroTextWrapper">
-        <div className="HeroText">
-          <h1>Welcome to Bangladesh</h1>
-          <p>
-            Home of history, culture & natural resourcesSearch every
-            well-planned Bangladesh Itinerary
-          </p>
-          <Link to="/book-tour">
-            <button className="button entrance1s">Book Your Tour Now</button>
-          </Link>
+      {location.pathname === "/contact-us" || (
+        <div className="heroTextWrapper">
+          <div className="HeroText">
+            <h1>Welcome to Bangladesh</h1>
+            <p>
+              Home of history, culture & natural resourcesSearch every
+              well-planned Bangladesh Itinerary
+            </p>
+            <Link to="/book-tour">
+              <button className="glow-on-hover">Book Your Tour Now</button>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
       {location.pathname === "/" && <Search />}
     </>
   );

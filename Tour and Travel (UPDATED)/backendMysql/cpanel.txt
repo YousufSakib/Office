@@ -1,0 +1,18 @@
+source /home/chulkani/nodevenv/igl.chulkani.com/20/bin/activate && cd /home/chulkani/igl.chulkani.com
+
+//first database in live 
+DB_USER=chulkani_root
+DB_PASSWORD=igl.chulkani.com
+DB_NAME=chulkani_tour
+
+public_html/igl.chulkani.com
+
+
+
+//second database in live
+
+public_html/igltour.chulkani.com
+
+DB_NAME=chulkani_tour2
+DB_USER=chulkani_igl_tour_chulkani_com
+DB_PASSWORD=igl_tour_chulkani_com

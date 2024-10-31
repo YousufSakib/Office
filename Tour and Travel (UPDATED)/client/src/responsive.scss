@@ -261,6 +261,7 @@ select {
   background-color: transparent;
   border: none;
   padding: 0 1em 0 0;
+  box-sizing: border-box;
   margin: 0;
   width: 100%;
   font-family: inherit;
@@ -280,8 +281,8 @@ select {
   border: 1px solid #777;
   border-radius: 0.25em;
   box-sizing: border-box;
-  padding: 0.25em 0.5em;
-  font-size: 1.25rem;
+  padding: 0.15em 0.3em;
+  font-size: 1rem;
   cursor: pointer;
   line-height: 1.1;
   background-color: #fff;
@@ -290,6 +291,9 @@ select {
 .select select,
 .select::after {
   grid-area: select;
+  // background-color: red;
+  padding-left: 7px;
+  box-sizing: border-box;
 }
 .select:not(.select--multiple)::after {
   content: "";
