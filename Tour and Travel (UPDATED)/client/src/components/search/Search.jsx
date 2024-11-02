@@ -6,9 +6,10 @@ import axios from "axios";
 import { BACKEND_URL, PACKAGES_PER_PAGE } from "../../../dynamicInfo";
 import randomChar from "../../lib/randomChar";
 
-const Search = React.memo(({ setUrl, currentPage }) => {
+const Search = React.memo(({ setUrl }) => {
+  const query = new URLSearchParams(location.search);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [queryData, setQueryData] = useState({
     destination: [],
     category: [],
     duration: [],
@@ -18,8 +19,8 @@ const Search = React.memo(({ setUrl, currentPage }) => {
   const location = useLocation();
   const getSearchParams = () => {
     const params = new URLSearchParams();
-    for (const key in formData) {
-      formData[key].forEach((value) => {
+    for (const key in queryData) {
+      queryData[key].forEach((value) => {
         console.log("777777777777777777777777777");
         console.log(key, value);
         if (key === "destination") params.append(key, value.place);
@@ -27,6 +28,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
         else if (key === "duration") params.append(key, value.duration);
       });
     }
+    
     return params.toString();
   };
 
@@ -36,11 +38,11 @@ const Search = React.memo(({ setUrl, currentPage }) => {
     if (location.pathname === "/") {
       navigate(`/packages?${params}`);
     } else {
-      const url = `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}&${params}`;
+      const url = `${BACKEND_URL}/api/v1/packages?${params}`;
       setUrl(url);
     }
   };
-
+//page=${currentPage}&limit=${PACKAGES_PER_PAGE}
   /*All Places and Categories for dropdown items*/
   useEffect(() => {
     const fetchPlacesAndCategory = async () => {
@@ -55,7 +57,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
         const { data: categoriesData } = await axios.get(url, { headers });
 
         const sortedPlaces = placesData.sort((a, b) =>
-          a.placeName.localeCompare(b.placeName),
+          a.placeName.localeCompare(b.placeName)
         );
         setAllPlaces(sortedPlaces);
         console.log("//////////////search ////////////////////////////");
@@ -69,7 +71,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
         }
 
         const sortedCategories = unsortedCategories.sort((a, b) =>
-          a.category.localeCompare(b.category),
+          a.category.localeCompare(b.category)
         );
         setAllCategories(sortedCategories);
         console.log("Sorted categories:", sortedCategories);
@@ -82,22 +84,22 @@ const Search = React.memo(({ setUrl, currentPage }) => {
   }, []);
   //Places
   const handlePlaceRemove = (removingIndex) => {
-    setFormData({
-      ...formData,
-      destination: formData.destination.filter(
-        (places, i) => i !== removingIndex,
+    setQueryData({
+      ...queryData,
+      destination: queryData.destination.filter(
+        (places, i) => i !== removingIndex
       ),
     });
   };
   const handlePlaceAdd = (event, index) => {
-    const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value,
+    const isAlreadyExisted = queryData.destination.some(
+      (obj) => obj.place === event.target.value
     );
     if (isAlreadyExisted) return;
-    setFormData({
-      ...formData,
+    setQueryData({
+      ...queryData,
       destination: [
-        ...formData.destination,
+        ...queryData.destination,
         { key: randomChar(5), place: event.target.value },
       ],
     });
@@ -105,20 +107,20 @@ const Search = React.memo(({ setUrl, currentPage }) => {
 
   //Categories
   const handleCategoryRemove = (removingIndex) => {
-    setFormData({
-      ...formData,
-      category: formData.category.filter((category, i) => i !== removingIndex),
+    setQueryData({
+      ...queryData,
+      category: queryData.category.filter((category, i) => i !== removingIndex),
     });
   };
   const handleCategoryAdd = (event, index) => {
-    const isAlreadyExisted = formData.category.some(
-      (obj) => obj.category === event.target.value,
+    const isAlreadyExisted = queryData.category.some(
+      (obj) => obj.category === event.target.value
     );
     if (isAlreadyExisted) return;
-    setFormData({
-      ...formData,
+    setQueryData({
+      ...queryData,
       category: [
-        ...formData.category,
+        ...queryData.category,
         { key: randomChar(5), category: event.target.value },
       ],
     });
@@ -126,20 +128,20 @@ const Search = React.memo(({ setUrl, currentPage }) => {
 
   //duration
   const handleDurationRemove = (removingIndex) => {
-    setFormData({
-      ...formData,
-      duration: formData.duration.filter((duration, i) => i !== removingIndex),
+    setQueryData({
+      ...queryData,
+      duration: queryData.duration.filter((duration, i) => i !== removingIndex),
     });
   };
   const handleDurationAdd = (event, index) => {
-    const isAlreadyExisted = formData.duration.some(
-      (obj) => obj.duration === event.target.value,
+    const isAlreadyExisted = queryData.duration.some(
+      (obj) => obj.duration === event.target.value
     );
     if (isAlreadyExisted) return;
-    setFormData({
-      ...formData,
+    setQueryData({
+      ...queryData,
       duration: [
-        ...formData.duration,
+        ...queryData.duration,
         { key: randomChar(5), duration: event.target.value },
       ],
     });
@@ -155,7 +157,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
         </div> */}
         <div className="row">
           <div className="placesContainer">
-            {formData.destination.map((obj, index) => (
+            {queryData.destination.map((obj, index) => (
               <p key={obj.key}>
                 {obj.place}
                 <span onClick={(event) => handlePlaceRemove(index)}>X</span>
@@ -165,6 +167,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
           <label htmlFor="searchPlace">Select tour places</label>
           <div className="select">
             <select id="searchPlace" onChange={handlePlaceAdd} value={"none"}>
+              <option value="">All selected</option>
               {allPlaces.map((place) => (
                 <option key={`${place.placeName}`} value={`${place.placeName}`}>
                   {`${place.placeName}, ${place.district}`}
@@ -177,7 +180,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
 
         <div className="row">
           <div className="placesContainer">
-            {formData.category.map((obj, index) => (
+            {queryData.category.map((obj, index) => (
               <p key={obj.key}>
                 {obj.category}
                 <span onClick={(event) => handleCategoryRemove(index)}>X</span>
@@ -193,6 +196,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
               onChange={handleCategoryAdd}
               value={"none"}
             >
+              <option value="">All selected</option>
               {allCategories.map((obj) => (
                 <option key={`${obj.key}`} value={`${obj.category}`}>
                   {`${obj.category}`}
@@ -205,7 +209,7 @@ const Search = React.memo(({ setUrl, currentPage }) => {
 
         <div className="row">
           <div className="placesContainer">
-            {formData.duration.map((obj, index) => (
+            {queryData.duration.map((obj, index) => (
               <p className="number" key={obj.key}>
                 {obj.duration}
                 <span onClick={(event) => handleDurationRemove(index)}>X</span>

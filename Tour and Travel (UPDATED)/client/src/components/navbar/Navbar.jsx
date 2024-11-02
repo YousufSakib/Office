@@ -113,7 +113,7 @@ function Navbar() {
           <div className="HeroText">
             <h1>Welcome to Bangladesh</h1>
             <p>
-              Home of history, culture & natural resourcesSearch every
+              Home of history, culture & natural resources. Search every
               well-planned Bangladesh Itinerary
             </p>
             <Link to="/book-tour">

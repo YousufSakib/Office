@@ -12,8 +12,14 @@ function Allpackages() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [queryData, setQueryData] = useState({
+    destination: query.getAll("destination") || [],
+    category: [],
+    duration: [],
+  });
+
   const query = new URLSearchParams(location.search);
-  const initialPage = parseInt(query.get("page")) || 1;
+  const initialPage = 1;
 
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
   const [packages, setPackages] = useState([]);
@@ -35,6 +41,10 @@ function Allpackages() {
     QueParams.append("destination", destination);
     QueParams.append("category", category);
     QueParams.append("duration", duration);
+
+    QueParams.forEach((key, value) => {
+      console.log(`~~~~~~~~~~~~${key} : ${value}`);
+    });
     return QueParams.toString();
   };
 
