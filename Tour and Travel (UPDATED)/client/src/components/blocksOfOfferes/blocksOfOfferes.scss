@@ -2,16 +2,22 @@
 
 .card {
   width: 100%;
-  margin: 40px auto 0 auto;
+  margin: 0 auto 0 auto;
   max-width: $maxWidth;
   position: relative;
-  padding: 40px 0 40px 0;
+  padding: 40px 0;
+  box-sizing: border-box;
+  // background-color: red;
   h2 {
     width: 100%;
     font-size: 35px;
     text-align: center;
+    margin: 0;
+    padding-bottom: 40px;
+    // background-color: purple;
     z-index: 1;
     position: relative;
+    color: black !important;
   }
   .blockOfOffers {
     width: 100%;
@@ -19,43 +25,96 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: stretch;
     // background-color: red;
-    gap: 5px;
+    gap: 25px;
     a {
+      padding: 0 0 0px 0;
       color: black;
+
       .item {
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: start;
+        justify-content: space-between;
+        height: 100%;
+        box-sizing: border-box;
         gap: 10px;
-        p {
-          font-weight: bold;
-          font-size: large;
+        padding: 0 0 20px 0;
+        transition: all 0.3s;
+        background-color: white;
+        position: relative;
+        span.save {
+          position: absolute;
+          top: 20px;
+          left: 0;
+          background-color: rgb(84, 0, 122);
+          border-radius: 0 10px 10px 0;
+          z-index: 1;
+          color: white;
+          font-weight: 600;
+          font-size: 13px;
+          padding: 2px 15px;
         }
-
         img {
           width: 300px;
-          height: 300px;
+          height: 250px;
           object-fit: cover;
+          transition: all 0.2s linear;
           @include sm {
             align-self: center;
           }
           @include md {
             align-self: center;
           }
+          &:hover {
+            transform: scale(1.06);
+            transform-origin: 50% 100%;
+          }
         }
         p {
-          padding-left: 25px;
           width: 100%;
+          padding: 0 0 0 20px;
+          margin: 0;
           box-sizing: border-box;
+          font-weight: bold;
+          font-size: large;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        transition: all 0.3s;
+        div.price {
+          // flex: 0 0 22px;
+          // background-color: purple;
+          margin-left: 20px;
+          .price-new {
+            font-weight: 600;
+            font-size: 18px;
+            // background-color: bisque;
+            color: $redColor;
+          }
+          .price-old {
+            font-size: 13px;
+            color: #666;
+            // background-color: aquamarine;
+            text-decoration: line-through;
+            padding-left: 7px;
+          }
+        }
+        a {
+          width: 81%;
+          align-self: center;
+
+          .button {
+          }
+        }
         -webkit-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
         -moz-box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
         box-shadow: 10px 10px 25px -11px rgba(0, 0, 0, 0.75);
+        &:hover {
+          transform: translateY(-8px);
+        }
       }
     }
   }

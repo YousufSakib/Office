@@ -15,6 +15,10 @@ const Package = sequelize.define("Package", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  discount: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   duration: {
     type: DataTypes.INTEGER,
     allowNull: false,
