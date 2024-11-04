@@ -9,44 +9,21 @@ import "./allPackages.scss";
 import Search from "../../components/search/Search";
 
 function Allpackages() {
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const [queryData, setQueryData] = useState({
-    destination: query.getAll("destination") || [],
-    category: [],
-    duration: [],
-  });
-
-  const query = new URLSearchParams(location.search);
-  const initialPage = 1;
-
-  const [currentPage, setCurrentPage] = useState(initialPage || 1);
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
   const [packages, setPackages] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
+
   useEffect(() => {
     const targetElement = document.getElementById("alPackagePageSpan");
     slowScrollToTop(targetElement, 50, 1000);
   }, []);
+  console.log("~~~", "location.search1", location.search);
 
-  const getSearchParams = () => {
-    const destination = query.getAll("destination") || [];
-    const duration = query.getAll("duration") || [];
-    const category = query.getAll("category") || [];
-
-    const QueParams = new URLSearchParams();
-    QueParams.append("destination", destination);
-    QueParams.append("category", category);
-    QueParams.append("duration", duration);
-
-    QueParams.forEach((key, value) => {
-      console.log(`~~~~~~~~~~~~${key} : ${value}`);
-    });
-    return QueParams.toString();
-  };
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -57,7 +34,7 @@ function Allpackages() {
       };
       const URL = url
         ? url
-        : `${BACKEND_URL}/api/v1/packages?page=${currentPage}&limit=${PACKAGES_PER_PAGE}&${getSearchParams()}`;
+        : `${BACKEND_URL}/api/v1/packages${location.search}&page=${currentPage}&limit=${PACKAGES_PER_PAGE}`;
 
       try {
         const response = await axios.get(URL, { headers });
@@ -87,8 +64,6 @@ function Allpackages() {
       navigate(`?page=${currentPage - 1}&limit=${PACKAGES_PER_PAGE}`);
     }
   };
-  console.log("77777777777777777777777&&&&&&&&&&&&&&&&&&&&&&&&");
-  console.log(url);
   return (
     <>
       <span id="alPackagePageSpan"></span>

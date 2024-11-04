@@ -1,0 +1,23 @@
+From Home page
+{
+  page: '1',
+  limit: '4',
+  destination: 'Jaflong',
+  category: 'Culture,Historical',
+  duration: ''
+}
+http://localhost:5173/packages?destination=Jaflong&category=Culture&category=Historical&limit=4
+
+From Package page
+{
+  page: '1',
+  limit: '4',
+  category: 'Beach-Island ',
+  duration: [ '5 days', '3 days', '7+ days' ]
+}
+
+http://localhost:5174/packages/api/v1/packages?duration=4+days&duration=6+days&duration=7%2B+days
+
+DB_NAME: chulkani_tour3
+DB_USER: chulkani_igl_chulkani_com
+DB_PASS: igl.chulkani.com

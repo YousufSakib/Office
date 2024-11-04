@@ -68,8 +68,8 @@ router.get("/popularPackages", async (req, res) => {
 router.get("/packages", async (req, res) => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 8;
-  const { duration, category, place } = req.query;
-  console.log(req.query);
+  const { destination, duration, category, page, limit } = req.query;
+  console.log("~~", req.query);
   try {
     let page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
     let limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;

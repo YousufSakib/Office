@@ -25,11 +25,11 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static("uploads"));
 
 // Middleware to delay response by 1 seconds
-app.use((req, res, next) => {
-  setTimeout(() => {
-    next(); // Call next() after 500ms
-  }, 1000); // Delay of 0.5 seconds (500 milliseconds)
-});
+// app.use((req, res, next) => {
+//   setTimeout(() => {
+//     next(); // Call next() after 500ms
+//   }, 1000); // Delay of 0.5 seconds (500 milliseconds)
+// });
 
 // Use the package routes
 app.use("/api/v1", imagesRoute);
