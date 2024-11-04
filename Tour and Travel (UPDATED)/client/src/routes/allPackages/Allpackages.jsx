@@ -16,14 +16,13 @@ function Allpackages() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [query, setQuery] = useState(null);
 
   useEffect(() => {
     const targetElement = document.getElementById("alPackagePageSpan");
     slowScrollToTop(targetElement, 50, 1000);
   }, []);
   console.log("~~~", "location.search1", location.search);
-
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -32,9 +31,19 @@ function Allpackages() {
       const headers = {
         "Content-Type": "application/json",
       };
-      const URL = url
-        ? url
-        : `${BACKEND_URL}/api/v1/packages${location.search}&page=${currentPage}&limit=${PACKAGES_PER_PAGE}`;
+      ///packages?}&page=77&limit=4
+      console.log("+++", location.search);
+      let URL, queryParam;
+      if (query) {
+        queryParam = new URLSearchParams(query);
+      } else {
+        queryParam = new URLSearchParams(location.search);
+      }
+
+      queryParam.set("page", currentPage);
+      queryParam.set("limit", PACKAGES_PER_PAGE);
+      navigate(`?${queryParam.toString()}`);
+      URL = `${BACKEND_URL}/api/v1/packages?${queryParam.toString()}`;
 
       try {
         const response = await axios.get(URL, { headers });
@@ -50,7 +59,7 @@ function Allpackages() {
     };
 
     fetchPackages();
-  }, [currentPage, url]);
+  }, [currentPage, query]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -61,7 +70,6 @@ function Allpackages() {
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      navigate(`?page=${currentPage - 1}&limit=${PACKAGES_PER_PAGE}`);
     }
   };
   return (
@@ -71,15 +79,19 @@ function Allpackages() {
       {error && <p>{error}</p>}
       {isLoading || (
         <>
-          <Search setUrl={setUrl} currentPage={currentPage} />
+          <Search setQuery={setQuery} setCurrentPage={setCurrentPage} />
           <BlocksOfOfferes obj={{ items: packages, title: "Packages" }} />
           <div className="pagination">
-            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <button
+              className="button"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
               Previous
             </button>
             <span>{`${currentPage} of ${totalPages}`}</span>
             <button
-              setUrl={setUrl}
+              className="button"
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
             >

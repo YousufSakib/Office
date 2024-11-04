@@ -6,7 +6,7 @@ import axios from "axios";
 import { BACKEND_URL, PACKAGES_PER_PAGE } from "../../../dynamicInfo";
 import randomChar from "../../lib/randomChar";
 
-const Search = React.memo(({ setUrl }) => {
+const Search = React.memo(({ setQuery, setCurrentPage }) => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const navigate = useNavigate();
@@ -52,16 +52,16 @@ const Search = React.memo(({ setUrl }) => {
     // Re-add the remaining values
     updatedValues.forEach((value) => queryParams.append(param, value));
     const query = queryParams.toString();
-    navigate(`?${query}`);
-    setUrl(`${BACKEND_URL}/api/v1/packages?${query}`);
+    setQuery(query);
+    setCurrentPage(1);
   };
   const appendQueryParameter = (param, valutToAdd) => {
     if (location.pathname !== "/packages") return;
     const queryParams = new URLSearchParams(location.search);
     queryParams.append(param, valutToAdd);
     const query = queryParams.toString();
-    navigate(`?${query}`);
-    setUrl(`${BACKEND_URL}/api/v1/packages?${query}`);
+    setQuery(query);
+    setCurrentPage(1);
   };
   const handleClick = () => {
     const params = getSearchParams();
@@ -115,7 +115,7 @@ const Search = React.memo(({ setUrl }) => {
   //Places
   const handlePlaceRemove = (removingIndex) => {
     const removingValue = queryData.destination[removingIndex].place;
-    deleteSpecificValueFromQuery("place", removingValue);
+    deleteSpecificValueFromQuery("destination", removingValue);
 
     setQueryData({
       ...queryData,
@@ -136,7 +136,7 @@ const Search = React.memo(({ setUrl }) => {
         { key: randomChar(5), place: event.target.value },
       ],
     });
-    appendQueryParameter("place", event.target.value);
+    appendQueryParameter("destination", event.target.value);
   };
 
   //Categories

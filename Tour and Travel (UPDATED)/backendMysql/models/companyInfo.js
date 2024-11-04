@@ -46,6 +46,11 @@ const CompanyInfo = sequelize.define("CompanyInfo", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-});
+},
+{
+  tableName: "companyinfos",
+  timestamps: true,
+}
+);
 
 module.exports = CompanyInfo;

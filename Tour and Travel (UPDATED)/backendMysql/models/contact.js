@@ -37,6 +37,11 @@ const Contact = sequelize.define("Contact", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-});
+},
+{
+  tableName: "contacts",
+  timestamps: true,
+}
+);
 
 module.exports = Contact;

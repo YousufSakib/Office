@@ -32,20 +32,27 @@ app.use("/uploads", express.static("uploads"));
 // });
 
 // Use the package routes
+
 app.use("/api/v1", imagesRoute);
 app.use("/api/v1", packageRoutes);
 app.use("/api/v1", companyInfoRouter);
 app.use("/api/v1", contactRoute);
 app.use("/api/v1", packagePlaces);
 app.use("/api/v1", packageTourCategory);
-
+app.use("/", (req, res) => {
+  res.status(200).json({
+    message: "Hello, Your app is working",
+  });
+});
 // Sync Sequelize with MySQL
 sequelize
   .sync({ alter: true }) // 'alter' ensures the table is updated with new changes
   .then(() => {
     console.log("Database synced");
-    app.listen(3000, () =>
-      console.log("Server running on http://localhost:3000")
+    app.listen(process.env.PORT || 3003, () =>
+      console.log(
+        `Server running on http://localhost:${process.env.PORT || 3003}`
+      )
     );
     // app.listen();
   })

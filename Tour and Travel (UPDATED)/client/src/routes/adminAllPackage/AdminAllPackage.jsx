@@ -83,7 +83,7 @@ function AdminAllPackage() {
       {isLoading && <FullScreenloading />}
       {isLoading || (
         <>
-          <div className="card">
+          <div className="card adminAllPackage">
             <h2>All packages</h2>
             <div className="blockOfOffers">
               {packages.map((i) => (

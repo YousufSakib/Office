@@ -1,0 +1,15 @@
+DB_NAME: igltour_tour
+DB_PASS: igltour_tour
+DB_PASS: igltour_tour
+
+
+/opt/alt/alt-nodejs20/root/usr/bin/node server.js
+
+
+~~ {
+  page: '1',
+  limit: '4',
+  destination: [ 'Sundarbans Mangrove Forest', 'Srimangal (Tea Capital)' ],
+  duration: [ '3 days', '2 days' ],
+  category: 'Beach-Island '
+}

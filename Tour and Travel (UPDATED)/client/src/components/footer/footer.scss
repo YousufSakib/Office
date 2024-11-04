@@ -96,6 +96,13 @@
       p.copyright {
         display: block;
         font-size: small;
+        position: relative;
+        a {
+          position: absolute;
+          right: 10px;
+          color: white;
+          text-decoration: underline;
+        }
       }
     }
   }

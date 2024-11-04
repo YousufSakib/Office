@@ -18,6 +18,7 @@ function AdminUpdatePackage() {
     createdBy: "",
     destination: [],
     category: [],
+    discount: "",
     duration: "",
     name: "",
     description: "",
@@ -41,7 +42,7 @@ function AdminUpdatePackage() {
     const fetchPackageData = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/api/v1/packages/${id}`,
+          `${BACKEND_URL}/api/v1/packages/${id}`
         );
         const packageData = response.data;
 
@@ -112,7 +113,7 @@ function AdminUpdatePackage() {
   const handleCancel = (event) => {
     event.preventDefault();
     const confirmation = confirm(
-      "Are you sure you want to cancel update package?",
+      "Are you sure you want to cancel update package?"
     );
     if (confirmation) {
       navigate(-1);
@@ -152,7 +153,7 @@ function AdminUpdatePackage() {
       ...prev,
       tourHighLights: prev.tourHighLights.filter(
         (_, index) =>
-          prev.tourHighLights.length === 1 || index !== deletingIndex,
+          prev.tourHighLights.length === 1 || index !== deletingIndex
       ),
     }));
   };
@@ -191,7 +192,7 @@ function AdminUpdatePackage() {
       ...prev,
       pricePerPerson: prev.pricePerPerson.filter(
         (_, index) =>
-          prev.pricePerPerson.length === 1 || index !== deletingIndex,
+          prev.pricePerPerson.length === 1 || index !== deletingIndex
       ),
     }));
   };
@@ -210,7 +211,7 @@ function AdminUpdatePackage() {
         const { data: categoriesData } = await axios.get(url, { headers });
 
         const sortedPlaces = placesData.sort((a, b) =>
-          a.placeName.localeCompare(b.placeName),
+          a.placeName.localeCompare(b.placeName)
         );
         setAllPlaces(sortedPlaces);
         console.log("sorted places:", sortedPlaces);
@@ -223,7 +224,7 @@ function AdminUpdatePackage() {
         }
 
         const sortedCategories = unsortedCategories.sort((a, b) =>
-          a.category.localeCompare(b.category),
+          a.category.localeCompare(b.category)
         );
         setAllCategories(sortedCategories);
         console.log("Sorted categories:", sortedCategories);
@@ -239,13 +240,13 @@ function AdminUpdatePackage() {
     setFormData({
       ...formData,
       destination: formData.destination.filter(
-        (places, i) => formData.destination.length === 1 || i !== removingIndex,
+        (places, i) => formData.destination.length === 1 || i !== removingIndex
       ),
     });
   };
   const handlePlaceAdd = (event, index) => {
     const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value,
+      (obj) => obj.place === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -262,13 +263,13 @@ function AdminUpdatePackage() {
     setFormData({
       ...formData,
       category: formData.category.filter(
-        (category, i) => formData.category.length === 1 || i !== removingIndex,
+        (category, i) => formData.category.length === 1 || i !== removingIndex
       ),
     });
   };
   const handleCategoryAdd = (event, index) => {
     const isAlreadyExisted = formData.category.some(
-      (obj) => obj.category === event.target.value,
+      (obj) => obj.category === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -336,7 +337,7 @@ function AdminUpdatePackage() {
     data.forEach((value, key) => {
       if (value instanceof File) {
         console.log(
-          `${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`,
+          `${key}: ${value.name}, Size: ${value.size}, Type: ${value.type}`
         );
       } else {
         console.log(`${key} : ${value}`);
@@ -351,7 +352,7 @@ function AdminUpdatePackage() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
       alert("Package updated successfully!");
       // navigate("/admin/packages");
@@ -454,29 +455,35 @@ function AdminUpdatePackage() {
                 } new images have been selected`}
               </p>
             </div>
-            {["createdBy", "duration", "name", "description"].map((field) => (
-              <div className="row" key={field}>
-                <label htmlFor={field}>
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </label>
-                {field === "description" ? (
-                  <textarea
-                    name={field}
-                    id={field}
-                    onChange={handleChange}
-                    value={formData[field]}
-                  />
-                ) : (
-                  <input
-                    type={field === "duration" ? "number" : "text"}
-                    name={field}
-                    id={field}
-                    onChange={handleChange}
-                    value={formData[field]}
-                  />
-                )}
-              </div>
-            ))}
+            {["createdBy", "duration", "name", "description", "discount"].map(
+              (field) => (
+                <div className="row" key={field}>
+                  <label htmlFor={field}>
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  {field === "description" ? (
+                    <textarea
+                      name={field}
+                      id={field}
+                      onChange={handleChange}
+                      value={formData[field]}
+                    />
+                  ) : (
+                    <input
+                      type={
+                        field === "duration" || field === "discount"
+                          ? "number"
+                          : "text"
+                      }
+                      name={field}
+                      id={field}
+                      onChange={handleChange}
+                      value={formData[field]}
+                    />
+                  )}
+                </div>
+              )
+            )}
 
             <div className="row">
               <div className="placesContainer">

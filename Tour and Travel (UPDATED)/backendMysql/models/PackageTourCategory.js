@@ -12,7 +12,7 @@ const PackageTourCategory = sequelize.define(
     categories: {
       type: DataTypes.JSON,
       allowNull: false,
-    }
+    },
   },
   {
     tableName: "package_tour_categories",

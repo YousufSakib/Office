@@ -9,8 +9,6 @@ function BlocksOfOfferes({ obj }) {
   const getOfferPrice = (discount) => {
     const oldPrice = JSON.parse(JSON.parse(obj.items[0].pricePerPerson))[0]
       .priceTaka;
-
-    console.log(`~~~ Old : ${oldPrice} discount : ${discount}`);
     const newPrice = oldPrice - (oldPrice / 100) * discount;
     return newPrice;
   };
@@ -25,9 +23,8 @@ function BlocksOfOfferes({ obj }) {
     JSON.parse(JSON.parse(obj.items[0].pricePerPerson))[0].priceTaka;
 
   return (
-    <div className="card" id="blockOfOffers">
+    <div className="card packagesBlock" id="blockOfOffers">
       <AnimatedBackground1 color1="#E6E6FA" color2="#CBC3E3" color3="#CF9FFF" />
-      {console.log(obj)}
       <h2>{obj.title}</h2>
       <div className="blockOfOffers">
         {obj.items.map((i) => (
@@ -35,7 +32,7 @@ function BlocksOfOfferes({ obj }) {
             <div className="item" key={i.id}>
               {i.discount && (
                 <span className="save number">{`Saved ${getSavedPrice(
-                  i.discount,
+                  i.discount
                 )}৳`}</span>
               )}
               <img src={`${BACKEND_URL}/uploads/${i.profileImg}`} alt="" />
@@ -48,13 +45,13 @@ function BlocksOfOfferes({ obj }) {
               {i.discount && (
                 <div className="price">
                   <span className="price-new number">{`${getOfferPrice(
-                    i.discount,
+                    i.discount
                   )}৳`}</span>
                   <span className="price-old number">{`${getOldPrice()}৳`}</span>
                 </div>
               )}
               <Link to={"/packages/" + i.id}>
-                <button className="button full">See more</button>
+                <button className="button full">Semore</button>
               </Link>
             </div>
           </Link>

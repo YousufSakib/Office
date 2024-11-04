@@ -69,6 +69,7 @@ router.get("/packages", async (req, res) => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 8;
   const { destination, duration, category, page, limit } = req.query;
+  console.log(req.url);
   console.log("~~", req.query);
   try {
     let page = parseInt(req.query.page, 10) || DEFAULT_PAGE;

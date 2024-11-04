@@ -12,6 +12,7 @@ function AdminPackageAdd() {
     images: [],
     createdBy: "",
     destination: [],
+    discount: "",
     duration: "",
     category: [],
     name: "",
@@ -372,7 +373,7 @@ function AdminPackageAdd() {
                 {`${formData.images.length} images have been selected`}
               </p>
             </div>
-            {["name", "createdBy", "duration", "description"].map((field) => (
+            {["name", "createdBy", "duration", "description", "discount"].map((field) => (
               <div className="row" key={field}>
                 <label htmlFor={field}>
                   {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -386,7 +387,7 @@ function AdminPackageAdd() {
                   />
                 ) : (
                   <input
-                    type={field === "duration" ? "number" : "text"}
+                    type={field === "duration" || field === "discount" ? "number" : "text"}
                     name={field}
                     id={field}
                     onChange={handleChange}

@@ -154,6 +154,7 @@ function Footer() {
          Copyright © ${new Date().getFullYear()} Travel & Tourism | Powered by
          ${companyName}
          `}
+            <Link to="/admin">Admin</Link>
           </p>
         </div>
       </div>
