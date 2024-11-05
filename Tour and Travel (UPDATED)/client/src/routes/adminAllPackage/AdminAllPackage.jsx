@@ -60,7 +60,7 @@ function AdminAllPackage() {
 
   const handleDelete = (id) => {
     const confirmation = confirm(
-      "Are you sure you want to delete this package?",
+      "Are you sure you want to delete this package?"
     );
 
     if (confirmation) {
@@ -102,25 +102,30 @@ function AdminAllPackage() {
                   )}
                   <div className="buttons">
                     <Link to={"update/" + i.id}>
-                      <div className="button update-btn">Update</div>
+                      <button className="button update-btn">Update</button>
                     </Link>
-                    <div
+                    <button
                       className="button delete-btn"
                       onClick={() => handleDelete(i.id)}
                     >
                       Delete
-                    </div>
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <div className="pagination">
-            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <button
+              className="button"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
               Previous
             </button>
             <span>{`${currentPage} of ${totalPages}`}</span>
             <button
+              className="button"
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
             >

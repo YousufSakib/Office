@@ -9,6 +9,7 @@ function AdminHome() {
   const [contact, setContact] = useState([]);
   const [loading, setLoading] = useState(true);
   const [contactedPopup, setContactedPopup] = useState(null);
+  const [showingContactOptions, setShowingContactOptions] = useState(false);
 
   const handleSeeMore = (id) => {
     setContactedPopup(id);
@@ -62,17 +63,24 @@ function AdminHome() {
                   <img className="icon" src="pinDrop.png" alt="" />
                   <span>{item.destination}</span>
                 </div>
-                <img
-                  className="icon dots"
-                  src="homePageDots.png"
-                  alt="options"
-                />
-                <span
-                  onClick={() => handleSeeMore(item.id)}
-                  className="seeMore"
-                >
-                  See more . . .
-                </span>
+                <div className="three-dots-wrapper">
+                  <img
+                    onClick={() => setShowingContactOptions(true)}
+                    onMouseUp={() => setShowingContactOptions(false)}
+                    className="icon dots"
+                    src="homePageDots.png"
+                    alt="options"
+                  />
+                  {/* {showingContactOptions && (<div> <div/>)} */}
+                </div>
+                <div className="see-more">
+                  <button
+                    className="button info-btn"
+                    onClick={() => handleSeeMore(item.id)}
+                  >
+                    See more . . .
+                  </button>
+                </div>
               </div>
             ))}
           </div>

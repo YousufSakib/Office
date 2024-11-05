@@ -40,6 +40,9 @@ const Package = sequelize.define(
     description: {
       type: DataTypes.TEXT,
     },
+    shortDescription: {
+      type: DataTypes.TEXT,
+    },
     images: {
       type: DataTypes.JSON,
     },

@@ -9,6 +9,7 @@ const imagesRoute = require("./routes/siteImages");
 const contactRoute = require("./controllers/contactRoute");
 const packagePlaces = require("./routes/packagePlace");
 const packageTourCategory = require("./routes/PackageTourCategory");
+const bookPackage = require('./routes/book-package');
 
 const cors = require("cors");
 
@@ -25,11 +26,11 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static("uploads"));
 
 // Middleware to delay response by 1 seconds
-// app.use((req, res, next) => {
-//   setTimeout(() => {
-//     next(); // Call next() after 500ms
-//   }, 1000); // Delay of 0.5 seconds (500 milliseconds)
-// });
+app.use((req, res, next) => {
+  setTimeout(() => {
+    next(); // Call next() after 500ms
+  }, 500); // Delay of 0.5 seconds (500 milliseconds)
+});
 
 // Use the package routes
 
@@ -39,6 +40,8 @@ app.use("/api/v1", companyInfoRouter);
 app.use("/api/v1", contactRoute);
 app.use("/api/v1", packagePlaces);
 app.use("/api/v1", packageTourCategory);
+app.use('/api/v1', bookPackage);
+
 app.use("/", (req, res) => {
   res.status(200).json({
     message: "Hello, Your app is working",

@@ -28,8 +28,9 @@
           font-weight: bold;
         }
         &.price {
-          font-size: 22px;
-          color: green;
+          font-weight: 600;
+          font-size: 20px;
+          color: $redColor;
         }
       }
       &:nth-child(even) {

@@ -22,6 +22,7 @@ function AdminUpdatePackage() {
     duration: "",
     name: "",
     description: "",
+    shortDescription: "",
     tourHighLights: [],
     pricePerPerson: [],
   });
@@ -455,35 +456,40 @@ function AdminUpdatePackage() {
                 } new images have been selected`}
               </p>
             </div>
-            {["createdBy", "duration", "name", "description", "discount"].map(
-              (field) => (
-                <div className="row" key={field}>
-                  <label htmlFor={field}>
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                  </label>
-                  {field === "description" ? (
-                    <textarea
-                      name={field}
-                      id={field}
-                      onChange={handleChange}
-                      value={formData[field]}
-                    />
-                  ) : (
-                    <input
-                      type={
-                        field === "duration" || field === "discount"
-                          ? "number"
-                          : "text"
-                      }
-                      name={field}
-                      id={field}
-                      onChange={handleChange}
-                      value={formData[field]}
-                    />
-                  )}
-                </div>
-              )
-            )}
+            {[
+              "createdBy",
+              "duration",
+              "name",
+              "description",
+              "discount",
+              "shortDescription",
+            ].map((field) => (
+              <div className="row" key={field}>
+                <label htmlFor={field}>
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+                {field === "description" || field === "shortDescription" ? (
+                  <textarea
+                    name={field}
+                    id={field}
+                    onChange={handleChange}
+                    value={formData[field]}
+                  />
+                ) : (
+                  <input
+                    type={
+                      field === "duration" || field === "discount"
+                        ? "number"
+                        : "text"
+                    }
+                    name={field}
+                    id={field}
+                    onChange={handleChange}
+                    value={formData[field]}
+                  />
+                )}
+              </div>
+            ))}
 
             <div className="row">
               <div className="placesContainer">
@@ -501,6 +507,7 @@ function AdminUpdatePackage() {
                   onChange={handlePlaceAdd}
                   value={"none"}
                 >
+                  <option>--select--</option>
                   {allPlaces.map((place) => (
                     <option
                       key={`${place.placeName}`}
@@ -534,6 +541,7 @@ function AdminUpdatePackage() {
                   onChange={handleCategoryAdd}
                   value={"none"}
                 >
+                  <option>--select--</option>
                   {allCategories.map((obj) => (
                     <option key={`${obj.key}`} value={`${obj.category}`}>
                       {`${obj.category}`}

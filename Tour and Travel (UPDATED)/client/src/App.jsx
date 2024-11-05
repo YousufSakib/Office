@@ -22,6 +22,7 @@ import Places_to_visit from "./routes/Places_to_visit/Places_to_visit";
 import Test from "./routes/test/Test";
 import AdminPackageSetup from "./routes/adminPackageSetup/AdminPackageSetup";
 import AdminPackageTourCategories from "./components/adminPackageTourCategories/AdminPackageTourCategories";
+import BookPackage from "./routes/bookPackage/BookPackage";
 
 function App() {
   const router = createBrowserRouter([
@@ -76,6 +77,10 @@ function App() {
         {
           path: "about-us",
           element: <AboutUs />,
+        },
+        {
+          path: "book-package/:id",
+          element: <BookPackage />,
         },
       ],
     },

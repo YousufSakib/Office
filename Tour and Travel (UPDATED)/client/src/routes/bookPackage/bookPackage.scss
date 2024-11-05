@@ -1,0 +1,74 @@
+@import "../../responsive.scss";
+.contactUsWrapper {
+  margin: 30px auto 0 auto;
+  max-width: $maxWidth;
+  .contactUs {
+    display: flex;
+    gap: 70px;
+    justify-content: center;
+    border: 3px solid #cbc3e3;
+    padding: 20px 0 20px 0;
+    box-sizing: border-box;
+    background: url(contactPageImage.svg) center center/cover no-repeat fixed;
+
+    width: 30%;
+    .rows {
+      width: 100%;
+      display: flex;
+      gap: 15px;
+      flex-direction: column;
+      align-items: start;
+
+      .row {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: start;
+
+        label {
+          font-weight: bold;
+          color: rgb(78, 66, 66);
+          span {
+            color: red;
+          }
+        }
+        input {
+          height: 40px;
+          width: 100%;
+          font-size: 15px;
+          box-sizing: border-box;
+          te &:focus {
+            outline: none;
+          }
+        }
+        button {
+          padding: 6px 20px;
+          text-transform: uppercase;
+          color: white;
+          background-color: rgb(24, 22, 22);
+        }
+
+        textarea {
+          width: 100%;
+          height: 100px;
+          box-sizing: border-box;
+          resize: vertical;
+          padding: 2px;
+          transition: height 0.2s;
+        }
+      }
+    }
+    @include md {
+      width: 40%;
+    }
+
+    @include sm {
+      flex-direction: column;
+      gap: 50px;
+      .form {
+        width: 100%;
+      }
+    }
+  }
+}

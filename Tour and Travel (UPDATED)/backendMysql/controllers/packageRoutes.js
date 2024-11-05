@@ -47,7 +47,7 @@ router.post(
       //console.log(err);
       res.status(400).json({ message: err.message });
     }
-  },
+  }
 );
 
 router.get("/popularPackages", async (req, res) => {
@@ -68,19 +68,17 @@ router.get("/popularPackages", async (req, res) => {
 router.get("/packages", async (req, res) => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 8;
-  let { destination, duration, category, page, limit } = req.query;
-  // console.log(req.url);
-  // console.log(destination, duration, category, page, limit);
+
   try {
-    let page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
-    let limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;
+    const page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
+    const limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;
 
     // Ensure pagination numbers are valid and not negative
-    if (page < 1 || !page) page = DEFAULT_PAGE;
-    if (limit < 1 || limit > 100 || !limit) limit = DEFAULT_LIMIT; // Set max limit to prevent large payloads
+    if (page < 1) page = DEFAULT_PAGE;
+    if (limit < 1 || limit > 100) limit = DEFAULT_LIMIT; // Set max limit to prevent large payloads
 
     const offset = (page - 1) * limit;
-    let { count, rows } = await Package.findAndCountAll({});
+    let { rows } = await Package.findAndCountAll({});
 
     const fakeDocument = rows.map((obj) => ({
       id: obj.dataValues.id,
@@ -89,7 +87,7 @@ router.get("/packages", async (req, res) => {
       duration: `${obj.dataValues.duration} days`,
       category: JSON.parse(obj.dataValues.category).map((a) => a.category),
       pricePerPerson: JSON.parse(JSON.parse(obj.dataValues.pricePerPerson)).map(
-        (a) => a.priceTaka,
+        (a) => a.priceTaka
       ),
     }));
     const setOfselectedIds = new Set();
@@ -100,7 +98,7 @@ router.get("/packages", async (req, res) => {
         if (!Array.isArray(req.query[item])) searchArr.push(req.query[item]);
         else searchArr = req.query[item];
         searchArr.forEach((word) => {
-          console.log(`${item} : ${word}`);
+          // console.log(`${item} : ${word}`);
           fakeDocument.forEach((obj) => {
             if (Array.isArray(obj[item])) {
               if (obj[item].includes(word)) setOfselectedIds.add(obj.id);
@@ -111,32 +109,27 @@ router.get("/packages", async (req, res) => {
         });
       }
     });
-    console.log("%%%%%%%%%", setOfselectedIds);
+
     const isQueryPresent = attributes.some((attr) => req.query[attr]);
     if (!isQueryPresent && setOfselectedIds.size === 0) {
       fakeDocument.forEach((obj) => {
         setOfselectedIds.add(obj.id);
       });
     }
-    console.log("**********", setOfselectedIds);
-    const arrayFromSet = [...setOfselectedIds];
-    const finallySelectedIds = arrayFromSet.slice(offset, offset + limit);
-    console.log(finallySelectedIds);
-    // console.log(Object.getOwnPropertyNames(rows[0]));
-    // console.log(rows[0].dataValues.id);
-    // console.log(fakeDocument);
 
-    //console.log(rows);
+    const arrayOfSelectedIds = [...setOfselectedIds];
+    const sendToClient = arrayOfSelectedIds.slice(offset, offset + limit);
 
-    const totalPages = Math.ceil(finallySelectedIds.length / limit);
-    filteredRows = rows.filter(
-      (row) => !finallySelectedIds.includes(row.dataValues.id),
+    const totalPages = Math.ceil(arrayOfSelectedIds.length / limit);
+
+    filteredRows = rows.filter((row) =>
+      sendToClient.includes(row.dataValues.id)
     );
 
     res.status(200).json({
       data: filteredRows,
       pagination: {
-        totalItems: finallySelectedIds.length,
+        totalItems: sendToClient.length,
         totalPages,
         currentPage: page,
         pageSize: limit,
@@ -202,7 +195,7 @@ router.put(
 
       if (packageEntry) {
         const prevGalleryImages = JSON.parse(packageEntry.images).map(
-          (obj) => obj.src,
+          (obj) => obj.src
         );
         const prevProfileImage = packageEntry.profileImg;
 
@@ -216,7 +209,7 @@ router.put(
         // return;
 
         const unnecessaryImages = prevGalleryImages.filter(
-          (src) => !existingImageSrc.includes(src),
+          (src) => !existingImageSrc.includes(src)
         );
         //if profile img changes, then delete previous profile img;
         req.files["profileImg"] && req.files["profileImg"].length > 0
@@ -233,7 +226,7 @@ router.put(
       //console.log(err);
       res.status(500).json({ message: err.message });
     }
-  },
+  }
 );
 
 // Delete a package
@@ -242,7 +235,7 @@ router.delete("/packages/:id", async (req, res) => {
     const packageEntry = await Package.findByPk(req.params.id);
     if (packageEntry) {
       const prevGalleryImages = JSON.parse(packageEntry.images).map(
-        (obj) => obj.src,
+        (obj) => obj.src
       );
       const prevProfileImage = packageEntry.profileImg;
       //console.log("prevProfileImage");

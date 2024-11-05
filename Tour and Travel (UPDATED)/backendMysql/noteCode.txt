@@ -15,18 +15,13 @@ function Navbar() {
   const [burgermenu, setBurgermenu] = useState(false);
   const [navShow, setNavShow] = useState(true);
   const { id } = useParams();
-  const isInSpecificPackagePage = location.pathname === `/packages/${id}`;
-  const isInPackageBookPage = location.pathname === `/book-package/${id}`;
-  console.log("$$$$$$$", "first on navbar");
-  console.log("$$$$$$$", id);
+
   const [packageInfo, setPackageInfo] = useState({
     packageName: "",
     packageProfileImg: "",
     packageShortDescription: "",
   });
-  console.log("$$$$$", packageInfo);
-  console.log("$$$$$", location.pathname);
-  console.log("$$$$$", location.pathname === "/packages");
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -35,32 +30,26 @@ function Navbar() {
     };
   }, [lastScrollY]);
 
-  useEffect(() => {
-    const fetchPackage = async () => {
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      const url = `${BACKEND_URL}/api/v1/packages/${id}`;
-
-      try {
-        const packagePromise = await axios.get(url, { headers });
-        const packageName = packagePromise.data.name;
-        const packageProfileImg = packagePromise.data.profileImg;
-        const packageShortDescription = packagePromise.data.shortDescription;
-        console.log("########", packageName);
-        setPackageInfo({
-          packageName,
-          packageProfileImg,
-          packageShortDescription,
-        });
-      } catch (err) {
-        console.log(err);
-      }
+  useEffect(async () => {
+    const headers = {
+      "Content-Type": "application/json",
     };
-    if (id) {
-      fetchPackage();
+    const url = `${BACKEND_URL}/api/v1/packages/${id}`;
+
+    try {
+      const packagePromise = await axios.get(url, { headers });
+      const packageName = packagePromise.data.name;
+      const packageProfileImg = packagePromise.data.profileImg;
+      const packageShortDescription = packagePromise.data.shortDescription;
+      setPackageInfo({
+        packageName,
+        packageProfileImg,
+        packageShortDescription,
+      });
+    } catch (err) {
+      console.log(err);
     }
-  }, [id]);
+  }, []);
 
   const handleBurgerMenu = (e) => {
     setBurgermenu((prev) => !prev);
@@ -86,9 +75,8 @@ function Navbar() {
   const { companyName, companyPhoneNo } = useInfo();
 
   const getheroImg = () => {
-    console.log(packageInfo);
-    if (location.pathname === "/packages") return packageHeroImg;
-    if (isInSpecificPackagePage) return packageInfo.packageProfileImg;
+    if (location.pathname === "/packages")
+      return packageInfo.packageProfileImg || "noImg.png";
     else if (location.pathname === "/meet-bangladesh")
       return meetBangladeshHeroImg;
     else if (location.pathname === "/places-to-visit")
@@ -101,7 +89,7 @@ function Navbar() {
   return (
     <>
       {console.log("navbar is rendering")}
-      {console.log("$$$$$hero img: ", getheroImg())}
+      {console.log("hero img: ", getheroImg())}
       {console.log("location: ", location)}
 
       <div className="heroBannerWrapper">
@@ -150,9 +138,9 @@ function Navbar() {
           </button>
         </div>
       </nav>
-      {location.pathname === "/contact-us" || isInPackageBookPage || (
+      {location.pathname === "/contact-us" || (
         <div className="heroTextWrapper">
-          {isInSpecificPackagePage || (
+          {location.pathname === "packages" || (
             <div className="HeroText">
               <h1>Welcome to Bangladesh</h1>
               <p>
@@ -164,12 +152,14 @@ function Navbar() {
               </Link>
             </div>
           )}
-          {isInSpecificPackagePage && (
+          {location.pathname === "packages" && (
             <div className="HeroText">
               <h1>{packageInfo.packageName}</h1>
-              <p>{packageInfo.packageShortDescription}</p>
-              <Link to={`/book-package/${id}`}>
-                <button className="glow-on-hover">Book this package</button>
+              <p>
+                {packageInfo.packageShortDescription}
+              </p>
+              <Link to="/book-tour">
+                <button className="glow-on-hover">Book Your Tour Now</button>
               </Link>
             </div>
           )}

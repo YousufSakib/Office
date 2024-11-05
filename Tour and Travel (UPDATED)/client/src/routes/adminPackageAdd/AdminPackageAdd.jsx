@@ -17,6 +17,7 @@ function AdminPackageAdd() {
     category: [],
     name: "",
     description: "",
+    shortDescription: "",
     tourHighLights: [
       {
         key: randomChar(5),
@@ -60,7 +61,7 @@ function AdminPackageAdd() {
   const handleCancel = (event) => {
     event.preventDefault();
     const confirmation = confirm(
-      "Are you sure you want to cancel creating new package?",
+      "Are you sure you want to cancel creating new package?"
     );
     if (confirmation) {
       navigate(-1);
@@ -107,7 +108,7 @@ function AdminPackageAdd() {
       ...prev,
       tourHighLights: prev.tourHighLights.filter(
         (_, index) =>
-          prev.tourHighLights.length === 1 || index !== deletingIndex,
+          prev.tourHighLights.length === 1 || index !== deletingIndex
       ),
     }));
   };
@@ -146,7 +147,7 @@ function AdminPackageAdd() {
       ...prev,
       pricePerPerson: prev.pricePerPerson.filter(
         (_, index) =>
-          prev.pricePerPerson.length === 1 || index !== deletingIndex,
+          prev.pricePerPerson.length === 1 || index !== deletingIndex
       ),
     }));
   };
@@ -166,7 +167,7 @@ function AdminPackageAdd() {
         const { data: categoriesData } = await axios.get(url, { headers });
 
         const sortedPlaces = placesData.sort((a, b) =>
-          a.placeName.localeCompare(b.placeName),
+          a.placeName.localeCompare(b.placeName)
         );
         setAllPlaces(sortedPlaces);
         console.log("sorted places:", sortedPlaces);
@@ -179,7 +180,7 @@ function AdminPackageAdd() {
         }
 
         const sortedCategories = unsortedCategories.sort((a, b) =>
-          a.category.localeCompare(b.category),
+          a.category.localeCompare(b.category)
         );
         setAllCategories(sortedCategories);
         console.log("Sorted categories:", sortedCategories);
@@ -214,13 +215,13 @@ function AdminPackageAdd() {
     setFormData({
       ...formData,
       destination: formData.destination.filter(
-        (places, i) => formData.destination.length === 1 || i !== removingIndex,
+        (places, i) => formData.destination.length === 1 || i !== removingIndex
       ),
     });
   };
   const handlePlaceAdd = (event, index) => {
     const isAlreadyExisted = formData.destination.some(
-      (obj) => obj.place === event.target.value,
+      (obj) => obj.place === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -237,13 +238,13 @@ function AdminPackageAdd() {
     setFormData({
       ...formData,
       category: formData.category.filter(
-        (category, i) => formData.category.length === 1 || i !== removingIndex,
+        (category, i) => formData.category.length === 1 || i !== removingIndex
       ),
     });
   };
   const handleCategoryAdd = (event, index) => {
     const isAlreadyExisted = formData.category.some(
-      (obj) => obj.category === event.target.value,
+      (obj) => obj.category === event.target.value
     );
     if (isAlreadyExisted) return;
     setFormData({
@@ -308,7 +309,7 @@ function AdminPackageAdd() {
         data,
         {
           "Content-Type": "multipart/form-data",
-        },
+        }
       );
       alert("Package created successfully!");
       // navigate("/admin/packages");
@@ -318,7 +319,7 @@ function AdminPackageAdd() {
         alert(
           `Failed to create package: ${
             error.response.data.message || error.message
-          }`,
+          }`
         );
       } else {
         alert("An unexpected error occurred.");
@@ -373,12 +374,19 @@ function AdminPackageAdd() {
                 {`${formData.images.length} images have been selected`}
               </p>
             </div>
-            {["name", "createdBy", "duration", "description", "discount"].map((field) => (
+            {[
+              "name",
+              "createdBy",
+              "duration",
+              "description",
+              "discount",
+              "shortDescription",
+            ].map((field) => (
               <div className="row" key={field}>
                 <label htmlFor={field}>
                   {field.charAt(0).toUpperCase() + field.slice(1)}
                 </label>
-                {field === "description" ? (
+                {field === "description" || field === "shortDescription" ? (
                   <textarea
                     name={field}
                     id={field}
@@ -387,7 +395,11 @@ function AdminPackageAdd() {
                   />
                 ) : (
                   <input
-                    type={field === "duration" || field === "discount" ? "number" : "text"}
+                    type={
+                      field === "duration" || field === "discount"
+                        ? "number"
+                        : "text"
+                    }
                     name={field}
                     id={field}
                     onChange={handleChange}

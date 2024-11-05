@@ -57,7 +57,7 @@ function PackageTable({ packageResponse }) {
         {packageResponse.pricePerPerson.map((i) => (
           <tr key={i.key}>
             <td className="price number">{i.priceType}</td>
-            <td className="price number">{i.priceTaka + " TK only"}</td>
+            <td className="price number">{i.priceTaka + "৳ only"}</td>
           </tr>
         ))}
       </table>

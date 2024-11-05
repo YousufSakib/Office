@@ -30,8 +30,8 @@ function BlocksOfOfferes({ obj }) {
         {obj.items.map((i) => (
           <Link to={"/packages/" + i.id}>
             <div className="item" key={i.id}>
-              {i.discount && (
-                <span className="save number">{`Saved ${getSavedPrice(
+              {i.discount && parseInt(i.discount) > 0 && (
+                <span className="save number">{`Save ${getSavedPrice(
                   i.discount
                 )}৳`}</span>
               )}
@@ -42,16 +42,16 @@ function BlocksOfOfferes({ obj }) {
                   <span className="number">{i.duration}</span> days
                 </p>
               )}
-              {i.discount && (
-                <div className="price">
-                  <span className="price-new number">{`${getOfferPrice(
-                    i.discount
-                  )}৳`}</span>
+              <div className="price">
+                <span className="price-new number">{`${getOfferPrice(
+                  i.discount || 0
+                )}৳`}</span>
+                {i.discount && parseInt(i.discount) > 0 && (
                   <span className="price-old number">{`${getOldPrice()}৳`}</span>
-                </div>
-              )}
+                )}
+              </div>
               <Link to={"/packages/" + i.id}>
-                <button className="button full">Semore</button>
+                <button className="button full">See details</button>
               </Link>
             </div>
           </Link>
