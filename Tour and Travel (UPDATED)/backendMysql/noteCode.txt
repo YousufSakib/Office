@@ -1,173 +1,46 @@
-import { Form, useLocation } from "react-router-dom";
-import "./navbar.scss";
-// import "./navbar.css";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import Search from "../search/Search";
-import { useImages } from "../ImageContext";
-import { BACKEND_URL } from "../../../dynamicInfo";
-import { useInfo } from "../CompanyInfoContext";
-import FlippingText from "../FlippingText";
-import axios from "axios";
-function Navbar() {
-  const location = useLocation();
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [burgermenu, setBurgermenu] = useState(false);
-  const [navShow, setNavShow] = useState(true);
-  const { id } = useParams();
-
-  const [packageInfo, setPackageInfo] = useState({
-    packageName: "",
-    packageProfileImg: "",
-    packageShortDescription: "",
-  });
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
-
-  useEffect(async () => {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const url = `${BACKEND_URL}/api/v1/packages/${id}`;
-
-    try {
-      const packagePromise = await axios.get(url, { headers });
-      const packageName = packagePromise.data.name;
-      const packageProfileImg = packagePromise.data.profileImg;
-      const packageShortDescription = packagePromise.data.shortDescription;
-      setPackageInfo({
-        packageName,
-        packageProfileImg,
-        packageShortDescription,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  const handleBurgerMenu = (e) => {
-    setBurgermenu((prev) => !prev);
-  };
-  const handleScroll = () => {
-    if (window.scrollY > lastScrollY) {
-      setNavShow(false); // User is scrolling down
-    } else {
-      setNavShow(true); // User is scrolling up
-    }
-    setLastScrollY(window.scrollY);
-  };
-  const {
-    logo,
-    homeHeroImg,
-    packageHeroImg,
-    aboutHeroImg,
-    placesToVistHeroImg,
-    meetBangladeshHeroImg,
-    contactUsHeroImg,
-  } = useImages();
-
-  const { companyName, companyPhoneNo } = useInfo();
-
-  const getheroImg = () => {
-    if (location.pathname === "/packages")
-      return packageInfo.packageProfileImg || "noImg.png";
-    else if (location.pathname === "/meet-bangladesh")
-      return meetBangladeshHeroImg;
-    else if (location.pathname === "/places-to-visit")
-      return placesToVistHeroImg;
-    else if (location.pathname === "/contact-us") return contactUsHeroImg;
-    else if (location.pathname === "/about-us") return aboutHeroImg;
-    else return homeHeroImg;
-  };
-
+import "./layout.scss";
+import Navbar from "../../components/navbar/Navbar";
+import { Outlet } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
+import HomeBookCall from "../../components/homeBookCall/HomeBookCall";
+function Layout({}) {
   return (
-    <>
-      {console.log("navbar is rendering")}
-      {console.log("hero img: ", getheroImg())}
-      {console.log("location: ", location)}
-
-      <div className="heroBannerWrapper">
-        <div className="heroBanner">
-          <img
-            src={`${BACKEND_URL}/uploads/${getheroImg() || "noImg.png"}`}
-            className="heroBannerImg"
-            alt=""
-          />
-        </div>
+    <div className="layout">
+      <div className="show-responsive">
+        <div className="md">Mid</div>
+        <div className="lg">large</div>
+        <div className="sm">small</div>
       </div>
-      <nav className={navShow ? "show" : "hide"}>
-        <div className="nav1stRow">
-          <div className="">
-            <img src="call-red.png" alt="tel" />
-            <FlippingText text="Help line: " color="red" fontSize="22px" />
-          </div>
-          {companyPhoneNo}
-        </div>
-        <div className="logoAndMenues">
-          <div className="logoWrapper">
-            <div className="navIcon">
-              <Link to="/">
-                <img src={`${BACKEND_URL}/uploads/${logo || "noImg"}`} alt="" />
-              </Link>
-            </div>
-            <div className="navCompanyName">
-              <Link to="/">
-                <span>{companyName}</span>
-              </Link>
-            </div>
-          </div>
-
-          <div className={burgermenu ? "menues open" : "menues"}>
-            <Link to="/">HOME</Link>
-            <Link to="/packages">Packages</Link>
-            <Link to="/places-to-visit">Must-see destinations</Link>
-            <Link to="/meet-bangladesh">Discover Bangladesh</Link>
-            <Link to="/about-us">about us</Link>
-            <Link to="/contact-us">Contact us</Link>
-          </div>
-          {/* Burger Button*/}
-          <button className="burgerButton" onClick={handleBurgerMenu}>
-            {burgermenu || <img src="burger-bar.png" alt="" />}
-            {burgermenu && <img src="close.png" alt="" />}
-          </button>
-        </div>
-      </nav>
-      {location.pathname === "/contact-us" || (
-        <div className="heroTextWrapper">
-          {location.pathname === "packages" || (
-            <div className="HeroText">
-              <h1>Welcome to Bangladesh</h1>
-              <p>
-                Home of history, culture & natural resources. Search every
-                well-planned Bangladesh Itinerary
-              </p>
-              <Link to="/book-tour">
-                <button className="glow-on-hover">Book Your Tour Now</button>
-              </Link>
-            </div>
-          )}
-          {location.pathname === "packages" && (
-            <div className="HeroText">
-              <h1>{packageInfo.packageName}</h1>
-              <p>
-                {packageInfo.packageShortDescription}
-              </p>
-              <Link to="/book-tour">
-                <button className="glow-on-hover">Book Your Tour Now</button>
-              </Link>
-            </div>
-          )}
-        </div>
-      )}
-      {location.pathname === "/" && <Search />}
-    </>
+      {console.log("layout is rendering")}
+      <div className="navbar">
+        <Navbar />
+      </div>
+      <div className="content">
+        <Outlet />
+      </div>
+      <HomeBookCall />
+      <div className="footer">
+        <Footer />
+      </div>
+    </div>
   );
 }
 
-export default Navbar;
+function SimpleLayout({}) {
+  return (
+    <div className="layout">
+      <div className="navbar">
+        <Navbar />
+      </div>
+      <div className="content">
+        <Outlet />
+      </div>
+      {/* <HomeBookCall /> */}
+      <div className="footer">
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
+export { Layout, SimpleLayout };

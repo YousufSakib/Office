@@ -4,3 +4,4 @@ export const BACKEND_URL = "http://localhost:3003";
 // export const BACKEND_URL = "https://test.igltour.com/";
 
 export const PACKAGES_PER_PAGE = 4;
+export const ROWS_PER_TABLE = 10;

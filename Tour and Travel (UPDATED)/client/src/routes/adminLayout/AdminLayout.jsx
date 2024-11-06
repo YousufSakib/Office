@@ -91,6 +91,32 @@ function AdminLayout() {
               />
               <Link to="">Pages</Link>
             </div>
+            {/* admin booking packages*/}
+            <div className="sidebarMenuItem">
+              <div className="item-mainWrapper">
+                <div className="item-main">
+                  <img
+                    className="icon"
+                    src="../../../../public/book_online.png"
+                    alt="package bookings"
+                  />
+
+                  <Link to="/admin/customer-bookings/new">
+                    Customer Bookings
+                  </Link>
+                  <img
+                    src="../../../../rightArrowAdmin.png"
+                    alt=""
+                    className="arrow"
+                  />
+                </div>
+                <div className="sub-items">
+                  <Link to="/admin/customer-bookings/new">New</Link>
+                  <Link to="/admin/customer-bookings/cancelled">Cancelled</Link>
+                </div>
+              </div>
+            </div>
+            {/* setup details */}
             <div className="sidebarMenuItem">
               <div className="item-mainWrapper">
                 <div className="item-main">

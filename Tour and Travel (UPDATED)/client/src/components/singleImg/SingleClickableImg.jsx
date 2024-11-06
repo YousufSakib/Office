@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function SingleClickableImg({ src }) {
+function SingleClickableImg({ src, height, width }) {
   const [open, setOpen] = useState(false);
   const handleClick = () => setOpen(!open);
   const handleFullScreen = () => {
@@ -23,7 +23,17 @@ function SingleClickableImg({ src }) {
   };
   return (
     <>
-      {open || <img onClick={handleClick} src={src} alt="" />}
+      {open || (
+        <img
+          onClick={handleClick}
+          style={{
+            height: `${height ? height : ""}px`,
+            width: `${width ? width : ""}px`,
+          }}
+          src={src}
+          alt=""
+        />
+      )}
       {open && (
         <div
           onClick={handleClick}

@@ -11,19 +11,15 @@ function PackageInfo({ packageResponse }) {
   console.log(typeof packageResponse.images);
   return (
     <div className="package">
-      <div className="profile">
-        <img
-          className="bounceIn"
-          src={`${BACKEND_URL}/uploads/${packageResponse?.profileImg}`}
-          alt=""
-        />
-        <h1>{packageResponse?.name}</h1>
-      </div>
+      <h2>Description</h2>
       <p>{packageResponse?.description}</p>
       <div className="images">
         {packageResponse.images.map((i) => (
           <div key={i.key}>
-            <SingleClickableImg src={`${BACKEND_URL}/uploads/${i.src}`} />
+            <SingleClickableImg
+              src={`${BACKEND_URL}/uploads/${i.src}`}
+              height={300}
+            />
           </div>
         ))}
       </div>

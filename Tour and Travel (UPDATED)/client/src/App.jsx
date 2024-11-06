@@ -23,6 +23,9 @@ import Test from "./routes/test/Test";
 import AdminPackageSetup from "./routes/adminPackageSetup/AdminPackageSetup";
 import AdminPackageTourCategories from "./components/adminPackageTourCategories/AdminPackageTourCategories";
 import BookPackage from "./routes/bookPackage/BookPackage";
+import AdminCustomerBooking from "./routes/admin-customer-booking/Admin-customer-booking";
+import AdminCustomerBookingCancelled from "./routes/admin/customer-booking/AdminCustomerBookingCancelled";
+import AdminCustomerBookingNew from "./routes/admin/customer-booking/new/AdminCustomerBookingNew";
 
 function App() {
   const router = createBrowserRouter([
@@ -91,6 +94,14 @@ function App() {
         {
           path: "/admin",
           element: <AdminHome />,
+        },
+        {
+          path: "/admin/customer-bookings/new",
+          element: <AdminCustomerBookingNew />,
+        },
+        {
+          path: "/admin/customer-bookings/cancelled",
+          element: <AdminCustomerBookingCancelled />,
         },
         {
           path: "/admin/packages",
