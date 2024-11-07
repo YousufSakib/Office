@@ -5,6 +5,7 @@ import { BACKEND_URL, ROWS_PER_TABLE } from "../../../../../dynamicInfo";
 import axios from "axios";
 import { getShortMessage } from "../../../../lib/getShortMessage";
 import BookPackageView from "../../../../components/admin/bookPackage/bookPackageView/BookPackageView";
+import BookPackageEdit from "../../../../components/admin/bookPackage/bookPackageEdit/BookPackageEdit";
 const getStatusText = (status) => {
   if (status == 0) return "Canceled";
   else if (status == 1) return "Pending";
@@ -16,15 +17,16 @@ function AdminCustomerBookingNew() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [bookingData, setBookingData] = useState([]);
+  const [packageData, setPackageData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [documentUpdated, setDocumentUpdated] = useState(false);
   const [popupViewId, setPopupViewId] = useState(null);
-  const [popupEdit, setPopupEdit] = useState(false);
+  const [popupEditId, setPopupEditId] = useState(null);
 
   useEffect(() => {
-    const fetchPackages = async () => {
+    const fetchBookings = async () => {
       setIsLoading(true);
       setError(null);
       const headers = {
@@ -42,7 +44,6 @@ function AdminCustomerBookingNew() {
         setBookingData(response.data.data);
         setTotalPages(response.data.pagination.totalPages);
         setCurrentPage(response.data.pagination.currentPage);
-        console.log("****", response.data.data);
       } catch (error) {
         console.error("Error fetching Booking data:", error);
         setError("Error fetching Booking data");
@@ -51,8 +52,24 @@ function AdminCustomerBookingNew() {
       }
     };
 
-    fetchPackages();
+    fetchBookings();
   }, [currentPage, documentUpdated]);
+
+  useEffect(() => {
+    const fetchPackageHeaders = async () => {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const URL = `${BACKEND_URL}/api/v1/packages?field=id&field=name&field=profileImg`;
+      try {
+        const response = await axios.get(URL, { headers });
+        setPackageData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching package data:", error);
+      }
+    };
+    fetchPackageHeaders();
+  }, []);
 
   const handleDelete = async (BookingId) => {
     const confirmation = window.confirm(
@@ -79,8 +96,25 @@ function AdminCustomerBookingNew() {
     setPopupViewId(bookingId);
   };
 
-  const handleEditingView = () => {};
-
+  const handleEditingView = (bookingId) => {
+    setPopupEditId(bookingId);
+  };
+  const getPackageName = (packageId, len = 20) => {
+    if (packageId === undefined || packageId === null) return "";
+    let name = "Loading...";
+    const foundObject = packageData.find((item) => item.id === packageId);
+    name = foundObject ? foundObject.name : "";
+    name = getShortMessage(name, len);
+    return name;
+  };
+  const getPackageProfileImage = (packageId) => {
+    if (packageId === undefined || packageId === null) return "";
+    const foundObject = packageData.find((item) => item.id === packageId);
+    let profileImageUrl = foundObject
+      ? `${BACKEND_URL}/uploads/${foundObject.profileImg}`
+      : "";
+    return profileImageUrl;
+  };
   return (
     <div className="adminCustomerBookingContainer">
       <h2>Customer Bookings</h2>
@@ -97,10 +131,10 @@ function AdminCustomerBookingNew() {
               <th>Email</th>
               <th>No of Travelers</th>
               <th>Message</th>
+              <th>Package Name</th>
+              <th>Package Image</th>
               <th>Status</th>
-              <th>View</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>Actions</th>
             </tr>
             {bookingData.map((row) => (
               <tr key={row.id}>
@@ -109,18 +143,23 @@ function AdminCustomerBookingNew() {
                 <td>{getShortMessage(row.email, 20)}</td>
                 <td className="number">{row.travellerNo}</td>
                 <td>{getShortMessage(row.message, 20)}</td>
-                <td>{getStatusText(row.status)}</td>
+                <td>{getPackageName(row.packageId)}</td>
                 <td>
+                  <img src={getPackageProfileImage(row.packageId)} alt="" />
+                </td>
+                <td>{getStatusText(row.status)}</td>
+                <td className="actionsImages">
                   <img
                     onClick={(e) => handleBookingView(row.id)}
                     src="/viewAdminPackage.png"
                     alt="view"
                   />
-                </td>
-                <td>
-                  <img src="/editAdminPackage.png" alt="edit" />
-                </td>
-                <td>
+                  <img
+                    onClick={(e) => handleEditingView(row.id)}
+                    src="/editAdminPackage.png"
+                    alt="edit"
+                  />
+
                   <img
                     onClick={(e) => handleDelete(row.id)}
                     src="/deleteAdminPackage.png"
@@ -134,8 +173,21 @@ function AdminCustomerBookingNew() {
       </div>
       {popupViewId && (
         <BookPackageView
-          data={bookingData.filter((item) => item.id === popupViewId)}
           setPopupViewId={setPopupViewId}
+          setDocumentUpdated={setDocumentUpdated}
+          data={bookingData.filter((item) => item.id === popupViewId)}
+          packageName={getPackageName(
+            bookingData.find((item) => item.id === popupViewId)?.packageId,
+            1000
+          )}
+        />
+      )}
+      {popupEditId && (
+        <BookPackageEdit
+          data={bookingData.filter((item) => item.id === popupEditId)}
+          setPopupEditId={setPopupEditId}
+          packageData={packageData}
+          setDocumentUpdated={setDocumentUpdated}
         />
       )}
     </div>

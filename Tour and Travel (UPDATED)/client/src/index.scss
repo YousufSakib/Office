@@ -201,3 +201,38 @@ input[type="file"]::file-selector-button:active {
     background-position: 0 0;
   }
 }
+
+.radio{
+  display: block;
+  cursor: pointer; 
+  user-select:none;
+  text-align: left;
+  &+.radio{
+    // margin-top: 8px;
+  }
+  input{
+    display: none;
+    &+span{
+      display: inline-block; 
+      position: relative;
+      padding-left: 30px;
+      &:before{
+        content: '';
+        display: block; 
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin-right: 5px;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #cf9fff;
+        background: white;
+        border-radius: 2px;
+        transition: all .2s cubic-bezier(0.64, 0.57, 0.67, 1.53);
+      }
+    }
+    &:checked+span:before{
+      background-color: #cf9fff;
+    }
+  }
+}

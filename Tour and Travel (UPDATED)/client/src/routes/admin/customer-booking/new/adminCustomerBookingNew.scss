@@ -13,10 +13,15 @@
         width: 100%;
         border: 1px solid #ddd;
         tr {
-          td img {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
+          td.actionsImages {
+            display: flex;
+            gap: 8px;
+            
+            img{
+              width: 20px;
+              height: 20px;
+              cursor: pointer;
+            }
           }
           th,
           td {

@@ -69,74 +69,88 @@ router.get("/packages", async (req, res) => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 8;
 
-  try {
-    const page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
-    const limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;
+  if (req.query.field === undefined) {
+    try {
+      const page = parseInt(req.query.page, 10) || DEFAULT_PAGE;
+      const limit = parseInt(req.query.limit, 10) || DEFAULT_LIMIT;
 
-    // Ensure pagination numbers are valid and not negative
-    if (page < 1) page = DEFAULT_PAGE;
-    if (limit < 1 || limit > 100) limit = DEFAULT_LIMIT; // Set max limit to prevent large payloads
+      // Ensure pagination numbers are valid and not negative
+      if (page < 1) page = DEFAULT_PAGE;
+      if (limit < 1 || limit > 100) limit = DEFAULT_LIMIT; // Set max limit to prevent large payloads
 
-    const offset = (page - 1) * limit;
-    let { rows } = await Package.findAndCountAll({});
+      const offset = (page - 1) * limit;
+      let { rows } = await Package.findAndCountAll({});
 
-    const fakeDocument = rows.map((obj) => ({
-      id: obj.dataValues.id,
-      destination: JSON.parse(obj.dataValues.destination).map((a) => a.place),
-      discount: obj.dataValues.discount,
-      duration: `${obj.dataValues.duration} days`,
-      category: JSON.parse(obj.dataValues.category).map((a) => a.category),
-      pricePerPerson: JSON.parse(JSON.parse(obj.dataValues.pricePerPerson)).map(
-        (a) => a.priceTaka
-      ),
-    }));
-    const setOfselectedIds = new Set();
-    const attributes = ["destination", "duration", "category"];
-    attributes.forEach((item) => {
-      if (req.query[item]) {
-        let searchArr = [];
-        if (!Array.isArray(req.query[item])) searchArr.push(req.query[item]);
-        else searchArr = req.query[item];
-        searchArr.forEach((word) => {
-          // console.log(`${item} : ${word}`);
-          fakeDocument.forEach((obj) => {
-            if (Array.isArray(obj[item])) {
-              if (obj[item].includes(word)) setOfselectedIds.add(obj.id);
-            } else {
-              if (obj[item] === word) setOfselectedIds.add(obj.id);
-            }
+      const fakeDocument = rows.map((obj) => ({
+        id: obj.dataValues.id,
+        destination: JSON.parse(obj.dataValues.destination).map((a) => a.place),
+        discount: obj.dataValues.discount,
+        duration: `${obj.dataValues.duration} days`,
+        category: JSON.parse(obj.dataValues.category).map((a) => a.category),
+        pricePerPerson: JSON.parse(
+          JSON.parse(obj.dataValues.pricePerPerson)
+        ).map((a) => a.priceTaka),
+      }));
+      const setOfselectedIds = new Set();
+      const attributes = ["destination", "duration", "category"];
+      attributes.forEach((item) => {
+        if (req.query[item]) {
+          let searchArr = [];
+          if (!Array.isArray(req.query[item])) searchArr.push(req.query[item]);
+          else searchArr = req.query[item];
+          searchArr.forEach((word) => {
+            // console.log(`${item} : ${word}`);
+            fakeDocument.forEach((obj) => {
+              if (Array.isArray(obj[item])) {
+                if (obj[item].includes(word)) setOfselectedIds.add(obj.id);
+              } else {
+                if (obj[item] === word) setOfselectedIds.add(obj.id);
+              }
+            });
           });
+        }
+      });
+
+      const isQueryPresent = attributes.some((attr) => req.query[attr]);
+      if (!isQueryPresent && setOfselectedIds.size === 0) {
+        fakeDocument.forEach((obj) => {
+          setOfselectedIds.add(obj.id);
         });
       }
-    });
 
-    const isQueryPresent = attributes.some((attr) => req.query[attr]);
-    if (!isQueryPresent && setOfselectedIds.size === 0) {
-      fakeDocument.forEach((obj) => {
-        setOfselectedIds.add(obj.id);
+      const arrayOfSelectedIds = [...setOfselectedIds];
+      const sendToClient = arrayOfSelectedIds.slice(offset, offset + limit);
+
+      const totalPages = Math.ceil(arrayOfSelectedIds.length / limit);
+
+      filteredRows = rows.filter((row) =>
+        sendToClient.includes(row.dataValues.id)
+      );
+
+      res.status(200).json({
+        data: filteredRows,
+        pagination: {
+          totalItems: sendToClient.length,
+          totalPages,
+          currentPage: page,
+          pageSize: limit,
+        },
       });
+    } catch (err) {
+      res.status(500).json({ message: "Internal Server Error" });
     }
-
-    const arrayOfSelectedIds = [...setOfselectedIds];
-    const sendToClient = arrayOfSelectedIds.slice(offset, offset + limit);
-
-    const totalPages = Math.ceil(arrayOfSelectedIds.length / limit);
-
-    filteredRows = rows.filter((row) =>
-      sendToClient.includes(row.dataValues.id)
-    );
-
-    res.status(200).json({
-      data: filteredRows,
-      pagination: {
-        totalItems: sendToClient.length,
-        totalPages,
-        currentPage: page,
-        pageSize: limit,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ message: "Internal Server Error" });
+  } else {
+    try {
+      const packages = await Package.findAll({
+        attributes: req.query.field,
+        where: {},
+        order: [["name", "ASC"]],
+      });
+      console.log(req.query);
+      res.status(200).json({ data: packages });
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 });
 

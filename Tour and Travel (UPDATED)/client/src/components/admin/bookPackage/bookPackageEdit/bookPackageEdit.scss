@@ -38,6 +38,9 @@
           width: fit-content;
         }
       }
+      .button{
+        align-self: flex-end;
+      }
     }
     @include md {
       width: 90%;

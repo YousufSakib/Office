@@ -5,6 +5,7 @@ import Footer from "../../components/footer/Footer";
 import { useImages } from "../../components/ImageContext";
 import { useInfo } from "../../components/CompanyInfoContext";
 import { BACKEND_URL } from "../../../dynamicInfo";
+
 function AdminLayout() {
   const [isHovered, setIsHovered] = useState(false);
   const [isSideOpen, setIsSideOpen] = useState(false);

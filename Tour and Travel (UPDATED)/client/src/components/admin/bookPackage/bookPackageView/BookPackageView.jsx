@@ -43,10 +43,6 @@ function BookPackageView({ data, setPopupViewId }) {
           <span>{data[0].message}</span>
         </div>
         <div className="row">
-          <span className="title">Customer's Message</span>
-          <span>{data[0].message}</span>
-        </div>
-        <div className="row">
           <span className="title">Status</span>
           <span className="highlight">{getStatusText(data[0].status)}</span>
         </div>
